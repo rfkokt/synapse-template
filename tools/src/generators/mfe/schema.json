@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Generator",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the Micro Frontend",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the MFE?"
+    },
+    "port": {
+      "type": "number",
+      "description": "Port number to host the MFE locally",
+      "x-prompt": "What port should this MFE run on? (e.g. 4002)"
+    }
+  },
+  "required": ["name"]
+}

@@ -1,0 +1,14 @@
+{
+  "generators": {
+    "mfe": {
+      "factory": "./src/generators/mfe/generator",
+      "schema": "./src/generators/mfe/schema.json",
+      "description": "Scaffolds a Micro Frontend with Vite and Module Federation"
+    },
+    "remove-mfe": {
+      "factory": "./src/generators/remove-mfe/generator",
+      "schema": "./src/generators/remove-mfe/schema.json",
+      "description": "remove-mfe generator"
+    }
+  }
+}

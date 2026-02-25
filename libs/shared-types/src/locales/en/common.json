@@ -1,0 +1,32 @@
+{
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "logout": "Logout",
+    "search": "Search"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "profile": "Profile"
+  },
+  "menu": {
+    "title_menu": "Menu",
+    "title_developer": "Developer",
+    "title_lainnya": "Others",
+    "beranda": "Dashboard",
+    "cs": "Customer Service",
+    "paket": "Package Management",
+    "inventaris": "Inventory",
+    "docs": "Documentation",
+    "reusable-components": "Reusable Components",
+    "ui-kit": "UI Kit",
+    "pengaturan": "Settings",
+    "bantuan": "Help",
+    "logout": "Logout",
+    "greeting": "Welcome,"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "actions": {
+    "save": "Simpan",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Ubah",
+    "loading": "Memuat...",
+    "logout": "Keluar",
+    "search": "Cari"
+  },
+  "navigation": {
+    "dashboard": "Beranda",
+    "settings": "Pengaturan",
+    "profile": "Profil"
+  },
+  "menu": {
+    "title_menu": "Menu",
+    "title_developer": "Developer",
+    "title_lainnya": "Lainnya",
+    "beranda": "Beranda",
+    "cs": "Customer Service",
+    "paket": "Manajemen Paket",
+    "inventaris": "Inventaris",
+    "docs": "Dokumentasi",
+    "reusable-components": "Reusable Components",
+    "ui-kit": "UI Kit",
+    "pengaturan": "Pengaturan",
+    "bantuan": "Bantuan",
+    "logout": "Keluar",
+    "greeting": "Selamat Datang,"
+  }
+}

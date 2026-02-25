@@ -1,0 +1,32 @@
+{
+  "actions": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "loading": "جاري التحميل...",
+    "logout": "تسجيل خروج",
+    "search": "بحث"
+  },
+  "navigation": {
+    "dashboard": "لوحة القيادة",
+    "settings": "الإعدادات",
+    "profile": "الملف الشخصي"
+  },
+  "menu": {
+    "title_menu": "القائمة",
+    "title_developer": "المطور",
+    "title_lainnya": "أخرى",
+    "beranda": "لوحة القيادة",
+    "cs": "خدمة العملاء",
+    "paket": "إدارة الحزم",
+    "inventaris": "المخزون",
+    "docs": "التوثيق",
+    "reusable-components": "مكونات قابلة لإعادة الاستخدام",
+    "ui-kit": "مجموعة واجهة المستخدم",
+    "pengaturan": "إعدادات",
+    "bantuan": "مساعدة",
+    "logout": "تسجيل الخروج",
+    "greeting": "مرحباً،"
+  }
+}

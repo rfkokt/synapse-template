@@ -1,0 +1,21 @@
+{
+  "remotes": {
+    "authMfe": {
+      "name": "authMfe",
+      "entry": "http://localhost:4001/mf-manifest.json",
+      "activeWhenPath": "/auth",
+      "exposes": {
+        "LoginPage": "./LoginPage",
+        "RegisterPage": "./RegisterPage"
+      }
+    },
+    "docs-mfe": {
+      "name": "docsmfe",
+      "entry": "http://localhost:4003/mf-manifest.json",
+      "activeWhenPath": "/docs",
+      "exposes": {
+        "./App": "./App"
+      }
+    }
+  }
+}

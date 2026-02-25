@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.nx/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage/
+
+# Misc
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
+
+# Auto-Generated Cache & Runtime
+*.__mf__temp/
+*.__mf__temp/*

@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+@source "../../../libs/ui-kit/src/**/*.tsx";
+@source "../../../libs/ui-kit/src/**/*.ts";
+@source "../../../apps/auth-mfe/src/**/*.tsx";
+@source "../../../apps/auth-mfe/src/**/*.ts";
+@import './theme.css';
