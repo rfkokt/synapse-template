@@ -62,6 +62,17 @@ const getProjectName = () => {
     fs.rmSync(gitFolder, { recursive: true, force: true });
   }
   
+  // Clean up CLI internal tools and NPM workflows from the end-user's boilerplate
+  const cliFolder = path.join(projectPath, 'tools', 'create-synapse');
+  if (fs.existsSync(cliFolder)) {
+    fs.rmSync(cliFolder, { recursive: true, force: true });
+  }
+  
+  const npmWorkflow = path.join(projectPath, '.github', 'workflows', 'publish-npm.yml');
+  if (fs.existsSync(npmWorkflow)) {
+    fs.rmSync(npmWorkflow, { force: true });
+  }
+  
   console.log(`\x1b[32m🌱 Memulai repositori Git baru...\x1b[0m`);
   runCommand(`git init`, { cwd: projectPath });
 

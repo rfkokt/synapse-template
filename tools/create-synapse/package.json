@@ -1,6 +1,6 @@
 {
   "name": "create-synapse-mfe",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Scaffolding tool to create a new Synapse Micro-Frontend workspace",
   "main": "bin/index.js",
   "bin": {
