@@ -64,8 +64,8 @@ export function DocsDynamicRemotesSection() {
             <CodeBlock
               language="bash"
               codeString={`# shell/.env.production
-VITE_DOCS_MFE_URL=https://docs.antygraviti.com
-VITE_AUTH_MFE_URL=https://auth.antygraviti.com`}
+VITE_DOCS_MFE_URL=https://docs.Synapse.com
+VITE_AUTH_MFE_URL=https://auth.Synapse.com`}
             />
             <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400 mb-4">
               Vite otomatis meresolusi nama MFE di <code>remotes.json</code> (contoh:{' '}
@@ -121,8 +121,8 @@ function loadFederationRemotes(mode: string) {
               language="json"
               codeString={`// remotes.json (Di aplikasi milik tim lain)
 {
-  "docsMfe": "https://docs.antygraviti.com/mf-manifest.json",
-  "authMfe": "https://auth.antygraviti.com/mf-manifest.json"
+  "docsMfe": "https://docs.Synapse.com/mf-manifest.json",
+  "authMfe": "https://auth.Synapse.com/mf-manifest.json"
 }`}
             />
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mt-4">

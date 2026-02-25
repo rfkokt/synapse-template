@@ -1,14 +1,14 @@
 [
   {
     "id": "usr_999",
-    "email": "admin@antygraviti.com",
+    "email": "admin@Synapse.com",
     "password": "password123",
     "name": "Admin Super",
     "role": "admin"
   },
   {
     "id": "usr_123",
-    "email": "user@antygraviti.com",
+    "email": "user@Synapse.com",
     "password": "password123",
     "name": "User Regular",
     "role": "user"

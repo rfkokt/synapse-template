@@ -55,7 +55,7 @@ export function UtilitiesSection() {
               { label: 'Status', value: 'Accepted', valueColor: 'text-emerald-600' },
               { label: 'Context', value: 'Deskripsi konteks proyek...' },
               { label: 'Decision', value: 'Keputusan yang diambil...' },
-              { label: 'Team', value: 'Antygraviti' },
+              { label: 'Team', value: 'Synapse' },
             ]}
           />
           <CodeBlock
@@ -64,7 +64,7 @@ export function UtilitiesSection() {
 <KeyValueCard entries={[
   { label: 'Status', value: 'Active', valueColor: 'text-emerald-600' },
   { label: 'Version', value: '3.0' },
-  { label: 'Team', value: 'Antygraviti' },
+  { label: 'Team', value: 'Synapse' },
 ]} />`}
             language="tsx"
           />

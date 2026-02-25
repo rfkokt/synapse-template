@@ -73,12 +73,12 @@ export function DocsSecuritySection() {
                 1. Batasi CORS (Cross-Origin Resource Sharing)
               </h4>
               <p className="text-sm text-neutral-600 dark:text-neutral-400 pl-3 border-l-2 border-transparent">
-                Pastikan server yang meng-host MFE (misalnya <code>auth.antygraviti.com</code>)
-                hanya memberikan header{' '}
+                Pastikan server yang meng-host MFE (misalnya <code>auth.Synapse.com</code>) hanya
+                memberikan header{' '}
                 <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
                   Access-Control-Allow-Origin
                 </code>{' '}
-                ke domain-domain yang kita izinkan (misalnya <code>antygraviti.com</code>).
+                ke domain-domain yang kita izinkan (misalnya <code>Synapse.com</code>).
               </p>
               <div className="pl-3 border-l-2 border-transparent">
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
@@ -103,7 +103,7 @@ export function DocsSecuritySection() {
                   language="http"
                   codeString={`Content-Security-Policy: 
   default-src 'self'; 
-  script-src 'self' https://auth.antygraviti.com https://docs.antygraviti.com;`}
+  script-src 'self' https://auth.Synapse.com https://docs.Synapse.com;`}
                 />
               </div>
             </div>

@@ -3,26 +3,26 @@
  * All cross-MFE events use namespaced custom browser events.
  */
 export declare const MFE_EVENTS: {
-    readonly AUTH: {
-        readonly USER_LOGGED_IN: "antygraviti:auth:user_logged_in";
-        readonly USER_LOGGED_OUT: "antygraviti:auth:user_logged_out";
-        readonly TOKEN_REFRESHED: "antygraviti:auth:token_refreshed";
-    };
-    readonly BUSINESS: {
-        readonly ORDER_CREATED: "antygraviti:business:order_created";
-    };
+  readonly AUTH: {
+    readonly USER_LOGGED_IN: 'Synapse:auth:user_logged_in';
+    readonly USER_LOGGED_OUT: 'Synapse:auth:user_logged_out';
+    readonly TOKEN_REFRESHED: 'Synapse:auth:token_refreshed';
+  };
+  readonly BUSINESS: {
+    readonly ORDER_CREATED: 'Synapse:business:order_created';
+  };
 };
 export interface AuthEventPayload {
-    userId: string;
-    accessToken: string;
-    expiresAt: number;
+  userId: string;
+  accessToken: string;
+  expiresAt: number;
 }
 export interface User {
-    id: string;
-    email: string;
-    name: string;
-    role: string;
-    avatar?: string;
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  avatar?: string;
 }
 /**
  * Helper to dispatch typed MFE events

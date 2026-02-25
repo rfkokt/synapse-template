@@ -1,0 +1,3 @@
+# NPM Publish Ignore File
+# Ignore the scaffolding CLI tool from being packaged inside the template
+tools/create-synapse/
