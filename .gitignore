@@ -36,3 +36,4 @@ vitest.config.*.timestamp*
 
 # Documentation
 PRD.md
+ARCHITECTURE.md
