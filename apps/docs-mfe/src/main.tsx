@@ -29,8 +29,18 @@ function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
     }
 
     if (!isHydrating && !isAuthenticated) {
-      const currentUrl = encodeURIComponent(window.location.href);
-      window.location.href = `http://localhost:4000/auth/login?redirect=${currentUrl}`;
+      // Since 'standaloneAuth' query injection was removed for security,
+      // Standalone (different port) MFEs cannot read the Shell's sessionStorage.
+      // Instead of an infinite redirect loop to the Shell, we inject a mock dev session.
+      console.warn(
+        '[Docs MFE] Standalone mode detected without session. Injecting mock developer authentication to prevent cross-origin redirect loops.'
+      );
+      useAuthStore.getState().setAuth('mock-standalone-token-docs', {
+        id: 'dev-docs-user',
+        name: 'Developer (Standalone)',
+        email: 'dev@synapse.local',
+        role: 'developer',
+      });
     }
   }, [isHydrating, isAuthenticated]);
 

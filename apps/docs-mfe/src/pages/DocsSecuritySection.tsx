@@ -151,7 +151,7 @@ export function App() {
                 />
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mt-4">
                   <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-                    💡 Standalone Guard & MFE SSO (Single-Sign-On Lintas Port)
+                    💡 Standalone Guard & Local Developer Authentication
                   </p>
                   <p className="text-xs text-blue-700 dark:text-blue-400 mt-1 mb-2">
                     Saat mode Standalone (Developer membuka port anak MFE langsung misalnya{' '}
@@ -160,19 +160,14 @@ export function App() {
                     </code>
                     ), <code>StandaloneAuthGuard</code> secara spesifik di{' '}
                     <code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded">main.tsx</code>{' '}
-                    akan mendeteksi ketiadaan *session* lalu melempar *(redirect)* user kembali ke
-                    alamat Shell utama di{' '}
-                    <code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded">
-                      localhost:4000/auth/login?redirect=...
-                    </code>
-                    .
+                    akan mendeteksi ketiadaan <em>session</em>.
                   </p>
                   <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
-                    Apabila user tersebut berhasil login kembali lewat Shell, Shell Router akan me-
-                    <em>redirect</em> kembali ke port anak tadi. Catatan: Pendekatan lawas seperti
-                    peletakan injeksi Token lewat param url <code>?standaloneAuth=...</code>{' '}
-                    <strong>sudah dihapus atau dilarang</strong> demi alasan keamanan untuk
-                    menghindari kebocoran URL dan token interception.
+                    Karena pendekatan lintas-port lawas seperti injeksi Token lewat parameter URL{' '}
+                    <code>?standaloneAuth=...</code> <strong>sudah dihapus atau dilarang</strong>{' '}
+                    demi keamanan, kini <code>StandaloneAuthGuard</code> akan otomatis men-
+                    <em>inject</em> <strong>Mock Authentication</strong> ke state lokal (hanya saat
+                    mode standalone) untuk menghindari <em>infinite redirect loop</em> dengan Shell.
                   </p>
                 </div>
               </div>
