@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export function DocsOverviewSection({
   sectionMap,
@@ -23,6 +23,48 @@ export function DocsOverviewSection({
           Dokumentasi dan Standar Arsitektur Micro-Frontend Synapse MFE
         </p>
       </div>
+
+      <Card>
+        <CardContent className="pt-6 space-y-3">
+          <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 text-lg">
+            🚨 Update Penting (Wajib Dibaca)
+          </h3>
+          <ul className="list-disc ml-5 space-y-1 text-sm text-neutral-600 dark:text-neutral-400">
+            <li>Access token sekarang memory-only, tidak lagi disimpan di Web Storage.</li>
+            <li>
+              Semua parameter <code>redirect</code> wajib divalidasi dengan allowlist untuk mencegah
+              open redirect.
+            </li>
+            <li>
+              Standalone mode tidak menerima injeksi token via query param; login dev bersifat
+              eksplisit di origin MFE itu sendiri.
+            </li>
+            <li>
+              Sinkronisasi event auth di shell menjaga field user (name/email/role) agar tidak
+              tertimpa string kosong.
+            </li>
+            <li>Dependency routing sudah diseragamkan ke `react-router-dom` v7.</li>
+          </ul>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            Baca detail teknis di{' '}
+            <Link to="/docs/security" className="text-primary-600 hover:underline font-medium">
+              Security
+            </Link>
+            ,{' '}
+            <Link to="/docs/token-auth" className="text-primary-600 hover:underline font-medium">
+              Token & Auth
+            </Link>
+            , dan{' '}
+            <Link
+              to="/docs/api-interceptors"
+              className="text-primary-600 hover:underline font-medium"
+            >
+              API Interceptors
+            </Link>
+            .
+          </p>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardContent className="pt-6">

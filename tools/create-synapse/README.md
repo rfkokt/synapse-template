@@ -40,6 +40,21 @@ pnpm install
 pnpm run dev:new
 ```
 
+## 🔐 Default Mock Credentials (Development)
+
+Saat `MSW` aktif di mode development, gunakan akun berikut untuk login cepat:
+
+- `auth-mfe` (`/auth/login`)
+  - `admin@Synapse.com` / `password123`
+  - `user@Synapse.com` / `password123`
+- Standalone MFE generated (isolated port, mis. `:4003`)
+  - `dev@synapse.local` / `password123`
+
+Catatan:
+
+- `auth-mfe` menampilkan kredensial mock otomatis di bawah form login (dev + MSW).
+- Dokumentasi detail tersedia di `/docs/api-mocking`, `/docs/api-interceptors`, dan `/docs/security`.
+
 ## 🏗️ Architecture Blueprint
 
 The generated workspace pulls from a clean-slate boilerplate that includes:

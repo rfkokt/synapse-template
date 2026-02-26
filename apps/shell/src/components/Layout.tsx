@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useLocation, NavLink } from 'react-router';
+import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import {
   useAuthStore,
   useMenuStore,

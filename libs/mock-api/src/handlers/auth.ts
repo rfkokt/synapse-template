@@ -27,6 +27,7 @@ export const authHandlers = [
 
     // Exclude password from response
     const { password: _, ...userInfo } = user;
+    const refreshToken = `mock_refresh_token:${user.id}:${Date.now()}`;
 
     return HttpResponse.json(
       {
@@ -36,7 +37,7 @@ export const authHandlers = [
       {
         status: 200,
         headers: {
-          'Set-Cookie': `refresh_token=mock_refresh_token_${Date.now()}; HttpOnly; Path=/; SameSite=Strict`,
+          'Set-Cookie': `refresh_token=${refreshToken}; HttpOnly; Path=/; SameSite=Strict`,
         },
       }
     );
@@ -54,9 +55,23 @@ export const authHandlers = [
       );
     }
 
+    const tokenParts = refreshToken.split(':');
+    const userId = tokenParts[1];
+    const user = db.find((u) => u.id === userId);
+
+    if (!user) {
+      return HttpResponse.json(
+        { code: 'AUTH_INVALID_REFRESH_TOKEN', message: 'Unauthorized', statusCode: 401 },
+        { status: 401 }
+      );
+    }
+
+    const { password: _, ...userInfo } = user;
+
     return HttpResponse.json(
       {
         access_token: `mock_access_token_refreshed_${Date.now()}`,
+        user: userInfo,
       },
       { status: 200 }
     );

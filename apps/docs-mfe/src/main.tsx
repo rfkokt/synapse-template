@@ -1,6 +1,6 @@
-import { StrictMode, useEffect } from 'react';
+import { StrictMode, useState, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { useAuthStore } from '@synapse/shared-types';
 import './index.css';
 import { App } from './App';
@@ -8,10 +8,29 @@ import { App } from './App';
 function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isHydrating = useAuthStore((s) => s.isHydrating);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    // We removed URL standaloneAuth sync logic for security. Local login screen is used instead.
-  }, [isHydrating, isAuthenticated]);
+  const DEV_USERNAME = 'dev@synapse.local';
+  const DEV_PASSWORD = 'password123';
+
+  const handleStandaloneLogin = (e: FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (username.trim().toLowerCase() !== DEV_USERNAME || password !== DEV_PASSWORD) {
+      setError('Username atau password tidak valid.');
+      return;
+    }
+
+    useAuthStore.getState().setAuth('mock-standalone-token', {
+      id: 'dev-user',
+      name: 'Developer (MFE Local)',
+      email: DEV_USERNAME,
+      role: 'developer',
+    });
+  };
 
   if (isHydrating) {
     return (
@@ -39,19 +58,59 @@ function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
           <p className="text-sm text-neutral-500 mb-6">
             MFE ini berjalan di mode terisolasi. Silakan login untuk melanjutkan versi development.
           </p>
-          <button
-            onClick={() => {
-              useAuthStore.getState().setAuth('mock-standalone-token', {
-                id: 'dev-user',
-                name: 'Developer (MFE Local)',
-                email: 'dev@synapse.local',
-                role: 'developer',
-              });
-            }}
-            className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors cursor-pointer"
-          >
-            Masuk sebagai Developer
-          </button>
+          <form className="space-y-3 text-left" onSubmit={handleStandaloneLogin}>
+            <div>
+              <label
+                htmlFor="standalone-username"
+                className="block text-xs font-medium text-neutral-600 mb-1"
+              >
+                Username
+              </label>
+              <input
+                id="standalone-username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                autoComplete="username"
+                className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Masukkan username"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="standalone-password"
+                className="block text-xs font-medium text-neutral-600 mb-1"
+              >
+                Password
+              </label>
+              <input
+                id="standalone-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="Masukkan password"
+              />
+            </div>
+            {error ? <p className="text-xs text-red-600">{error}</p> : null}
+            <button
+              type="submit"
+              className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors cursor-pointer"
+            >
+              Login Standalone
+            </button>
+          </form>
+          <div className="mt-4 rounded-lg border border-dashed border-neutral-300 bg-neutral-50 p-3 text-left">
+            <p className="text-xs font-semibold text-neutral-700 mb-1">
+              Kredensial Dev (Standalone):
+            </p>
+            <p className="text-xs text-neutral-600">
+              Username: <code className="bg-neutral-200 px-1 rounded">dev@synapse.local</code>
+            </p>
+            <p className="text-xs text-neutral-600">
+              Password: <code className="bg-neutral-200 px-1 rounded">password123</code>
+            </p>
+          </div>
         </div>
       </div>
     );

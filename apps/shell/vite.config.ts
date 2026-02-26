@@ -98,7 +98,7 @@ export default defineConfig(({ mode }) => {
           'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
           'react/': { singleton: true },
           'react-dom/': { singleton: true },
-          'react-router': { singleton: true, requiredVersion: '^7.0.0' },
+          'react-router-dom': { singleton: true, requiredVersion: '^7.0.0' },
         },
       }),
       visualizer({

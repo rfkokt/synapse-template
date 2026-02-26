@@ -14,10 +14,4 @@ describe('Mock API Server', () => {
   it('should be defined', () => {
     expect(server).toBeDefined();
   });
-
-  // Example test for a specific mock behavior, if you have user endpoints:
-  // it('should mock user endpoint', async () => {
-  //   const res = await fetch('http://localhost:4000/api/users/me');
-  //   expect(res.status).toBe(200);
-  // });
 });

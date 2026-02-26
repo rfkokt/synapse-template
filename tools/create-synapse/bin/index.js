@@ -25,7 +25,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-console.log('\x1b[36m%s\x1b[0m', '🚀 Welcome to create-synapse-mfe CLI v1.0.4!');
+console.log('\x1b[36m%s\x1b[0m', '🚀 Welcome to create-synapse-mfe CLI v1.0.5!');
 console.log('Scaffolding a Vite-powered Micro-Frontend Architecture...');
 console.log('\x1b[32m✨ What\'s new in v1.0.4:\x1b[0m');
 console.log('  \x1b[34m- Hardened security (removed token from query params & sessionStorage)\x1b[0m');
@@ -87,6 +87,12 @@ const getProjectName = () => {
   console.log(`\x1b[33m  cd ${projectName}\x1b[0m`);
   console.log('\x1b[33m  pnpm install\x1b[0m');
   console.log('\x1b[33m  pnpm run dev:new\n\x1b[0m');
+
+  console.log('\x1b[36m🔐 Mock credentials (development):\x1b[0m');
+  console.log('  \x1b[34m- auth-mfe (/auth/login): admin@Synapse.com / password123\x1b[0m');
+  console.log('  \x1b[34m- auth-mfe (/auth/login): user@Synapse.com / password123\x1b[0m');
+  console.log('  \x1b[34m- standalone MFE (isolated): dev@synapse.local / password123\x1b[0m');
+  console.log('  \x1b[34m- docs: /docs/api-mocking, /docs/api-interceptors, /docs/security\x1b[0m\n');
   
   console.log('\x1b[35mSelamat Mengoding Micro-Frontend! ⚛️\x1b[0m\n');
   

@@ -25,6 +25,16 @@ export function DocsSecuritySection() {
                 </code>{' '}
                 dari shared-api
               </li>
+              <li>
+                Validasi semua query{' '}
+                <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                  redirect
+                </code>{' '}
+                dengan helper{' '}
+                <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                  getSafeRedirectTarget()
+                </code>
+              </li>
               <li>Form validasi pakai schema (Yup/Zod)</li>
               <li>
                 Internal packages pakai scope{' '}
@@ -52,6 +62,7 @@ export function DocsSecuritySection() {
                   dangerouslySetInnerHTML
                 </code>
               </li>
+              <li>Kirim token/session lewat query params (contoh: ?standaloneAuth=...)</li>
               <li>Hardcode URL remote di config</li>
               <li>Redirect tanpa validasi allowlist</li>
             </ul>
@@ -131,8 +142,13 @@ export function DocsSecuritySection() {
                 <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
                   VITE_SHELL_URL
                 </code>{' '}
-                untuk environment production. Dengan begitu, kita cukup mendaftarkan URL MFE di satu
-                tempat (shell) tanpa harus mengulangi deklarasinya di tiap aplikasi MFE anak.
+                dan{' '}
+                <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                  VITE_ALLOWED_ORIGINS
+                </code>{' '}
+                (opsional, comma-separated) untuk environment production. Dengan begitu, kita cukup
+                mendaftarkan URL MFE di satu tempat (shell) tanpa harus mengulangi deklarasinya di
+                tiap aplikasi MFE anak.
               </p>
               <div className="pl-3 border-l-2 border-transparent mt-4">
                 <CodeBlock
@@ -166,13 +182,52 @@ export function App() {
                   <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
                     Demi keamanan tingkat tinggi dan karena penghapusan metode SSO query params,{' '}
                     <code>StandaloneAuthGuard</code> tidak lagi mengizinkan *bypass* rahasia lintas
-                    port. Developer diwajibkan melakukan klik{' '}
-                    <strong>Masuk sebagai Developer</strong> (mock auth explicit) langsung di layar
-                    port MFE tersebut agar sesi tetap terlindungi pada <em>origin</em> yang sama,
-                    tanpa perlu melempar (redirect) <em>traffic</em> secara tidak beralasan ke{' '}
-                    <em>Shell</em> secara bolak-balik.
+                    port. Developer diwajibkan login manual dengan username/password di layar port
+                    MFE tersebut (mock auth explicit) agar sesi tetap terlindungi pada{' '}
+                    <em>origin</em> yang sama, tanpa perlu melempar (redirect) <em>traffic</em>{' '}
+                    secara tidak beralasan ke <em>Shell</em> secara bolak-balik.
+                  </p>
+                  <p className="text-xs text-blue-700 dark:text-blue-400 mt-2">
+                    Contoh kredensial dev standalone:
+                    <code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded ml-1">
+                      dev@synapse.local
+                    </code>{' '}
+                    /{' '}
+                    <code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded">
+                      password123
+                    </code>
                   </p>
                 </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="font-medium text-sm border-l-2 border-primary-500 pl-3 text-neutral-800 dark:text-neutral-200">
+                4. Redirect Validation (Open Redirect Mitigation)
+              </h4>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 pl-3 border-l-2 border-transparent">
+                Jangan pernah langsung mengeksekusi{' '}
+                <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                  window.location
+                </code>{' '}
+                dari query param mentah. Gunakan helper whitelist dari{' '}
+                <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                  @synapse/shared-types
+                </code>
+                .
+              </p>
+              <div className="pl-3 border-l-2 border-transparent">
+                <CodeBlock
+                  language="tsx"
+                  codeString={`import { getSafeRedirectTarget } from '@synapse/shared-types';
+
+const raw = new URLSearchParams(window.location.search).get('redirect');
+const safeTarget = getSafeRedirectTarget(raw);
+
+if (safeTarget) {
+  window.location.assign(safeTarget);
+}`}
+                />
               </div>
             </div>
           </div>

@@ -36,6 +36,21 @@ const res = await apiClient.get('/api/users/me');`}
           <strong>Jika Token expired?</strong> Interceptor otomatis: hit /refresh → simpan token
           baru → replay request gagal.
         </p>
+        <ul className="list-disc ml-4 space-y-1">
+          <li>
+            Client default{' '}
+            <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+              withCredentials: true
+            </code>{' '}
+            untuk mendukung HttpOnly refresh cookie.
+          </li>
+          <li>Refresh request tidak di-retry berulang (anti refresh-loop) saat tetap 401.</li>
+          <li>
+            Untuk mode MSW lokal, base URL API direkomendasikan same-origin (
+            <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">/</code>) agar
+            request credentials tidak kena CORS lintas port.
+          </li>
+        </ul>
 
         <p>
           <strong>Error Format Standar:</strong>

@@ -15,7 +15,7 @@ declare module 'authMfe/ProfilePage' {
   export default ProfilePage;
 }
 declare module 'authMfe/routes' {
-  import type { RouteObject } from 'react-router';
+  import type { RouteObject } from 'react-router-dom';
   export const authRoutes: RouteObject[];
 }
 

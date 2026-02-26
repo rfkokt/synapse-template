@@ -1,6 +1,6 @@
 import { lazy, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router';
-import { useAuthStore } from '@synapse/shared-types';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuthStore, getSafeRedirectTarget } from '@synapse/shared-types';
 import { Layout } from './components/Layout';
 import { RemoteLoader } from './components/RemoteLoader';
 import { Dashboard } from './pages/Dashboard';
@@ -13,6 +13,15 @@ const RemoteRegister = lazy(() => import('authMfe/RegisterPage'));
 const RemoteProfile = lazy(() => import('authMfe/ProfilePage'));
 
 const RemoteDocs = lazy(() => import('docsmfe/App'));
+
+function getSafeRedirectFromQuery(): string | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const urlParams = new window.URLSearchParams(window.location.search);
+  return getSafeRedirectTarget(urlParams.get('redirect'));
+}
 
 /**
  * Auth guard: redirects to /auth/login if not authenticated.
@@ -43,22 +52,17 @@ function GuestRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   useEffect(() => {
-    if (isAuthenticated && typeof window !== 'undefined') {
-      const urlParams = new window.URLSearchParams(window.location.search);
-      const redirectUrl = urlParams.get('redirect');
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
+    if (isAuthenticated) {
+      const safeRedirectTarget = getSafeRedirectFromQuery();
+      if (safeRedirectTarget) {
+        window.location.assign(safeRedirectTarget);
       }
     }
   }, [isAuthenticated]);
 
   if (isAuthenticated) {
-    if (typeof window !== 'undefined') {
-      const urlParams = new window.URLSearchParams(window.location.search);
-      const redirectUrl = urlParams.get('redirect');
-      if (redirectUrl) {
-        return null; // Render nothing while useEffect performs the physical redirect
-      }
+    if (getSafeRedirectFromQuery()) {
+      return null;
     }
     return <Navigate to="/" replace />;
   }

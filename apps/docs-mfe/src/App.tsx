@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import { useLocation, Link } from 'react-router';
+import { useLocation, Link } from 'react-router-dom';
 import { discoveredComponents } from './utils/component-discovery';
 import { SharedOriginGuard } from '@synapse/shared-types';
 

@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
@@ -14,7 +14,11 @@ import './index.css';
  * When loaded via Module Federation, Shell provides its own routing.
  */
 async function bootstrap() {
-  if (import.meta.env.VITE_ENABLE_MSW === 'true') {
+  const shouldEnableMsw =
+    import.meta.env.VITE_ENABLE_MSW === 'true' ||
+    (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MSW !== 'false');
+
+  if (shouldEnableMsw) {
     await initMsw();
   }
 

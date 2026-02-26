@@ -1,4 +1,4 @@
-import { type FormEvent, type ChangeEvent, useState } from 'react';
+import { type FormEvent, type ChangeEvent, useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -8,10 +8,22 @@ import {
   CardTitle,
   CardDescription,
 } from '@synapse/ui-kit';
-import { MFE_EVENTS, dispatchMfeEvent, SharedOriginGuard } from '@synapse/shared-types';
-import type { AuthEventPayload } from '@synapse/shared-types';
+import {
+  MFE_EVENTS,
+  dispatchMfeEvent,
+  SharedOriginGuard,
+  useAuthStore,
+  getSafeRedirectTarget,
+} from '@synapse/shared-types';
+import type { AuthEventPayload, User, AppError } from '@synapse/shared-types';
+import { apiClient, API } from '@synapse/shared-api';
 import { LogIn, Eye, EyeOff, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
+interface LoginResponse {
+  access_token: string;
+  user: User;
+}
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -20,19 +32,20 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [redirectUrl, setRedirectUrl] = useState('');
+  const [safeRedirectTarget, setSafeRedirectTarget] = useState<string | null>(null);
   const { t } = useTranslation('auth');
+  const shellUrl = import.meta.env.VITE_SHELL_URL || 'http://localhost:4000';
+  const shouldUseMsw =
+    import.meta.env.VITE_ENABLE_MSW === 'true' ||
+    (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MSW !== 'false');
+  const showMockCredentials = import.meta.env.DEV && shouldUseMsw;
 
-  // Extract redirect query param on mount
-  useState(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new window.URLSearchParams(window.location.search);
-      const redirectParam = urlParams.get('redirect');
-      if (redirectParam) {
-        setRedirectUrl(redirectParam);
-      }
+      setSafeRedirectTarget(getSafeRedirectTarget(urlParams.get('redirect')));
     }
-  });
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -40,60 +53,42 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      // Simulate API call (replace with actual apiClient.post when backend is ready)
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Mock successful login
-      if (email && password) {
-        const user = {
-          id: 'usr_' + Date.now(),
-          email,
-          name: email.split('@')[0],
-          role: 'user',
-        };
-
-        const payload: AuthEventPayload = {
-          userId: user.id, // Keep userId for backwards compatibility
-          user,
-          accessToken: 'mock_access_token_' + Date.now(),
-          expiresAt: Date.now() + 15 * 60 * 1000, // 15 minutes
-        };
-
-        // Dispatch event — Shell will pick this up and redirect to dashboard
-        dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, payload);
-
-        // Also update the shared store directly for immediate effect
-        const { useAuthStore, getDynamicOrigins } = await import('@synapse/shared-types');
-        useAuthStore.getState().setAuth(payload.accessToken, user);
-
-        // Add redirect validation
-        const isValidRedirect = (url: string) => {
-          if (!url) return false;
-          try {
-            // Allow relative paths
-            if (url.startsWith('/')) return true;
-            // Check absolute URLs against whitelist
-            const parsedUrl = new URL(url);
-            const whitelistedOrigins = getDynamicOrigins();
-            return whitelistedOrigins.includes(parsedUrl.origin);
-          } catch {
-            return false; // Invalid URL format
-          }
-        };
-
-        // Execute standalone redirection immediately if present and valid
-        if (redirectUrl && isValidRedirect(redirectUrl)) {
-          window.location.href = redirectUrl;
-          return; // stop execution
-        }
-
-        // Show success state (Shell will auto-redirect via useAuthEvents)
-        setSuccess(true);
-      } else {
+      if (!email || !password) {
         setError(t('login.errorEmpty'));
+        return;
       }
-    } catch {
-      setError(t('login.errorAuth'));
+
+      const res = await apiClient.post<LoginResponse>(API.auth.login(), { email, password });
+      const accessToken = res.data.access_token;
+      const user = res.data.user;
+
+      if (!accessToken || !user) {
+        throw new Error(t('login.errorAuth'));
+      }
+
+      const payload: AuthEventPayload = {
+        userId: user.id,
+        user,
+        accessToken,
+        expiresAt: Date.now() + 15 * 60 * 1000,
+      };
+
+      // Dispatch event — Shell will pick this up and redirect to dashboard
+      dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, payload);
+
+      // Also update the shared store directly for immediate effect
+      useAuthStore.getState().setAuth(payload.accessToken, user);
+
+      if (safeRedirectTarget) {
+        window.location.assign(safeRedirectTarget);
+        return;
+      }
+
+      // Show success state (Shell will auto-redirect via useAuthEvents)
+      setSuccess(true);
+    } catch (error) {
+      const appError = error as AppError | undefined;
+      setError(appError?.message || t('login.errorAuth'));
     } finally {
       setIsLoading(false);
     }
@@ -112,21 +107,21 @@ export default function Login() {
               {t('login.welcome', { name: email.split('@')[0] })}
             </p>
             <p className="text-sm text-neutral-400">
-              {redirectUrl ? (
+              {safeRedirectTarget ? (
                 <>
                   {t('login.redirectingApp').split('...')[0] + ' '}
-                  <a href={redirectUrl} className="text-primary-600 hover:underline font-medium">
+                  <a
+                    href={safeRedirectTarget}
+                    className="text-primary-600 hover:underline font-medium"
+                  >
                     {t('login.redirectingApp').split('...')[1] || '...'}
                   </a>
                 </>
               ) : (
                 <>
                   {t('login.redirectingShell')}{' '}
-                  <a
-                    href="http://localhost:4000"
-                    className="text-primary-600 hover:underline font-medium"
-                  >
-                    Shell (localhost:4000)
+                  <a href={shellUrl} className="text-primary-600 hover:underline font-medium">
+                    Shell ({shellUrl.replace(/^https?:\/\//, '')})
                   </a>
                 </>
               )}
@@ -214,6 +209,20 @@ export default function Login() {
                   </a>
                 </p>
               </form>
+
+              {showMockCredentials ? (
+                <div className="mt-4 rounded-lg border border-dashed border-primary-200 bg-primary-50/60 px-3 py-3 text-xs text-primary-900">
+                  <p className="font-semibold mb-2">Kredensial Mock Login (Dev):</p>
+                  <p>
+                    Admin: <code className="rounded bg-white/80 px-1">admin@Synapse.com</code> /{' '}
+                    <code className="rounded bg-white/80 px-1">password123</code>
+                  </p>
+                  <p>
+                    User: <code className="rounded bg-white/80 px-1">user@Synapse.com</code> /{' '}
+                    <code className="rounded bg-white/80 px-1">password123</code>
+                  </p>
+                </div>
+              ) : null}
             </CardContent>
           </Card>
         </div>

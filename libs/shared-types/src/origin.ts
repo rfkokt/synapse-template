@@ -2,36 +2,56 @@ import remotesData from '../../../apps/shell/public/remotes.json';
 
 /**
  * Mendapatkan daftar origin yang diizinkan (whitelist).
- * Secara dinamis membaca dari environment dan file remotes.json Shell.
+ * Sumber whitelist:
+ * - VITE_SHELL_URL
+ * - VITE_ALLOWED_ORIGINS (comma-separated, optional)
+ * - apps/shell/public/remotes.json
+ *
+ * Catatan keamanan:
+ * Jangan pernah otomatis menambahkan window.location.origin ke whitelist,
+ * karena itu membuat guard menjadi ineffective.
  */
 export function getDynamicOrigins(): string[] {
-  const dynamicOrigins = new Set<string>();
+  const dynamicOrigins = new Set<string>(['http://localhost:4000']);
 
-  // Tambahkan origin saat ini
-  if (typeof window !== 'undefined') {
-    dynamicOrigins.add(window.location.origin);
+  const metaEnv = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
+
+  const shellOrigin = normalizeHttpOrigin(metaEnv?.VITE_SHELL_URL);
+  if (shellOrigin) {
+    dynamicOrigins.add(shellOrigin);
   }
 
-  // Default shell local
-  dynamicOrigins.add('http://localhost:4000');
-
-  // Gunakan type casting aman untuk mengindari error TS antar-environment
-  if (typeof import.meta !== 'undefined') {
-    const metaEnv = (import.meta as unknown as { env?: Record<string, string> }).env;
-    if (metaEnv && metaEnv.VITE_SHELL_URL) {
-      dynamicOrigins.add(metaEnv.VITE_SHELL_URL);
+  const envOrigins = metaEnv?.VITE_ALLOWED_ORIGINS;
+  if (envOrigins) {
+    for (const candidate of envOrigins.split(',')) {
+      const origin = normalizeHttpOrigin(candidate.trim());
+      if (origin) {
+        dynamicOrigins.add(origin);
+      }
     }
   }
 
-  // Kumpulkan dari remotes.json
   Object.values(remotesData.remotes).forEach((remote: unknown) => {
-    try {
-      const url = new URL((remote as { entry: string }).entry);
-      dynamicOrigins.add(url.origin);
-    } catch {
-      // Abaikan entri remote yang tidak valid
+    const entry = (remote as { entry?: string }).entry;
+    const origin = normalizeHttpOrigin(entry);
+    if (origin) {
+      dynamicOrigins.add(origin);
     }
   });
 
-  return Array.from(dynamicOrigins);
+  return [...dynamicOrigins];
+}
+
+function normalizeHttpOrigin(input: string | undefined): string | null {
+  if (!input) return null;
+
+  try {
+    const url = new URL(input);
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      return null;
+    }
+    return url.origin;
+  } catch {
+    return null;
+  }
 }

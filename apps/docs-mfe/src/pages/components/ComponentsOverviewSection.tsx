@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@synapse/ui-kit';
 
 const COMPONENT_MAP: Record<string, { name: string; description: string; icon: string }> = {

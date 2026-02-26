@@ -47,15 +47,16 @@ export default function Profile() {
       // Simulate API call (replace with actual apiClient.put when backend is ready)
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      if (name && email) {
+      if (name && email && accessToken) {
         // Update the store with new data
         const updatedUser = { ...user!, name, email };
-        useAuthStore.getState().setAuth(accessToken!, updatedUser);
+        useAuthStore.getState().setAuth(accessToken, updatedUser);
 
         // Dispatch token refreshed event so Shell/other MFEs pick up the change
         const payload: AuthEventPayload = {
           userId: updatedUser.id,
-          accessToken: accessToken!,
+          user: updatedUser,
+          accessToken,
           expiresAt: Date.now() + 15 * 60 * 1000,
         };
         dispatchMfeEvent(MFE_EVENTS.AUTH.TOKEN_REFRESHED, payload);

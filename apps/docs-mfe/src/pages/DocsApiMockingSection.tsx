@@ -43,6 +43,24 @@ export function DocsApiMockingSection() {
               ). Apabila sukses, Anda akan melihat tulisan <strong>[MSW] Mocking enabled</strong> di
               konsol browser.
             </p>
+
+            <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-3 text-xs text-indigo-800 dark:border-indigo-800 dark:bg-indigo-900/20 dark:text-indigo-300">
+              <p className="font-semibold mb-2">Kredensial Mock Login (auth-mfe):</p>
+              <p>
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">
+                  admin@Synapse.com
+                </code>{' '}
+                /{' '}
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">password123</code>
+              </p>
+              <p>
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">
+                  user@Synapse.com
+                </code>{' '}
+                /{' '}
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">password123</code>
+              </p>
+            </div>
           </DocsStep>
 
           <DocsStep title="2. Menambahkan Endpoint Mock Baru (Handler)" color="emerald">
@@ -135,6 +153,33 @@ export function ProfilPengguna() {
   return <div>Halo, {user?.name || 'Loading...'}</div>;
 }`}
             />
+          </DocsStep>
+
+          <DocsStep title="5. Catatan CORS Saat Development" color="slate">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Saat MSW aktif dan client menggunakan{' '}
+              <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                withCredentials
+              </code>
+              , gunakan API same-origin agar tidak kena preflight CORS lintas port.
+            </p>
+            <CodeBlock
+              language="bash"
+              codeString={`# .env.development (direkomendasikan saat mock aktif)
+VITE_ENABLE_MSW=true
+VITE_API_BASE_URL=/`}
+            />
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Jika MSW dimatikan (
+              <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                VITE_ENABLE_MSW=false
+              </code>
+              ), arahkan{' '}
+              <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                VITE_API_BASE_URL
+              </code>{' '}
+              ke backend sungguhan yang sudah dikonfigurasi CORS + credentials.
+            </p>
           </DocsStep>
         </CardContent>
       </Card>

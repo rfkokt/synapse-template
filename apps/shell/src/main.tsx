@@ -3,12 +3,16 @@ import { initMsw } from '@synapse/mock-api';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import { initMonitoring, ErrorBoundary } from '@synapse/shared-monitoring';
-import '@synapse/shared-types'; // Initializes i18n
+import { useAuthStore } from '@synapse/shared-types';
 import './index.css';
 import { registerRuntimeRemotesFromRegistry } from './utils/runtime-remotes';
 
 async function bootstrap() {
-  if (import.meta.env.VITE_ENABLE_MSW === 'true') {
+  const shouldEnableMsw =
+    import.meta.env.VITE_ENABLE_MSW === 'true' ||
+    (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MSW !== 'false');
+
+  if (shouldEnableMsw) {
     await initMsw();
   }
 
@@ -20,6 +24,7 @@ async function bootstrap() {
 
   // Initialize monitoring before the app renders.
   initMonitoring();
+  useAuthStore.getState().setHydrating(true);
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>

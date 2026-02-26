@@ -1,11 +1,17 @@
 import { QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { queryClient } from '@synapse/shared-api';
 import { AppRouter } from './router';
 import { useAuthEvents } from './hooks/useAuthEvents';
+import { useSessionBootstrap } from './hooks/useSessionBootstrap';
 
 function AuthEventListener() {
   useAuthEvents();
+  return null;
+}
+
+function SessionBootstrapper() {
+  useSessionBootstrap();
   return null;
 }
 
@@ -19,6 +25,7 @@ export function App() {
         Lanjut ke konten utama (Skip to main content)
       </a>
       <BrowserRouter>
+        <SessionBootstrapper />
         <AuthEventListener />
         <AppRouter />
       </BrowserRouter>

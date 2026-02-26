@@ -15,3 +15,4 @@ export { useIdleTimeout } from './useIdleTimeout';
 export type { UseIdleTimeoutOptions } from './useIdleTimeout';
 export { SharedOriginGuard } from './components/SharedOriginGuard';
 export { getDynamicOrigins } from './origin';
+export { getSafeRedirectTarget } from './redirect';
