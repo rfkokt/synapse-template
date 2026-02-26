@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import remotesData from '../../../../apps/shell/public/remotes.json';
+import { getDynamicOrigins } from '../origin';
 
 /**
  * Origin Guard for Micro Frontends (MFE).
@@ -27,29 +27,11 @@ export function SharedOriginGuard({
 
   const currentOrigin = window.location.origin;
 
-  // Kumpulkan origin dinamis secara otomatis dari daftar env dan remotes.json
-  const dynamicOrigins = new Set<string>();
-  dynamicOrigins.add('http://localhost:4000'); // Default shell local
-
-  // Gunakan type casting aman untuk mengindari error TS antar-environment
-  if (typeof import.meta !== 'undefined') {
-    const metaEnv = (import.meta as unknown as { env?: Record<string, string> }).env;
-    if (metaEnv && metaEnv.VITE_SHELL_URL) {
-      dynamicOrigins.add(metaEnv.VITE_SHELL_URL);
-    }
-  }
-
-  Object.values(remotesData.remotes).forEach((remote: unknown) => {
-    try {
-      const url = new URL((remote as { entry: string }).entry);
-      dynamicOrigins.add(url.origin);
-    } catch {
-      // Abaikan entri remote yang tidak valid
-    }
-  });
+  // Kumpulkan origin dinamis secara otomatis
+  const dynamicOrigins = getDynamicOrigins();
 
   // Gabungkan dengan origin opsional dari props
-  const finalAllowedOrigins = [...Array.from(dynamicOrigins), ...allowedOrigins];
+  const finalAllowedOrigins = [...dynamicOrigins, ...allowedOrigins];
 
   // Evaluasi kecocokan origin
   const isAllowed = finalAllowedOrigins.includes(currentOrigin);

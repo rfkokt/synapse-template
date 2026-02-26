@@ -168,12 +168,11 @@ export function App() {
                     .
                   </p>
                   <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
-                    Apabila user tersebut mengantongi *session* valid dari Shell (sudah *Login*),
-                    maka Shell Router (
-                    <code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded">GuestRoute</code>
-                    ) akan langsung me-<em>redirect</em> kembali ke port anak tadi dengan meletakkan
-                    injeksi <em>Token & User info</em> (Zustand Payload) di param url{' '}
-                    <code>?standaloneAuth=...</code>.
+                    Apabila user tersebut berhasil login kembali lewat Shell, Shell Router akan me-
+                    <em>redirect</em> kembali ke port anak tadi. Catatan: Pendekatan lawas seperti
+                    peletakan injeksi Token lewat param url <code>?standaloneAuth=...</code>{' '}
+                    <strong>sudah dihapus atau dilarang</strong> demi alasan keamanan untuk
+                    menghindari kebocoran URL dan token interception.
                   </p>
                 </div>
               </div>

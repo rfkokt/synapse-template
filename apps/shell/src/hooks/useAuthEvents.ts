@@ -11,17 +11,17 @@ export function useAuthEvents() {
   const clearAuth = useAuthStore((s) => s.clearAuth);
 
   useEffect(() => {
-    const unsubLogin = onMfeEvent<AuthEventPayload>(
-      MFE_EVENTS.AUTH.USER_LOGGED_IN,
-      (payload) => {
-        setAuth(payload.accessToken, {
+    const unsubLogin = onMfeEvent<AuthEventPayload>(MFE_EVENTS.AUTH.USER_LOGGED_IN, (payload) => {
+      setAuth(
+        payload.accessToken,
+        payload.user || {
           id: payload.userId,
           email: '',
           name: '',
           role: '',
-        });
-      }
-    );
+        }
+      );
+    });
 
     const unsubLogout = onMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_OUT, () => {
       clearAuth();
@@ -30,12 +30,15 @@ export function useAuthEvents() {
     const unsubRefresh = onMfeEvent<AuthEventPayload>(
       MFE_EVENTS.AUTH.TOKEN_REFRESHED,
       (payload) => {
-        setAuth(payload.accessToken, {
-          id: payload.userId,
-          email: '',
-          name: '',
-          role: '',
-        });
+        setAuth(
+          payload.accessToken,
+          payload.user || {
+            id: payload.userId,
+            email: '',
+            name: '',
+            role: '',
+          }
+        );
       }
     );
 

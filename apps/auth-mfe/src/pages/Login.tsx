@@ -45,8 +45,16 @@ export default function Login() {
 
       // Mock successful login
       if (email && password) {
+        const user = {
+          id: 'usr_' + Date.now(),
+          email,
+          name: email.split('@')[0],
+          role: 'user',
+        };
+
         const payload: AuthEventPayload = {
-          userId: 'usr_' + Date.now(),
+          userId: user.id, // Keep userId for backwards compatibility
+          user,
           accessToken: 'mock_access_token_' + Date.now(),
           expiresAt: Date.now() + 15 * 60 * 1000, // 15 minutes
         };
@@ -54,22 +62,28 @@ export default function Login() {
         // Dispatch event — Shell will pick this up and redirect to dashboard
         dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, payload);
 
-        const user = {
-          id: payload.userId,
-          email,
-          name: email.split('@')[0],
-          role: 'user',
-        };
-
         // Also update the shared store directly for immediate effect
-        const { useAuthStore } = await import('@synapse/shared-types');
+        const { useAuthStore, getDynamicOrigins } = await import('@synapse/shared-types');
         useAuthStore.getState().setAuth(payload.accessToken, user);
 
-        // Execute standalone redirection immediately if present, bypassing normal flow
-        if (redirectUrl) {
-          const authData = encodeURIComponent(JSON.stringify({ token: payload.accessToken, user }));
-          const separator = redirectUrl.includes('?') ? '&' : '?';
-          window.location.href = redirectUrl + separator + 'standaloneAuth=' + authData;
+        // Add redirect validation
+        const isValidRedirect = (url: string) => {
+          if (!url) return false;
+          try {
+            // Allow relative paths
+            if (url.startsWith('/')) return true;
+            // Check absolute URLs against whitelist
+            const parsedUrl = new URL(url);
+            const whitelistedOrigins = getDynamicOrigins();
+            return whitelistedOrigins.includes(parsedUrl.origin);
+          } catch {
+            return false; // Invalid URL format
+          }
+        };
+
+        // Execute standalone redirection immediately if present and valid
+        if (redirectUrl && isValidRedirect(redirectUrl)) {
+          window.location.href = redirectUrl;
           return; // stop execution
         }
 
