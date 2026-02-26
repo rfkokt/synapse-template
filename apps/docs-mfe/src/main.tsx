@@ -29,18 +29,16 @@ function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
     }
 
     if (!isHydrating && !isAuthenticated) {
-      // Since 'standaloneAuth' query injection was removed for security,
-      // Standalone (different port) MFEs cannot read the Shell's sessionStorage.
-      // Instead of an infinite redirect loop to the Shell, we inject a mock dev session.
-      console.warn(
-        '[Docs MFE] Standalone mode detected without session. Injecting mock developer authentication to prevent cross-origin redirect loops.'
-      );
-      useAuthStore.getState().setAuth('mock-standalone-token-docs', {
-        id: 'dev-docs-user',
-        name: 'Developer (Standalone)',
-        email: 'dev@synapse.local',
-        role: 'developer',
-      });
+      // Keamanan Ketat: Standalone akses telanjang dilarang!
+      // Alih-alih melakukan SSO rawan atau inject mock,
+      // kita paksakan user untuk masuk melalui Shell MFE agar sesi ditangani secara aman.
+      const shellUrl = import.meta.env.VITE_SHELL_URL || 'http://localhost:4000';
+      const rawPath = window.location.pathname;
+      const cleanPath = rawPath.startsWith('/docs')
+        ? rawPath
+        : `/docs${rawPath === '/' ? '' : rawPath}`;
+
+      window.location.href = `${shellUrl}${cleanPath}`;
     }
   }, [isHydrating, isAuthenticated]);
 
