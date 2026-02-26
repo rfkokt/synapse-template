@@ -1,9 +1,27 @@
-import { formatFiles, Tree, readJson, writeJson, joinPathFragments, logger } from '@nx/devkit';
+import {
+  formatFiles,
+  Tree,
+  readJson,
+  writeJson,
+  joinPathFragments,
+  logger,
+  workspaceRoot,
+} from '@nx/devkit';
 import { applicationGenerator } from '@nx/react';
 import { GeneratorGeneratorSchema } from './schema';
 import { execSync } from 'child_process';
+import path from 'path';
 
 export async function generatorGenerator(tree: Tree, options: GeneratorGeneratorSchema) {
+  // eslint-disable-next-line no-undef
+  const cwd = path.resolve(process.cwd());
+  const root = path.resolve(workspaceRoot);
+  if (cwd !== root) {
+    throw new Error(
+      `Generator ini wajib dijalankan dari workspace root.\nCurrent: ${cwd}\nExpected: ${root}\n\nGunakan:\n  cd ${root}\n  pnpm nx g @synapse/tools:mfe ${options.name} --port=${options.port}`
+    );
+  }
+
   const mfeName = options.name;
   const port = options.port;
   const projectRoot = `apps/${mfeName}`;
@@ -469,7 +487,7 @@ createRoot(rootElement).render(
     // We enforce it here so the MFE is ready out-of-the-box:
     try {
       logger.info('\\n📦 Running pnpm install to fetch new MFE dependencies...\\n');
-      execSync('pnpm install', { stdio: 'inherit' });
+      execSync('pnpm install', { stdio: 'inherit', cwd: workspaceRoot });
       logger.info('\\n✅ Success! You can now run the MFE.\\n');
     } catch {
       logger.error('Failed to run pnpm install automatically. Please run it manually.');

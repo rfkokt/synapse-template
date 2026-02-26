@@ -1,5 +1,6 @@
-import { formatFiles, Tree, readJson, writeJson, logger } from '@nx/devkit';
+import { formatFiles, Tree, readJson, writeJson, logger, workspaceRoot } from '@nx/devkit';
 import { RemoveMfeGeneratorSchema } from './schema';
+import { execSync } from 'child_process';
 
 export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGeneratorSchema) {
   const mfeName = options.name;
@@ -99,7 +100,13 @@ export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGenerator
   await formatFiles(tree);
 
   return () => {
-    logger.info(`\n✅ Successfully removed the ${mfeName} Micro Frontend!`);
+    try {
+      logger.info(`\n📦 Cleaning up pnpm dependencies...\n`);
+      execSync('pnpm install', { stdio: 'inherit', cwd: workspaceRoot });
+      logger.info(`\n✅ Successfully removed the ${mfeName} Micro Frontend!`);
+    } catch {
+      logger.error('Failed to run pnpm install automatically. Please run it manually.');
+    }
   };
 }
 

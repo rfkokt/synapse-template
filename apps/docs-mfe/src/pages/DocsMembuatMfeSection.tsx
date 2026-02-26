@@ -92,6 +92,61 @@ pnpm run dev:new`}
             </div>
           </DocsStep>
 
+          <DocsStep title="Step 3.1: Ubah Base Route MFE (Opsional)" color="emerald">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Jika ingin mengubah route default (misal dari{' '}
+              <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
+                /reporting-mfe
+              </code>{' '}
+              menjadi{' '}
+              <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
+                /reporting
+              </code>
+              ), sinkronkan 3 file berikut:
+            </p>
+            <CodeBlock
+              language="json"
+              codeString={`// 1) apps/shell/public/remotes.json
+"reporting-mfe": {
+  "name": "reportingmfe",
+  "entry": "http://localhost:4004/mf-manifest.json",
+  "activeWhenPath": "/reporting"
+}`}
+            />
+            <CodeBlock
+              language="tsx"
+              codeString={`// 2) apps/shell/src/router.tsx
+<Route
+  path="reporting/*"
+  element={
+    <RemoteLoader>
+      <RemoteReportingmfe />
+    </RemoteLoader>
+  }
+/>`}
+            />
+            <CodeBlock
+              language="tsx"
+              codeString={`// 3) apps/shell/src/data/mock-menus.ts
+{
+  id: 'reporting',
+  label: 'Reporting',
+  icon: 'BarChart3',
+  path: '/reporting',
+}`}
+            />
+            <div className="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800 rounded-lg p-3 text-sm">
+              <p className="font-semibold text-sky-800 dark:text-sky-300">Catatan</p>
+              <p className="text-sky-700 dark:text-sky-400">
+                Setelah ubah base route, restart server dengan{' '}
+                <code className="text-xs bg-sky-100 dark:bg-sky-900/50 px-1 rounded">
+                  pnpm run dev:new
+                </code>{' '}
+                agar registry remote dan router ter-refresh.
+              </p>
+            </div>
+          </DocsStep>
+
           <DocsStep title="Step 4: Gunakan Library Bersama" color="emerald">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Gunakan library bersama yang telah disediakan Platform. Jangan buang waktu membuat

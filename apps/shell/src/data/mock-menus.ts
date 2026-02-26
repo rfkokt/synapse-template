@@ -22,15 +22,15 @@ export const MOCK_MENUS: MenuGroup[] = [
         id: 'users',
         label: 'User Management',
         icon: 'Users',
-        path: '/users',
+        path: '/users-management',
         defaultOpen: true,
         children: [
-          { id: 'users-list', label: 'All Users', icon: 'Users', path: '/users/list' },
+          { id: 'users-list', label: 'All Users', icon: 'Users', path: '/users-management/list' },
           {
             id: 'users-roles',
             label: 'Roles & Permissions',
             icon: 'Shield',
-            path: '/users/roles',
+            path: '/users-management/roles',
           },
         ],
       },
