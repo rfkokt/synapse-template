@@ -93,6 +93,7 @@ export default defineConfig(({ mode }) => {
         name: 'shell',
         dts: false,
         remotes: federationRemotes,
+        runtimePlugins: [path.resolve(__dirname, './src/mf-error-handler.ts')],
         shared: {
           react: { singleton: true, requiredVersion: '^19.0.0' },
           'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
