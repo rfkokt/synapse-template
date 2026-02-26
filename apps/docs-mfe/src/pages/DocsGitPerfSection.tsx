@@ -24,11 +24,20 @@ chore(ui-kit): update Button component variants
 
 # Branch Naming
 feat/AUTH-123-forgot-password
-fix/SHELL-456-token-race-condition`}
+fix/SHELL-456-token-race-condition
+
+# Review sebelum push (otomatis jalan via husky pre-push)
+pnpm review:pre-push
+
+# Bypass darurat (hindari kecuali urgent)
+SKIP_PRE_PUSH_REVIEW=1 git push`}
           />
           <p>
             Format:{' '}
             <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">{`{type}/{TICKET-ID}-{short-description}`}</code>
+          </p>
+          <p>
+            Hook pre-push akan mengecek affected format/lint/typecheck/test/build + budget check.
           </p>
         </CardContent>
       </Card>

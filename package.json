@@ -17,7 +17,9 @@
     "test": "nx run-many --target=test --all",
     "prepare": "husky",
     "budget:check": "tsx tools/bundle-budget.ts",
-    "add:ui": "./scripts/add-ui.sh"
+    "add:ui": "./scripts/add-ui.sh",
+    "review:pre-push": "bash ./scripts/review-before-push.sh",
+    "review:full": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm budget:check"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

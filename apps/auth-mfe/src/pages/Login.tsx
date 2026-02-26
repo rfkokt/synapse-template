@@ -1,4 +1,4 @@
-import { type FormEvent, type ChangeEvent, useEffect, useState } from 'react';
+import { type FormEvent, type ChangeEvent, type KeyboardEvent, useEffect, useState } from 'react';
 import {
   Button,
   Input,
@@ -94,6 +94,12 @@ export default function Login() {
     }
   };
 
+  const handleInputEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    e.currentTarget.form?.requestSubmit();
+  };
+
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-100 px-4">
@@ -166,6 +172,7 @@ export default function Login() {
                   placeholder={t('login.emailPlaceholder')}
                   value={email}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                  onKeyDown={handleInputEnter}
                   required
                   autoComplete="email"
                   autoFocus
@@ -178,6 +185,7 @@ export default function Login() {
                     placeholder={t('login.passwordPlaceholder')}
                     value={password}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                    onKeyDown={handleInputEnter}
                     required
                     autoComplete="current-password"
                     className="pr-10"

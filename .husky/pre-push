@@ -1,0 +1,6 @@
+if [ "${SKIP_PRE_PUSH_REVIEW:-0}" = "1" ]; then
+  echo "Skipping pre-push review (SKIP_PRE_PUSH_REVIEW=1)"
+  exit 0
+fi
+
+pnpm run review:pre-push
