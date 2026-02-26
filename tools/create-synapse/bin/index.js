@@ -24,8 +24,13 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-console.log('\x1b[36m%s\x1b[0m', '🚀 Welcome to create-synapse-mfe CLI!');
+console.log('\x1b[36m%s\x1b[0m', '🚀 Welcome to create-synapse-mfe CLI v1.0.4!');
 console.log('Scaffolding a Vite-powered Micro-Frontend Architecture...');
+console.log('\x1b[32m✨ What\'s new in v1.0.4:\x1b[0m');
+console.log('  \x1b[34m- Hardened security (removed token from query params & sessionStorage)\x1b[0m');
+console.log('  \x1b[34m- Dynamic Redirect Whitelist matching remotes.json\x1b[0m');
+console.log('  \x1b[34m- Basic Vitest Mock API integrations\x1b[0m');
+console.log('  \x1b[34m- Updated Vite and React Router dependency versions\x1b[0m');
 
 const getProjectName = () => {
   return new Promise((resolve) => {
