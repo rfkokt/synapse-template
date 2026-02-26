@@ -53,20 +53,26 @@ SKIP_PRE_PUSH_REVIEW=1 git push`}
           <CardDescription>Batas ukuran JS/CSS per MFE</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
-          <ul className="list-disc ml-4 space-y-1">
+          <ul className="list-disc ml-4 space-y-1 mb-4">
             <li>
               <strong>Max JS:</strong> 250 KB (Brotli)
             </li>
             <li>
               <strong>Max CSS:</strong> 50 KB (Brotli)
             </li>
+            <li className="text-secondary-500">
+              <em>Note:</em> Saat menjalankan <code>pnpm build</code>, plugin{' '}
+              <code>rollup-plugin-visualizer</code> akan otomatis membuka grafik Treemap interaktif
+              di browser (biasanya <code>http://127.0.0.1:5000</code>) untuk membantu analisis
+              ukuran bundle.
+            </li>
           </ul>
           <CodeBlock
             language="bash"
-            codeString={`# Check bundle size
+            codeString={`# Check bundle size manually
 pnpm budget:check
 
-# Lihat stats.html
+# Lihat stats.html yang di-generate saat build
 open dist/apps/*/stats.html`}
           />
         </CardContent>
