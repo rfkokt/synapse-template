@@ -151,7 +151,7 @@ export function App() {
                 />
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mt-4">
                   <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-                    💡 Standalone Guard & Local Developer Authentication
+                    💡 Standalone Mode & Local Isolated Login
                   </p>
                   <p className="text-xs text-blue-700 dark:text-blue-400 mt-1 mb-2">
                     Saat mode Standalone (Developer membuka port anak MFE langsung misalnya{' '}
@@ -160,14 +160,17 @@ export function App() {
                     </code>
                     ), <code>StandaloneAuthGuard</code> secara spesifik di{' '}
                     <code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded">main.tsx</code>{' '}
-                    akan mendeteksi ketiadaan <em>session</em>.
+                    akan merender layar Login Lokal terisolasi jika Anda tidak memiliki{' '}
+                    <em>session</em>.
                   </p>
                   <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
-                    Karena pendekatan lintas-port lawas seperti injeksi Token lewat parameter URL{' '}
-                    <code>?standaloneAuth=...</code> <strong>sudah dihapus atau dilarang</strong>{' '}
-                    demi keamanan, kini <code>StandaloneAuthGuard</code> akan otomatis men-
-                    <em>inject</em> <strong>Mock Authentication</strong> ke state lokal (hanya saat
-                    mode standalone) untuk menghindari <em>infinite redirect loop</em> dengan Shell.
+                    Demi keamanan tingkat tinggi dan karena penghapusan metode SSO query params,{' '}
+                    <code>StandaloneAuthGuard</code> tidak lagi mengizinkan *bypass* rahasia lintas
+                    port. Developer diwajibkan melakukan klik{' '}
+                    <strong>Masuk sebagai Developer</strong> (mock auth explicit) langsung di layar
+                    port MFE tersebut agar sesi tetap terlindungi pada <em>origin</em> yang sama,
+                    tanpa perlu melempar (redirect) <em>traffic</em> secara tidak beralasan ke{' '}
+                    <em>Shell</em> secara bolak-balik.
                   </p>
                 </div>
               </div>
