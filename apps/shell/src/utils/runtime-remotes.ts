@@ -83,4 +83,3 @@ export async function registerRuntimeRemotesFromRegistry() {
 
   runtimeInstance.registerRemotes(remotes, { force: true });
 }
-

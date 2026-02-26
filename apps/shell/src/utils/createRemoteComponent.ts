@@ -2,11 +2,11 @@ import React from 'react';
 
 /**
  * Creates a lazy-loaded React component from a Module Federation remote.
- * 
+ *
  * Uses dynamic import() which the @module-federation/vite plugin intercepts.
  * The remote must be registered in vite.config.ts (build-time) or via
  * registerRemotes() (runtime).
- * 
+ *
  * Usage:
  *   const RemoteLogin = createRemoteComponent('authMfe', 'LoginPage');
  *   <Suspense fallback={<Loading />}><RemoteLogin /></Suspense>
@@ -18,11 +18,11 @@ export function createRemoteComponent<T extends React.ComponentType<any>>(
   return React.lazy(async () => {
     // Dynamic import — intercepted by @module-federation/vite plugin
     const module = await __mf_dynamic_import__(remoteName, exposedModule);
-    
+
     if (module && typeof module === 'object' && 'default' in module) {
       return module as { default: T };
     }
-    
+
     return { default: module as unknown as T };
   });
 }

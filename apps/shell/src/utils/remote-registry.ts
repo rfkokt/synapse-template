@@ -20,4 +20,3 @@ export async function fetchRemoteRegistry(): Promise<RemoteRegistry> {
   cachedRegistry = (await response.json()) as RemoteRegistry;
   return cachedRegistry;
 }
-

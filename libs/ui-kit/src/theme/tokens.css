@@ -5,34 +5,34 @@
   /* Colors — Primary (Monochrome / Black for minimalist theme) */
   --color-primary-50: oklch(0.98 0.005 260);
   --color-primary-100: oklch(0.96 0.005 260);
-  --color-primary-200: oklch(0.90 0.005 260);
+  --color-primary-200: oklch(0.9 0.005 260);
   --color-primary-300: oklch(0.82 0.008 260);
-  --color-primary-400: oklch(0.65 0.010 260);
-  --color-primary-500: oklch(0.55 0.010 260);
-  --color-primary-600: oklch(0.40 0.010 260);
-  --color-primary-700: oklch(0.30 0.010 260);
-  --color-primary-800: oklch(0.20 0.010 260);
-  --color-primary-900: oklch(0.10 0.010 260);
-  --color-primary-950: oklch(0.00 0.000 0);
+  --color-primary-400: oklch(0.65 0.01 260);
+  --color-primary-500: oklch(0.55 0.01 260);
+  --color-primary-600: oklch(0.4 0.01 260);
+  --color-primary-700: oklch(0.3 0.01 260);
+  --color-primary-800: oklch(0.2 0.01 260);
+  --color-primary-900: oklch(0.1 0.01 260);
+  --color-primary-950: oklch(0 0 0);
 
   /* Colors — Neutral */
   --color-neutral-50: oklch(0.98 0.005 260);
   --color-neutral-100: oklch(0.96 0.005 260);
-  --color-neutral-200: oklch(0.90 0.005 260);
+  --color-neutral-200: oklch(0.9 0.005 260);
   --color-neutral-300: oklch(0.82 0.008 260);
-  --color-neutral-400: oklch(0.65 0.010 260);
-  --color-neutral-500: oklch(0.55 0.010 260);
-  --color-neutral-600: oklch(0.45 0.010 260);
-  --color-neutral-700: oklch(0.35 0.010 260);
-  --color-neutral-800: oklch(0.25 0.010 260);
-  --color-neutral-900: oklch(0.15 0.010 260);
-  --color-neutral-950: oklch(0.10 0.010 260);
+  --color-neutral-400: oklch(0.65 0.01 260);
+  --color-neutral-500: oklch(0.55 0.01 260);
+  --color-neutral-600: oklch(0.45 0.01 260);
+  --color-neutral-700: oklch(0.35 0.01 260);
+  --color-neutral-800: oklch(0.25 0.01 260);
+  --color-neutral-900: oklch(0.15 0.01 260);
+  --color-neutral-950: oklch(0.1 0.01 260);
 
   /* Semantic Colors */
   --color-success: oklch(0.55 0.18 145);
   --color-warning: oklch(0.75 0.18 75);
   --color-error: oklch(0.55 0.22 25);
-  --color-info: oklch(0.60 0.18 240);
+  --color-info: oklch(0.6 0.18 240);
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;

@@ -1,3 +1,4 @@
+/* eslint-disable no-console, no-undef */
 import fs from 'node:fs';
 import path from 'node:path';
 import { brotliCompressSync } from 'node:zlib';
@@ -20,7 +21,7 @@ const BUDGETS = {
 
 function getDirFiles(dir: string, fileList: string[] = []): string[] {
   if (!fs.existsSync(dir)) return fileList;
-  
+
   const files = fs.readdirSync(dir);
   for (const file of files) {
     const filePath = path.join(dir, file);
@@ -140,13 +141,15 @@ function getRemoteEntryFiles(appDistDir: string): string[] {
 
 function checkBudgets() {
   const appsDir = path.join(process.cwd(), 'apps');
-  
+
   if (!fs.existsSync(appsDir)) {
     console.error(`Error: Directory ${appsDir} not found.`);
     process.exit(1);
   }
 
-  const apps = fs.readdirSync(appsDir).filter(f => fs.statSync(path.join(appsDir, f)).isDirectory());
+  const apps = fs
+    .readdirSync(appsDir)
+    .filter((f) => fs.statSync(path.join(appsDir, f)).isDirectory());
   let hasErrors = false;
 
   console.log('\n📊 Bundle Budget Verification\n');
@@ -154,14 +157,16 @@ function checkBudgets() {
   for (const app of apps) {
     const appDistDir = path.join(appsDir, app, 'dist');
     if (!fs.existsSync(appDistDir)) {
-       console.log(`Skipping app: ${app} (No dist folder found)`);
-       continue;
+      console.log(`Skipping app: ${app} (No dist folder found)`);
+      continue;
     }
 
     console.log(`Checking app: ${app}`);
     const manifestPath = getManifestPath(appDistDir);
     const assets = manifestPath
-      ? collectInitialAssetsFromManifest(JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as ViteManifest)
+      ? collectInitialAssetsFromManifest(
+          JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as ViteManifest
+        )
       : collectInitialAssetsFromIndexHtml(appDistDir);
 
     const totalJsSize = assets.js.reduce((sum, relativeFile) => {

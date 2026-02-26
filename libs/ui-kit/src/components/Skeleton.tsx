@@ -15,11 +15,7 @@ const variantStyles = {
 export function Skeleton({ className, variant = 'text' }: SkeletonProps): JSX.Element {
   return (
     <div
-      className={cn(
-        'animate-pulse bg-neutral-200',
-        variantStyles[variant],
-        className
-      )}
+      className={cn('animate-pulse bg-neutral-200', variantStyles[variant], className)}
       role="status"
       aria-label="Loading..."
     >

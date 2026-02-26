@@ -4,11 +4,7 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
@@ -24,40 +20,17 @@
     "sourceMap": true,
     "composite": false,
     "paths": {
-      "@synapse/shared-types": [
-        "libs/shared-types/src/index.ts"
-      ],
-      "@synapse/shared-types/*": [
-        "libs/shared-types/src/*"
-      ],
-      "@synapse/shared-api": [
-        "libs/shared-api/src/index.ts"
-      ],
-      "@synapse/shared-api/*": [
-        "libs/shared-api/src/*"
-      ],
-      "@synapse/ui-kit": [
-        "libs/ui-kit/src/index.ts"
-      ],
-      "@synapse/ui-kit/*": [
-        "libs/ui-kit/src/*"
-      ],
-      "@/*": [
-        "libs/ui-kit/src/*"
-      ],
-      "@synapse/tools": [
-        "tools/src/index.ts"
-      ],
-      "@synapse/shared-monitoring": [
-        "libs/shared-monitoring/src/index.ts"
-      ],
-      "@synapse/mock-api": [
-        "libs/mock-api/src/index.ts"
-      ]
+      "@synapse/shared-types": ["libs/shared-types/src/index.ts"],
+      "@synapse/shared-types/*": ["libs/shared-types/src/*"],
+      "@synapse/shared-api": ["libs/shared-api/src/index.ts"],
+      "@synapse/shared-api/*": ["libs/shared-api/src/*"],
+      "@synapse/ui-kit": ["libs/ui-kit/src/index.ts"],
+      "@synapse/ui-kit/*": ["libs/ui-kit/src/*"],
+      "@/*": ["libs/ui-kit/src/*"],
+      "@synapse/tools": ["tools/src/index.ts"],
+      "@synapse/shared-monitoring": ["libs/shared-monitoring/src/index.ts"],
+      "@synapse/mock-api": ["libs/mock-api/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

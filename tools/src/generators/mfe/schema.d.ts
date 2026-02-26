@@ -1,4 +1,4 @@
 export interface GeneratorGeneratorSchema {
-    name: string;
-    port: number;
+  name: string;
+  port: number;
 }

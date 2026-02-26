@@ -15,10 +15,9 @@
 
 // Vite scans at build time — keys are relative paths like
 // "../../../../libs/ui-kit/src/components/Button.tsx"
-const componentModules = import.meta.glob(
-  '../../../../libs/ui-kit/src/components/*.tsx',
-  { eager: false }
-);
+const componentModules = import.meta.glob('../../../../libs/ui-kit/src/components/*.tsx', {
+  eager: false,
+});
 
 export interface DiscoveredComponent {
   /** PascalCase name, e.g. "Button", "ErrorFallback" */

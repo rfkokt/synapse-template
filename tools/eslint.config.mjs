@@ -10,14 +10,10 @@ export default [
     },
   },
   {
-    files: [
-      "**/package.json",
-      "**/package.json",
-      "**/generators.json"
-    ],
+    files: ['**/package.json', '**/package.json', '**/generators.json'],
     rules: {},
     languageOptions: {
-      "parser": (await import('jsonc-eslint-parser'))
+      parser: await import('jsonc-eslint-parser'),
     },
   },
   {

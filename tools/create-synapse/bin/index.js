@@ -27,8 +27,10 @@ const rl = readline.createInterface({
 
 console.log('\x1b[36m%s\x1b[0m', '🚀 Welcome to create-synapse-mfe CLI v1.0.5!');
 console.log('Scaffolding a Vite-powered Micro-Frontend Architecture...');
-console.log('\x1b[32m✨ What\'s new in v1.0.4:\x1b[0m');
-console.log('  \x1b[34m- Hardened security (removed token from query params & sessionStorage)\x1b[0m');
+console.log("\x1b[32m✨ What's new in v1.0.4:\x1b[0m");
+console.log(
+  '  \x1b[34m- Hardened security (removed token from query params & sessionStorage)\x1b[0m'
+);
 console.log('  \x1b[34m- Dynamic Redirect Whitelist matching remotes.json\x1b[0m');
 console.log('  \x1b[34m- Basic Vitest Mock API integrations\x1b[0m');
 console.log('  \x1b[34m- Updated Vite and React Router dependency versions\x1b[0m');
@@ -38,9 +40,12 @@ const getProjectName = () => {
     if (process.argv[2]) {
       resolve(process.argv[2]);
     } else {
-      rl.question('\n\x1b[33m? Nama direktori proyek Anda:\x1b[0m (synapse-workspace) ', (answer) => {
-        resolve(answer.trim() || 'synapse-workspace');
-      });
+      rl.question(
+        '\n\x1b[33m? Nama direktori proyek Anda:\x1b[0m (synapse-workspace) ',
+        (answer) => {
+          resolve(answer.trim() || 'synapse-workspace');
+        }
+      );
     }
   });
 };
@@ -51,12 +56,16 @@ const getProjectName = () => {
   const projectPath = path.join(currentDir, projectName);
 
   if (fs.existsSync(projectPath)) {
-    console.error(`\n\x1b[31m❌ Error: Folder "${projectName}" sudah ada! Harap pilih nama lain.\x1b[0m`);
+    console.error(
+      `\n\x1b[31m❌ Error: Folder "${projectName}" sudah ada! Harap pilih nama lain.\x1b[0m`
+    );
     process.exit(1);
   }
 
-  console.log(`\n\x1b[32m📦 Mengkloning blueprint MFE ke dalam \x1b[1m${projectName}\x1b[0m...\x1b[0m`);
-  
+  console.log(
+    `\n\x1b[32m📦 Mengkloning blueprint MFE ke dalam \x1b[1m${projectName}\x1b[0m...\x1b[0m`
+  );
+
   const cloneCmd = `git clone --depth 1 ${GIT_REPO} "${projectName}"`;
   if (!runCommand(cloneCmd)) {
     process.exit(1);
@@ -67,18 +76,18 @@ const getProjectName = () => {
   if (fs.existsSync(gitFolder)) {
     fs.rmSync(gitFolder, { recursive: true, force: true });
   }
-  
+
   // Clean up CLI internal tools and NPM workflows from the end-user's boilerplate
   const cliFolder = path.join(projectPath, 'tools', 'create-synapse');
   if (fs.existsSync(cliFolder)) {
     fs.rmSync(cliFolder, { recursive: true, force: true });
   }
-  
+
   const npmWorkflow = path.join(projectPath, '.github', 'workflows', 'publish-npm.yml');
   if (fs.existsSync(npmWorkflow)) {
     fs.rmSync(npmWorkflow, { force: true });
   }
-  
+
   console.log(`\x1b[32m🌱 Memulai repositori Git baru...\x1b[0m`);
   runCommand(`git init`, { cwd: projectPath });
 
@@ -92,10 +101,12 @@ const getProjectName = () => {
   console.log('  \x1b[34m- auth-mfe (/auth/login): admin@Synapse.com / password123\x1b[0m');
   console.log('  \x1b[34m- auth-mfe (/auth/login): user@Synapse.com / password123\x1b[0m');
   console.log('  \x1b[34m- standalone MFE (isolated): dev@synapse.local / password123\x1b[0m');
-  console.log('  \x1b[34m- docs: /docs/api-mocking, /docs/api-interceptors, /docs/security\x1b[0m\n');
-  
+  console.log(
+    '  \x1b[34m- docs: /docs/api-mocking, /docs/api-interceptors, /docs/security\x1b[0m\n'
+  );
+
   console.log('\x1b[35mSelamat Mengoding Micro-Frontend! ⚛️\x1b[0m\n');
-  
+
   rl.close();
   process.exit(0);
 })();

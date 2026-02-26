@@ -98,7 +98,8 @@ export type { NamaKomponenProps } from './components/NamaKomponen';
             Selalu support <strong>dark mode</strong>
           </li>
           <li>
-            Jangan import <code className="text-xs">@synapse/shared-types</code> di ui-kit (circular)
+            Jangan import <code className="text-xs">@synapse/shared-types</code> di ui-kit
+            (circular)
           </li>
         </ul>
       </div>

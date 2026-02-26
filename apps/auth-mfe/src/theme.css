@@ -6,32 +6,32 @@
   --color-primary-50: oklch(0.97 0.01 240);
   --color-primary-100: oklch(0.93 0.03 240);
   --color-primary-200: oklch(0.86 0.06 240);
-  --color-primary-300: oklch(0.76 0.10 240);
+  --color-primary-300: oklch(0.76 0.1 240);
   --color-primary-400: oklch(0.66 0.15 240);
-  --color-primary-500: oklch(0.55 0.20 240);
-  --color-primary-600: oklch(0.48 0.20 240);
-  --color-primary-700: oklch(0.40 0.18 240);
+  --color-primary-500: oklch(0.55 0.2 240);
+  --color-primary-600: oklch(0.48 0.2 240);
+  --color-primary-700: oklch(0.4 0.18 240);
   --color-primary-800: oklch(0.33 0.15 240);
   --color-primary-900: oklch(0.27 0.12 240);
 
   /* Colors — Neutral */
   --color-neutral-50: oklch(0.98 0.005 260);
   --color-neutral-100: oklch(0.96 0.005 260);
-  --color-neutral-200: oklch(0.90 0.005 260);
+  --color-neutral-200: oklch(0.9 0.005 260);
   --color-neutral-300: oklch(0.82 0.008 260);
-  --color-neutral-400: oklch(0.65 0.010 260);
-  --color-neutral-500: oklch(0.55 0.010 260);
-  --color-neutral-600: oklch(0.45 0.010 260);
-  --color-neutral-700: oklch(0.35 0.010 260);
-  --color-neutral-800: oklch(0.25 0.010 260);
-  --color-neutral-900: oklch(0.15 0.010 260);
-  --color-neutral-950: oklch(0.10 0.010 260);
+  --color-neutral-400: oklch(0.65 0.01 260);
+  --color-neutral-500: oklch(0.55 0.01 260);
+  --color-neutral-600: oklch(0.45 0.01 260);
+  --color-neutral-700: oklch(0.35 0.01 260);
+  --color-neutral-800: oklch(0.25 0.01 260);
+  --color-neutral-900: oklch(0.15 0.01 260);
+  --color-neutral-950: oklch(0.1 0.01 260);
 
   /* Semantic Colors */
   --color-success: oklch(0.55 0.18 145);
   --color-warning: oklch(0.75 0.18 75);
   --color-error: oklch(0.55 0.22 25);
-  --color-info: oklch(0.60 0.18 240);
+  --color-info: oklch(0.6 0.18 240);
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -64,7 +64,9 @@ body {
   background-color: var(--color-neutral-50);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 /* ══════════════════════════════════════════════════
@@ -78,26 +80,58 @@ body {
 }
 
 /* Backgrounds */
-.dark .bg-white          { background-color: #171717 !important; }
-.dark .bg-neutral-50     { background-color: #0a0a0a !important; }
-.dark .bg-neutral-100    { background-color: #171717 !important; }
-.dark .bg-neutral-200    { background-color: #262626 !important; }
-.dark .bg-primary-50     { background-color: rgba(30, 58, 138, 0.3) !important; }
-.dark .bg-primary-100    { background-color: rgba(30, 58, 138, 0.4) !important; }
+.dark .bg-white {
+  background-color: #171717 !important;
+}
+.dark .bg-neutral-50 {
+  background-color: #0a0a0a !important;
+}
+.dark .bg-neutral-100 {
+  background-color: #171717 !important;
+}
+.dark .bg-neutral-200 {
+  background-color: #262626 !important;
+}
+.dark .bg-primary-50 {
+  background-color: rgba(30, 58, 138, 0.3) !important;
+}
+.dark .bg-primary-100 {
+  background-color: rgba(30, 58, 138, 0.4) !important;
+}
 
 /* Text colors */
-.dark .text-neutral-900  { color: #f5f5f5 !important; }
-.dark .text-neutral-800  { color: #e5e5e5 !important; }
-.dark .text-neutral-700  { color: #d4d4d4 !important; }
-.dark .text-neutral-600  { color: #a3a3a3 !important; }
-.dark .text-neutral-500  { color: #a3a3a3 !important; }
-.dark .text-primary-700  { color: #93c5fd !important; }
-.dark .text-primary-600  { color: #60a5fa !important; }
+.dark .text-neutral-900 {
+  color: #f5f5f5 !important;
+}
+.dark .text-neutral-800 {
+  color: #e5e5e5 !important;
+}
+.dark .text-neutral-700 {
+  color: #d4d4d4 !important;
+}
+.dark .text-neutral-600 {
+  color: #a3a3a3 !important;
+}
+.dark .text-neutral-500 {
+  color: #a3a3a3 !important;
+}
+.dark .text-primary-700 {
+  color: #93c5fd !important;
+}
+.dark .text-primary-600 {
+  color: #60a5fa !important;
+}
 
 /* Borders */
-.dark .border-neutral-200 { border-color: #262626 !important; }
-.dark .border-neutral-100 { border-color: #1a1a1a !important; }
-.dark .border-neutral-300 { border-color: #333333 !important; }
+.dark .border-neutral-200 {
+  border-color: #262626 !important;
+}
+.dark .border-neutral-100 {
+  border-color: #1a1a1a !important;
+}
+.dark .border-neutral-300 {
+  border-color: #333333 !important;
+}
 
 /* Focus visible ring for accessibility */
 :focus-visible {

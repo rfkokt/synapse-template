@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import type { ObjectSchema, ValidationError } from 'yup';
 
 /**
@@ -38,7 +38,10 @@ export interface UseFormValidationReturn<T extends Record<string, unknown>> {
   /** Set a single field value */
   setValue: (field: keyof T, value: T[keyof T]) => void;
   /** Handle input onChange event */
-  handleChange: (field: keyof T) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+  handleChange: (
+    field: keyof T
+    // eslint-disable-next-line no-undef
+  ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
   /** Handle input onBlur event — triggers field validation */
   handleBlur: (field: keyof T) => () => void;
   /** Handle form submit — validates all fields first */
@@ -52,7 +55,10 @@ export interface UseFormValidationReturn<T extends Record<string, unknown>> {
     id: string;
     name: string;
     value: T[keyof T];
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+    onChange: (
+      // eslint-disable-next-line no-undef
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => void;
     onBlur: () => void;
     error: string | undefined;
   };
@@ -69,7 +75,10 @@ export function useFormValidation<T extends Record<string, unknown>>({
   const [touched, setTouched] = useState<Partial<Record<keyof T, boolean>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const schemaRef = useRef(schema);
-  schemaRef.current = schema;
+
+  useEffect(() => {
+    schemaRef.current = schema;
+  }, [schema]);
 
   // Validate a single field
   const validateField = useCallback(
@@ -126,6 +135,7 @@ export function useFormValidation<T extends Record<string, unknown>>({
 
   const handleChange = useCallback(
     (field: keyof T) =>
+      // eslint-disable-next-line no-undef
       (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const value = e.target.value as T[keyof T];
         setValue(field, value);

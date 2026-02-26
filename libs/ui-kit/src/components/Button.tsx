@@ -8,8 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary:
-          'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
+        primary: 'bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800',
         secondary:
           'bg-neutral-100 text-neutral-900 shadow-sm hover:bg-neutral-200 active:bg-neutral-300',
         ghost: 'text-neutral-700 hover:bg-neutral-100 active:bg-neutral-200',
@@ -32,8 +31,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
 }
 
