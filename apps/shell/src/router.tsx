@@ -41,30 +41,22 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
  */
 function GuestRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const accessToken = useAuthStore((s) => s.accessToken);
-  const user = useAuthStore((s) => s.user);
 
-  // Cross-port SSO handler for standalone MFEs
-  // If the user lands here, already authenticated, and requests a redirect back,
-  // we immediately package their session token and send them back without rendering.
   useEffect(() => {
     if (isAuthenticated && typeof window !== 'undefined') {
       const urlParams = new window.URLSearchParams(window.location.search);
       const redirectUrl = urlParams.get('redirect');
-      if (redirectUrl && accessToken && user) {
-        const authData = encodeURIComponent(JSON.stringify({ token: accessToken, user }));
-        const separator = redirectUrl.includes('?') ? '&' : '?';
-        window.location.href = redirectUrl + separator + 'standaloneAuth=' + authData;
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
       }
     }
-  }, [isAuthenticated, accessToken, user]);
+  }, [isAuthenticated]);
 
   if (isAuthenticated) {
-    // If there's a standalone redirect param, DO NOT force an internal React Router push.
-    // Let the Login component's async window.location.href physically navigate away.
     if (typeof window !== 'undefined') {
       const urlParams = new window.URLSearchParams(window.location.search);
-      if (urlParams.has('redirect')) {
+      const redirectUrl = urlParams.get('redirect');
+      if (redirectUrl) {
         return null; // Render nothing while useEffect performs the physical redirect
       }
     }
