@@ -419,6 +419,7 @@ createRoot(rootElement).render(
     dependencies: {
       '@synapse/ui-kit': 'workspace:*',
       '@synapse/shared-types': 'workspace:*',
+      '@synapse/shared-api': 'workspace:*',
       react: '^19.0.0',
       'react-dom': '^19.0.0',
       'react-router-dom': '^7.0.0',

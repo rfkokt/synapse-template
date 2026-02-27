@@ -11,9 +11,19 @@ export function SectionHeader({ title, description }: { title: string; descripti
   );
 }
 
-export function PreviewCard({ title, children }: { title?: string; children: React.ReactNode }) {
+export function PreviewCard({
+  title,
+  children,
+  className = '',
+}: {
+  title?: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 mb-4">
+    <div
+      className={`border border-neutral-200 dark:border-neutral-800 rounded-xl p-6 mb-4 ${className}`}
+    >
       {title && (
         <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-4">
           {title}

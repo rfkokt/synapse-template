@@ -51,6 +51,8 @@ export {
   SelectTrigger,
   SelectValue,
 } from './components/select';
+export { SearchableSelect } from './components/searchable-select';
+export type { SearchableSelectOption, SearchableSelectProps } from './components/searchable-select';
 
 export { Label } from './components/label';
 

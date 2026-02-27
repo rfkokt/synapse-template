@@ -247,6 +247,9 @@ importers:
 
   apps/docs-mfe:
     dependencies:
+      '@synapse/shared-api':
+        specifier: workspace:*
+        version: link:../../libs/shared-api
       '@synapse/shared-types':
         specifier: workspace:*
         version: link:../../libs/shared-types
