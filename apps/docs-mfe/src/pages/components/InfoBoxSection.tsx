@@ -1,6 +1,5 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { InfoBox } from '@synapse/shared-components';
+import { ExampleTabs, InfoBox } from '@synapse/shared-components';
 
 export function InfoBoxSection() {
   return (
@@ -62,8 +61,22 @@ export function InfoBoxSection() {
         </InfoBox>
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock
-          codeString={`import { InfoBox } from '@synapse/shared-components';
+        <ExampleTabs
+          preview={
+            <div className="w-full max-w-xl space-y-3">
+              <InfoBox variant="emerald" title="✅ Success">
+                Konten pesan...
+              </InfoBox>
+              <InfoBox variant="blue">Informasi tambahan...</InfoBox>
+              <InfoBox variant="amber" title="⚠️ Warning">
+                <ul className="list-disc list-inside">
+                  <li>Poin 1</li>
+                  <li>Poin 2</li>
+                </ul>
+              </InfoBox>
+            </div>
+          }
+          code={`import { InfoBox } from '@synapse/shared-components';
 
 // Basic
 <InfoBox variant="emerald" title="✅ Success">
@@ -81,8 +94,8 @@ export function InfoBoxSection() {
     <li>Poin 1</li>
     <li>Poin 2</li>
   </ul>
-</InfoBox>`}
-          language="tsx"
+ </InfoBox>`}
+          previewClassName="w-full items-start justify-center"
         />
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>

@@ -1,5 +1,5 @@
 import { Card, CardContent, Label, Input } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function LabelSection() {
   return (
@@ -25,13 +25,23 @@ export function LabelSection() {
             </div>
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Label, Input } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-md space-y-2">
+                <Label htmlFor="usage-email">Email</Label>
+                <Input id="usage-email" type="email" placeholder="email@example.com" />
+              </div>
+            }
+            code={`import { Label, Input } from '@synapse/ui-kit';
 
 <div className="space-y-2">
   <Label htmlFor="email">Email</Label>
   <Input id="email" type="email" placeholder="email@example.com" />
-</div>`}</CodeBlock>
+</div>`}
+            previewClassName="w-full items-start justify-center"
+          />
+        </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>
         <PropsTable
           rows={[

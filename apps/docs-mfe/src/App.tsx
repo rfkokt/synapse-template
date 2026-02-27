@@ -2,7 +2,9 @@ import React from 'react';
 import './index.css';
 import { useLocation, Link } from 'react-router-dom';
 import { discoveredComponents } from './utils/component-discovery';
+import { discoveredSharedComponents } from './utils/shared-component-discovery';
 import { SharedOriginGuard } from '@synapse/shared-types';
+import { ComponentBoundary } from '@synapse/ui-kit';
 
 // ── Documentation Section imports ──
 import { DocsOverviewSection } from './pages/DocsOverviewSection';
@@ -23,6 +25,7 @@ import { DocsWhyMfSection } from './pages/DocsWhyMfSection';
 import { DocsI18nSection } from './pages/DocsI18nSection';
 import { DocsApiMockingSection } from './pages/DocsApiMockingSection';
 import { DocsRoutingSection } from './pages/DocsRoutingSection';
+import { DocsLibsSection } from './pages/DocsLibsSection';
 
 // ── Reusable Components Section imports ──
 import { InfoBoxSection } from './pages/components/InfoBoxSection';
@@ -34,6 +37,7 @@ import CodeBlockTableSection from './pages/components/CodeBlockTableSection';
 import { DocsStepSection } from './pages/components/DocsStepSection';
 import { ExampleTabsSection } from './pages/components/ExampleTabsSection';
 import { ReusableComponentGuideSection } from './pages/components/ReusableComponentGuideSection';
+import { UndocumentedSection as SharedComponentsUndocumentedSection } from './pages/components/UndocumentedSection';
 
 // --- UI Kit Section imports ---
 import { ButtonSection } from './pages/ui-kit/ButtonSection';
@@ -46,6 +50,7 @@ import { ToastSection } from './pages/ui-kit/ToastSection';
 import { ErrorFallbackSection } from './pages/ui-kit/ErrorFallbackSection';
 import { TutorialSection } from './pages/ui-kit/TutorialSection';
 import { FormFieldSection } from './pages/ui-kit/FormFieldSection';
+import { ComponentBoundarySection } from './pages/ui-kit/ComponentBoundarySection';
 import { BreadcrumbSection } from './pages/ui-kit/BreadcrumbSection';
 import { LabelSection } from './pages/ui-kit/LabelSection';
 import { SelectSection } from './pages/ui-kit/SelectSection';
@@ -54,7 +59,7 @@ import { TabsSection } from './pages/ui-kit/TabsSection';
 import { DropdownMenuSection } from './pages/ui-kit/DropdownMenuSection';
 import { IconSection } from './pages/ui-kit/IconSection';
 import { OverviewSection as UIKitOverviewSection } from './pages/ui-kit/OverviewSection';
-import { UndocumentedSection } from './pages/ui-kit/UndocumentedSection';
+import { UndocumentedSection as UIKitUndocumentedSection } from './pages/ui-kit/UndocumentedSection';
 
 type SectionData = {
   component: React.FC;
@@ -150,6 +155,11 @@ export const DOCS_SECTION_MAP: Record<string, SectionData> = {
     title: '16. API Mocking (MSW)',
     category: '📚 Panduan Lanjutan',
   },
+  'libs-workspace': {
+    component: DocsLibsSection,
+    title: '17. @libs Workspace & Reusability',
+    category: '🏗️ Arsitektur',
+  },
 };
 
 /* ─── UI Kit Section Map (documented components) ─── */
@@ -163,6 +173,7 @@ export const UIKIT_SECTION_MAP: Record<string, React.FC> = {
   toast: ToastSection,
   errorfallback: ErrorFallbackSection,
   formfield: FormFieldSection,
+  componentboundary: ComponentBoundarySection,
   tutorial: TutorialSection,
   breadcrumb: BreadcrumbSection,
   label: LabelSection,
@@ -204,7 +215,31 @@ export function App() {
       const Section = COMPONENTS_SECTION_MAP[componentName];
       return (
         <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-          <Section />
+          <ComponentBoundary
+            fallbackTitle="Section Komponen Gagal Dimuat"
+            fallbackDescription="Bagian ini error, tetapi halaman docs lain tetap aman."
+          >
+            <Section />
+          </ComponentBoundary>
+          <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
+            <Link
+              to="/docs/components"
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+            >
+              ← Kembali ke Reusable Components
+            </Link>
+          </div>
+        </div>
+      );
+    }
+
+    // Undocumented reusable component (auto-discovered)
+    if (componentName && componentName !== '') {
+      const displayName =
+        discoveredSharedComponents.find((c) => c.slug === componentName)?.name || componentName;
+      return (
+        <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
+          <SharedComponentsUndocumentedSection name={displayName} />
           <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
             <Link
               to="/docs/components"
@@ -220,7 +255,10 @@ export function App() {
     // Components overview
     return (
       <div className="p-8 mx-auto w-full">
-        <ComponentsOverviewSection sectionMap={COMPONENTS_SECTION_MAP} />
+        <ComponentsOverviewSection
+          sectionMap={COMPONENTS_SECTION_MAP}
+          discoveredComponents={discoveredSharedComponents}
+        />
       </div>
     );
   }
@@ -234,7 +272,12 @@ export function App() {
       const Section = UIKIT_SECTION_MAP[componentName];
       return (
         <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-          <Section />
+          <ComponentBoundary
+            fallbackTitle="Section UI Kit Gagal Dimuat"
+            fallbackDescription="Komponen ini error, tetapi docs dan MFE lain tetap berjalan."
+          >
+            <Section />
+          </ComponentBoundary>
           <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
             <Link
               to="/docs/ui-kit"
@@ -253,7 +296,7 @@ export function App() {
         discoveredComponents.find((c) => c.slug === componentName)?.name || componentName;
       return (
         <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-          <UndocumentedSection name={displayName} />
+          <UIKitUndocumentedSection name={displayName} />
           <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
             <Link
               to="/docs/ui-kit"
@@ -292,7 +335,12 @@ export function App() {
 
     return (
       <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-        <SectionComponent />
+        <ComponentBoundary
+          fallbackTitle="Section Dokumentasi Gagal Dimuat"
+          fallbackDescription="Halaman ini error, tetapi navigation docs tetap aman."
+        >
+          <SectionComponent />
+        </ComponentBoundary>
 
         {/* Simple back navigation footer */}
         <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">

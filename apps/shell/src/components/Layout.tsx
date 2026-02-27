@@ -24,6 +24,7 @@ import { MOCK_MENUS } from '../data/mock-menus';
 import { ToastContainer, Modal, Button, DropdownMenu } from '@synapse/ui-kit';
 import { useTranslation } from 'react-i18next';
 import { discoveredComponents } from '../utils/component-discovery';
+import { discoveredSharedComponents } from '../utils/shared-component-discovery';
 import { AutoBreadcrumb } from './AutoBreadcrumb';
 
 /* ─────────────────────────────────────────────
@@ -93,6 +94,17 @@ const subNavClass = ({ isActive }: { isActive: boolean }) =>
       ? 'font-semibold text-neutral-900 dark:text-white'
       : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
   }`;
+
+const DEFAULT_DOCUMENTED_REUSABLE_SLUGS = new Set([
+  'reusableguide',
+  'infobox',
+  'comparisontable',
+  'featuregrid',
+  'utilities',
+  'codeblocktable',
+  'docsstep',
+  'exampletabs',
+]);
 
 /* ─────────────────────────────────────────────
    Render a single MenuItem (top-level or nested)
@@ -183,6 +195,39 @@ export function Layout() {
               icon: 'GraduationCap',
               path: '/docs/ui-kit/tutorial',
             });
+            return { ...item, children: autoChildren };
+          }
+          if (item.id === 'reusable-components') {
+            const documentedSlugsFromMenu = (item.children ?? [])
+              .map((child) => child.path.split('/').pop()?.toLowerCase())
+              .filter((slug): slug is string => Boolean(slug));
+
+            const documentedSlugs = new Set([
+              ...DEFAULT_DOCUMENTED_REUSABLE_SLUGS,
+              ...documentedSlugsFromMenu,
+            ]);
+
+            const reusableGuideItem = item.children?.find((child) =>
+              child.path.endsWith('/reusableguide')
+            ) ?? {
+              id: 'rc-reusableguide',
+              label: 'Build Reusable Component',
+              icon: 'Book',
+              path: '/docs/components/reusableguide',
+            };
+
+            const autoChildren: MenuItem[] = [reusableGuideItem];
+            for (const component of discoveredSharedComponents) {
+              autoChildren.push({
+                id: `rc-${component.slug}`,
+                label: documentedSlugs.has(component.slug)
+                  ? component.name
+                  : `${component.name} (Tidak ada dokumentasi)`,
+                icon: 'FileText',
+                path: `/docs/components/${component.slug}`,
+              });
+            }
+
             return { ...item, children: autoChildren };
           }
           return item;

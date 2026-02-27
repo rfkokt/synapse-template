@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Modal, Card, CardContent } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function ModalSection() {
   const [open, setOpen] = useState(false);
@@ -40,14 +40,28 @@ export function ModalSection() {
             <Button onClick={() => setOpen(false)}>Simpan</Button>
           </div>
         </Modal>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Modal } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSize('md');
+                  setOpen(true);
+                }}
+              >
+                Open Modal
+              </Button>
+            }
+            code={`import { Modal } from '@synapse/ui-kit';
 
 const [open, setOpen] = useState(false);
 
 <Modal open={open} onClose={() => setOpen(false)} title="Judul" size="md">
   <p>Konten</p>
-</Modal>`}</CodeBlock>
+</Modal>`}
+          />
+        </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>
         <PropsTable
           rows={[

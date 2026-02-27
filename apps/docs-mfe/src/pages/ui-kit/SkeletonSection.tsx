@@ -1,5 +1,5 @@
 import { Skeleton, Card, CardContent } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs } from './shared';
 
 export function SkeletonSection() {
   return (
@@ -23,11 +23,21 @@ export function SkeletonSection() {
             </div>
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Skeleton } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-md space-y-3">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <Skeleton className="h-4 w-3/4" />
+              </div>
+            }
+            code={`import { Skeleton } from '@synapse/ui-kit';
 
 <Skeleton className="h-12 w-12 rounded-full" />
-<Skeleton className="h-4 w-3/4" />`}</CodeBlock>
+<Skeleton className="h-4 w-3/4" />`}
+            previewClassName="w-full items-start justify-center"
+          />
+        </PreviewCard>
       </CardContent>
     </Card>
   );

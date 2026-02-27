@@ -417,8 +417,10 @@ createRoot(rootElement).render(
       preview: `vite preview --port ${port + 100}`,
     },
     dependencies: {
+      '@synapse/mock-api': 'workspace:*',
       '@synapse/ui-kit': 'workspace:*',
       '@synapse/shared-components': 'workspace:*',
+      '@synapse/shared-monitoring': 'workspace:*',
       '@synapse/shared-types': 'workspace:*',
       '@synapse/shared-api': 'workspace:*',
       react: '^19.0.0',

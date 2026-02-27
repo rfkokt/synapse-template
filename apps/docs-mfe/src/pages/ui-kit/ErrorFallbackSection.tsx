@@ -1,5 +1,5 @@
 import { Button, Card, CardContent } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs } from './shared';
 
 export function ErrorFallbackSection() {
   return (
@@ -23,13 +23,27 @@ export function ErrorFallbackSection() {
             </Button>
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { ErrorFallback } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="text-center p-6 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
+                <p className="text-4xl mb-3">⚠️</p>
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                  Terjadi Kesalahan
+                </h3>
+                <Button variant="outline" size="sm" className="mt-4">
+                  Coba Lagi
+                </Button>
+              </div>
+            }
+            code={`import { ErrorFallback } from '@synapse/ui-kit';
 import { ErrorBoundary } from 'react-error-boundary';
 
 <ErrorBoundary FallbackComponent={ErrorFallback}>
   <SomeComponent />
-</ErrorBoundary>`}</CodeBlock>
+</ErrorBoundary>`}
+          />
+        </PreviewCard>
       </CardContent>
     </Card>
   );

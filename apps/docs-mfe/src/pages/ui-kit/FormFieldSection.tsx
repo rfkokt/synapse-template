@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { Button, Input, Card, CardContent, FormField, useFormValidation } from '@synapse/ui-kit';
 import { useNotificationStore } from '@synapse/shared-types';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 const demoSchema = yup.object({
   nama: yup.string().required('Nama wajib diisi').min(3, 'Nama minimal 3 karakter'),
@@ -101,10 +101,14 @@ export function FormFieldSection() {
           </form>
         </PreviewCard>
 
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-          1. Definisikan Schema
-        </h3>
-        <CodeBlock>{`import * as yup from 'yup';
+        <PreviewCard title="1. Definisikan Schema" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
+                Schema Yup dipakai oleh form validasi di demo atas.
+              </div>
+            }
+            code={`import * as yup from 'yup';
 
 const schema = yup.object({
   nama: yup.string()
@@ -120,12 +124,18 @@ const schema = yup.object({
     .required('Telepon wajib diisi')
     .matches(/^[0-9]+$/, 'Hanya angka')
     .min(10, 'Minimal 10 digit'),
-});`}</CodeBlock>
+});`}
+          />
+        </PreviewCard>
 
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-          2. Gunakan Hook
-        </h3>
-        <CodeBlock>{`import { useFormValidation, FormField, Input, Button } from '@synapse/ui-kit';
+        <PreviewCard title="2. Gunakan Hook" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
+                Hook <code>useFormValidation</code> mengelola values, error, dan submit state.
+              </div>
+            }
+            code={`import { useFormValidation, FormField, Input, Button } from '@synapse/ui-kit';
 
 function MyForm() {
   const { handleSubmit, getFieldProps, isSubmitting, reset, touched, errors } = useFormValidation({
@@ -150,7 +160,9 @@ function MyForm() {
       <Button type="button" variant="outline" onClick={reset}>Reset</Button>
     </form>
   );
-}`}</CodeBlock>
+}`}
+          />
+        </PreviewCard>
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
           useFormValidation Props

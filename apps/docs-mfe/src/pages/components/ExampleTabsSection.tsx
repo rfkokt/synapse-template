@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Button, Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { ExampleTabs } from '@synapse/shared-components';
+import { ExampleTabs, InfoBox } from '@synapse/shared-components';
 import { PropsTable } from '../ui-kit/shared';
 
 const basicCode = `import { ExampleTabs } from '@synapse/shared-components';
@@ -26,6 +25,12 @@ export function ExampleTabsSection() {
             <code>Code</code> dalam satu komponen.
           </p>
         </div>
+
+        <InfoBox variant="amber" title="Aturan Penggunaan">
+          Gunakan <code>ExampleTabs</code> hanya saat ada preview UI/interaksi komponen. Untuk
+          snippet setup seperti create file, edit package.json, export index, atau command
+          verifikasi, gunakan <code>CodeBlock</code> biasa.
+        </InfoBox>
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
           Default (Preview First)
@@ -56,7 +61,7 @@ export function ExampleTabsSection() {
         />
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock codeString={basicCode} language="tsx" />
+        <ExampleTabs preview={<Button variant="primary">Run Action</Button>} code={basicCode} />
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>
         <PropsTable

@@ -1,6 +1,6 @@
 import { Button, Card, CardContent } from '@synapse/ui-kit';
 import { useNotificationStore } from '@synapse/shared-types';
-import { SectionHeader, PreviewCard, CodeBlock } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs } from './shared';
 
 export function ToastSection() {
   return (
@@ -56,8 +56,17 @@ export function ToastSection() {
             </Button>
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { useNotificationStore } from '@synapse/shared-types';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <Button
+                variant="outline"
+                onClick={() => useNotificationStore.getState().success('Data berhasil disimpan!')}
+              >
+                Trigger Success Toast
+              </Button>
+            }
+            code={`import { useNotificationStore } from '@synapse/shared-types';
 
 useNotificationStore.getState().success('Data berhasil disimpan!');
 
@@ -70,7 +79,9 @@ useNotificationStore.getState().error({
     'Format email salah'
   ],
   duration: 8000
-});`}</CodeBlock>
+});`}
+          />
+        </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mt-6 md:mt-8">
           Customization / Mengubah Tampilan
         </h3>

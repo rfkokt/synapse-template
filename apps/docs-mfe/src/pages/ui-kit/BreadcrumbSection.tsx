@@ -1,5 +1,5 @@
 import { Card, CardContent, Breadcrumb } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function BreadcrumbSection() {
   return (
@@ -22,8 +22,20 @@ export function BreadcrumbSection() {
         <PreviewCard title="Single Item">
           <Breadcrumb items={[{ label: 'Dashboard' }]} />
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Breadcrumb } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-xl">
+                <Breadcrumb
+                  items={[
+                    { label: 'Beranda', href: '/' },
+                    { label: 'Paket', href: '/paket' },
+                    { label: 'Detail' },
+                  ]}
+                />
+              </div>
+            }
+            code={`import { Breadcrumb } from '@synapse/ui-kit';
 
 <Breadcrumb
   items={[
@@ -32,7 +44,9 @@ export function BreadcrumbSection() {
     { label: 'Detail' },
   ]}
   onNavigate={(href) => navigate(href)}
-/>`}</CodeBlock>
+/>`}
+          />
+        </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>
         <PropsTable
           rows={[

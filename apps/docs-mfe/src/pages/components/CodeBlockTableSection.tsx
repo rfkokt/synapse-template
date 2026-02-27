@@ -1,7 +1,6 @@
 import { Card, CardContent } from '@synapse/ui-kit';
 import { SectionHeader, PreviewCard, PropsTable } from '../../pages/ui-kit/shared';
-import { CodeBlockTable } from '@synapse/shared-components';
-import { CodeBlock } from '@synapse/shared-components';
+import { CodeBlockTable, ExampleTabs } from '@synapse/shared-components';
 
 const stringExampleCode = `import { CodeBlockTable } from '@synapse/shared-components';
 
@@ -74,22 +73,28 @@ function Counter() {
           <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">Usage</h3>
 
           <PreviewCard title="USING CODE STRING">
-            <div className="bg-[#0d1117] rounded-lg overflow-hidden border border-neutral-800">
-              <CodeBlockTable codeString={exampleCode} />
-            </div>
+            <ExampleTabs
+              preview={
+                <div className="w-full max-w-3xl bg-[#0d1117] rounded-lg overflow-hidden border border-neutral-800">
+                  <CodeBlockTable codeString={exampleCode} />
+                </div>
+              }
+              code={stringExampleCode}
+            />
           </PreviewCard>
-
-          <CodeBlock codeString={stringExampleCode} language="tsx" />
         </section>
 
         <section>
           <PreviewCard title="USING PRE-SPLIT LINES ARRAY">
-            <div className="bg-[#0d1117] rounded-lg overflow-hidden border border-neutral-800">
-              <CodeBlockTable lines={arrayCodeLines} />
-            </div>
+            <ExampleTabs
+              preview={
+                <div className="w-full max-w-3xl bg-[#0d1117] rounded-lg overflow-hidden border border-neutral-800">
+                  <CodeBlockTable lines={arrayCodeLines} />
+                </div>
+              }
+              code={arrayExampleCode}
+            />
           </PreviewCard>
-
-          <CodeBlock codeString={arrayExampleCode} language="tsx" />
         </section>
 
         <section>

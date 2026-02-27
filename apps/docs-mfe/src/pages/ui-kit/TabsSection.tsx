@@ -1,5 +1,5 @@
 import { Card, CardContent, Tabs, TabList, Tab, TabPanel } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function TabsSection() {
   return (
@@ -63,8 +63,25 @@ export function TabsSection() {
           </Tabs>
         </PreviewCard>
 
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Tabs, TabList, Tab, TabPanel } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-lg">
+                <Tabs defaultValue="tab1">
+                  <TabList>
+                    <Tab value="tab1">Tab 1</Tab>
+                    <Tab value="tab2">Tab 2</Tab>
+                  </TabList>
+                  <TabPanel value="tab1" className="p-4">
+                    Konten tab 1
+                  </TabPanel>
+                  <TabPanel value="tab2" className="p-4">
+                    Konten tab 2
+                  </TabPanel>
+                </Tabs>
+              </div>
+            }
+            code={`import { Tabs, TabList, Tab, TabPanel } from '@synapse/ui-kit';
 
 <Tabs defaultValue="tab1">
   <TabList>
@@ -84,7 +101,10 @@ export function TabsSection() {
 const [tab, setTab] = useState('tab1');
 <Tabs value={tab} onChange={setTab}>
   ...
-</Tabs>`}</CodeBlock>
+</Tabs>`}
+            previewClassName="w-full items-start justify-center"
+          />
+        </PreviewCard>
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Tabs Props</h3>
         <PropsTable

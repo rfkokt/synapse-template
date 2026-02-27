@@ -1,6 +1,5 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { ComparisonTable } from '@synapse/shared-components';
+import { ExampleTabs, ComparisonTable } from '@synapse/shared-components';
 
 export function ComparisonTableSection() {
   return (
@@ -41,8 +40,23 @@ export function ComparisonTableSection() {
         />
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock
-          codeString={`import { ComparisonTable } from '@synapse/shared-components';
+        <ExampleTabs
+          preview={
+            <div className="w-full max-w-3xl">
+              <ComparisonTable
+                columns={[
+                  { header: 'Option A', highlight: true },
+                  { header: 'Option B' },
+                  { header: 'Option C' },
+                ]}
+                rows={[
+                  { criteria: 'Speed', values: ['✅ Fast', '❌ Slow', '⚠️ Medium'] },
+                  { criteria: 'Cost', values: ['✅ Free', '⚠️ Paid', '✅ Free'] },
+                ]}
+              />
+            </div>
+          }
+          code={`import { ComparisonTable } from '@synapse/shared-components';
 
 <ComparisonTable
   columns={[
@@ -55,7 +69,7 @@ export function ComparisonTableSection() {
     { criteria: 'Cost', values: ['✅ Free', '⚠️ Paid', '✅ Free'] },
   ]}
 />`}
-          language="tsx"
+          previewClassName="w-full items-start justify-center"
         />
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>

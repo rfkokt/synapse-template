@@ -168,6 +168,12 @@ export const MOCK_MENUS: MenuGroup[] = [
             icon: 'Activity',
             path: '/docs/api-mocking',
           },
+          {
+            id: 'docs-libs-workspace',
+            label: '17. @libs Workspace',
+            icon: 'Component',
+            path: '/docs/libs-workspace',
+          },
         ],
       },
       {
@@ -176,6 +182,12 @@ export const MOCK_MENUS: MenuGroup[] = [
         icon: 'Puzzle',
         path: '/docs/components',
         children: [
+          {
+            id: 'rc-reusableguide',
+            label: 'Build Reusable Component',
+            icon: 'Book',
+            path: '/docs/components/reusableguide',
+          },
           {
             id: 'rc-infobox',
             label: 'InfoBox',
@@ -211,6 +223,12 @@ export const MOCK_MENUS: MenuGroup[] = [
             label: 'DocsStep',
             icon: 'ListOrdered',
             path: '/docs/components/docsstep',
+          },
+          {
+            id: 'rc-exampletabs',
+            label: 'ExampleTabs',
+            icon: 'Component',
+            path: '/docs/components/exampletabs',
           },
         ],
       },

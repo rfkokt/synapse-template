@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Tabs, TabList, Tab, TabPanel } from '@synapse/ui-kit';
+import { Tabs, TabList, Tab, TabPanel, ComponentBoundary } from '@synapse/ui-kit';
 import { CodeBlock } from './CodeBlock';
 
 /* ═══════════════════════════════════════════════════════
@@ -307,7 +307,12 @@ export function ExampleTabs({
           <div
             className={`flex min-h-[180px] items-center justify-center p-6 bg-white dark:bg-neutral-900 ${previewClassName}`}
           >
-            {preview}
+            <ComponentBoundary
+              fallbackTitle="Preview Gagal Dirender"
+              fallbackDescription="Code tetap tersedia di tab Code."
+            >
+              {preview}
+            </ComponentBoundary>
           </div>
         </TabPanel>
 

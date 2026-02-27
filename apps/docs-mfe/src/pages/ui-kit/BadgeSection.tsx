@@ -1,5 +1,5 @@
 import { Badge, Card, CardContent } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function BadgeSection() {
   return (
@@ -24,11 +24,20 @@ export function BadgeSection() {
             <Badge variant="info">3 Baru</Badge>
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Badge } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="flex flex-wrap items-center gap-3">
+                <Badge variant="success">Aktif</Badge>
+                <Badge variant="error">Ditolak</Badge>
+              </div>
+            }
+            code={`import { Badge } from '@synapse/ui-kit';
 
 <Badge variant="success">Aktif</Badge>
-<Badge variant="error">Ditolak</Badge>`}</CodeBlock>
+<Badge variant="error">Ditolak</Badge>`}
+          />
+        </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>
         <PropsTable
           rows={[

@@ -1,5 +1,5 @@
 import { Card, CardContent, DropdownMenu, Button } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 import {
   LuSettings as Settings,
   LuLogOut as LogOut,
@@ -49,8 +49,28 @@ export function DropdownMenuSection() {
           </div>
         </PreviewCard>
 
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { DropdownMenu } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <DropdownMenu
+                align="right"
+                items={[
+                  {
+                    label: 'Setelan',
+                    icon: <Settings className="h-4 w-4" />,
+                    onClick: () => undefined,
+                  },
+                  { divider: true },
+                  {
+                    label: 'Keluar',
+                    icon: <LogOut className="h-4 w-4" />,
+                    danger: true,
+                    onClick: () => alert('Logout'),
+                  },
+                ]}
+              />
+            }
+            code={`import { DropdownMenu } from '@synapse/ui-kit';
 import {
   LuSettings as Settings,
   LuLogOut as LogOut
@@ -72,7 +92,9 @@ import {
     { label: 'Aksi 1' },
     { label: 'Aksi 2' },
   ]}
-/>`}</CodeBlock>
+/>`}
+          />
+        </PreviewCard>
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
           DropdownMenu Props

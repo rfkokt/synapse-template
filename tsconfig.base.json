@@ -31,7 +31,9 @@
       "@/*": ["libs/ui-kit/src/*"],
       "@synapse/tools": ["tools/src/index.ts"],
       "@synapse/shared-monitoring": ["libs/shared-monitoring/src/index.ts"],
-      "@synapse/mock-api": ["libs/mock-api/src/index.ts"]
+      "@synapse/shared-monitoring/*": ["libs/shared-monitoring/src/*"],
+      "@synapse/mock-api": ["libs/mock-api/src/index.ts"],
+      "@synapse/mock-api/*": ["libs/mock-api/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

@@ -1,5 +1,5 @@
 import { Button, Card, CardContent } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function ButtonSection() {
   return (
@@ -31,12 +31,24 @@ export function ButtonSection() {
             <Button isLoading>Loading</Button>
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Button } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="flex flex-wrap items-center gap-3">
+                <Button variant="primary" size="md">
+                  Click me
+                </Button>
+                <Button variant="danger">Hapus</Button>
+                <Button isLoading>Menyimpan...</Button>
+              </div>
+            }
+            code={`import { Button } from '@synapse/ui-kit';
 
 <Button variant="primary" size="md">Click me</Button>
 <Button variant="danger">Hapus</Button>
-<Button isLoading>Menyimpan...</Button>`}</CodeBlock>
+<Button isLoading>Menyimpan...</Button>`}
+          />
+        </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>
         <PropsTable
           rows={[

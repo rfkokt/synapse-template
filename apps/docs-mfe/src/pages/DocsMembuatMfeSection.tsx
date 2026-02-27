@@ -155,13 +155,19 @@ pnpm run dev:new`}
             <CodeBlock
               language="tsx"
               codeString={`// Di MFE baru Anda:
-import { Button, Input, Card } from '@synapse/ui-kit';
+import { Button, Input, Card, ComponentBoundary } from '@synapse/ui-kit';
+import { InfoBox } from '@synapse/shared-components';
 import { useAuthStore } from '@synapse/shared-types';
 import { apiClient } from '@synapse/shared-api';
+import { initMonitoring } from '@synapse/shared-monitoring';
+import { initMsw } from '@synapse/mock-api';
 
 // Contoh fetch data
 const res = await apiClient.get('/api/reports');
-// ↑ Header Authorization diinject otomatis via interceptor!`}
+// ↑ Header Authorization diinject otomatis via interceptor!
+
+initMonitoring();
+await initMsw();`}
             />
           </DocsStep>
 
@@ -200,13 +206,29 @@ const res = await apiClient.get('/api/reports');
                 </code>
               </li>
               <li>
-                ☐ Pakai{' '}
+                ☐ Gunakan shared libs sesuai kebutuhan:{' '}
                 <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
                   @synapse/ui-kit
-                </code>{' '}
-                dan{' '}
+                </code>
+                ,{' '}
+                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                  @synapse/shared-components
+                </code>
+                ,{' '}
+                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                  @synapse/shared-types
+                </code>
+                ,{' '}
                 <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
                   @synapse/shared-api
+                </code>
+                ,{' '}
+                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                  @synapse/shared-monitoring
+                </code>
+                ,{' '}
+                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                  @synapse/mock-api
                 </code>
               </li>
             </ul>

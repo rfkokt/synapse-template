@@ -1,6 +1,5 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { KeyValueCard, StepList, SectionTitle } from '@synapse/shared-components';
+import { ExampleTabs, KeyValueCard, StepList, SectionTitle } from '@synapse/shared-components';
 
 export function UtilitiesSection() {
   return (
@@ -30,15 +29,24 @@ export function UtilitiesSection() {
               description="Ini deskripsi singkat halaman."
             />
           </div>
-          <CodeBlock
-            codeString={`import { SectionTitle } from '@synapse/shared-components';
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-xl rounded-xl border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-800/50">
+                <SectionTitle
+                  icon="🏗️"
+                  title="Kenapa Module Federation?"
+                  description="Penjelasan singkat..."
+                />
+              </div>
+            }
+            code={`import { SectionTitle } from '@synapse/shared-components';
 
 <SectionTitle
   icon="🏗️"
   title="Kenapa Module Federation?"
   description="Penjelasan singkat..."
 />`}
-            language="tsx"
+            previewClassName="w-full items-start justify-center"
           />
         </section>
 
@@ -58,15 +66,26 @@ export function UtilitiesSection() {
               { label: 'Team', value: 'Synapse' },
             ]}
           />
-          <CodeBlock
-            codeString={`import { KeyValueCard } from '@synapse/shared-components';
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-xl">
+                <KeyValueCard
+                  entries={[
+                    { label: 'Status', value: 'Active', valueColor: 'text-emerald-600' },
+                    { label: 'Version', value: '3.0' },
+                    { label: 'Team', value: 'Synapse' },
+                  ]}
+                />
+              </div>
+            }
+            code={`import { KeyValueCard } from '@synapse/shared-components';
 
 <KeyValueCard entries={[
   { label: 'Status', value: 'Active', valueColor: 'text-emerald-600' },
   { label: 'Version', value: '3.0' },
   { label: 'Team', value: 'Synapse' },
 ]} />`}
-            language="tsx"
+            previewClassName="w-full items-start justify-center"
           />
         </section>
 
@@ -99,15 +118,33 @@ export function UtilitiesSection() {
               { title: 'Buka browser', content: 'Akses http://localhost:4000' },
             ]}
           />
-          <CodeBlock
-            codeString={`import { StepList } from '@synapse/shared-components';
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-xl">
+                <StepList
+                  steps={[
+                    { title: 'Step 1', content: 'Deskripsi...' },
+                    {
+                      title: 'Step 2',
+                      content: (
+                        <code className="text-xs bg-neutral-200 dark:bg-neutral-700 px-1 rounded">
+                          command
+                        </code>
+                      ),
+                    },
+                    { title: 'Step 3' },
+                  ]}
+                />
+              </div>
+            }
+            code={`import { StepList } from '@synapse/shared-components';
 
 <StepList steps={[
   { title: 'Step 1', content: 'Deskripsi...' },
   { title: 'Step 2', content: <code>command</code> },
   { title: 'Step 3' }, // tanpa content
 ]} />`}
-            language="tsx"
+            previewClassName="w-full items-start justify-center"
           />
         </section>
       </CardContent>

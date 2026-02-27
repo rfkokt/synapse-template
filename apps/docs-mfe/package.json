@@ -12,8 +12,10 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@synapse/mock-api": "workspace:*",
     "@synapse/shared-components": "workspace:*",
     "@synapse/shared-api": "workspace:*",
+    "@synapse/shared-monitoring": "workspace:*",
     "@synapse/shared-types": "workspace:*",
     "@synapse/ui-kit": "workspace:*",
     "react": "^19.0.0",

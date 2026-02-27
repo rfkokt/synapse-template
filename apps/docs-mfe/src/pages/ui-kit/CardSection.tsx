@@ -7,7 +7,7 @@ import {
   CardContent,
   CardFooter,
 } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs } from './shared';
 
 export function CardSection() {
   return (
@@ -45,8 +45,22 @@ export function CardSection() {
             </Card>
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-sm">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Judul</CardTitle>
+                  </CardHeader>
+                  <CardContent>Isi konten</CardContent>
+                  <CardFooter>
+                    <Button>Aksi</Button>
+                  </CardFooter>
+                </Card>
+              </div>
+            }
+            code={`import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@synapse/ui-kit';
 
 <Card>
   <CardHeader>
@@ -54,7 +68,10 @@ export function CardSection() {
   </CardHeader>
   <CardContent>Isi konten</CardContent>
   <CardFooter><Button>Aksi</Button></CardFooter>
-</Card>`}</CodeBlock>
+</Card>`}
+            previewClassName="w-full items-start justify-center"
+          />
+        </PreviewCard>
       </CardContent>
     </Card>
   );

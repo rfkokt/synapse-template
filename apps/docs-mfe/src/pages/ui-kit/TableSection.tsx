@@ -1,6 +1,6 @@
 import { Card, CardContent, Button, Table, DropdownMenu } from '@synapse/ui-kit';
 import type { Column } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 import {
   LuPencil as Pencil,
   LuTrash2 as Trash2,
@@ -224,8 +224,19 @@ export function TableSection() {
           />
         </PreviewCard>
 
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Table, Button } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="w-full">
+                <Table<Paket>
+                  columns={columns.filter((c) => ['nama', 'jenis', 'status'].includes(c.key))}
+                  data={sampleData.slice(0, 3)}
+                  rowKey={(row) => row.id}
+                  paginated={false}
+                />
+              </div>
+            }
+            code={`import { Table, Button } from '@synapse/ui-kit';
 import type { Column } from '@synapse/ui-kit';
 import {
   LuPlus as Plus,
@@ -255,7 +266,10 @@ const columns: Column<Paket>[] = [
   searchable
   searchPlaceholder="Cari paket"
   toolbarActions={<Button><Plus /> Tambah</Button>}
-/>`}</CodeBlock>
+/>`}
+            previewClassName="w-full items-start justify-start p-4"
+          />
+        </PreviewCard>
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
           Table Props

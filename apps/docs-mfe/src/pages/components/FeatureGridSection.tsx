@@ -1,6 +1,5 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { FeatureGrid } from '@synapse/shared-components';
+import { ExampleTabs, FeatureGrid } from '@synapse/shared-components';
 
 export function FeatureGridSection() {
   return (
@@ -38,8 +37,19 @@ export function FeatureGridSection() {
         />
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock
-          codeString={`import { FeatureGrid } from '@synapse/shared-components';
+        <ExampleTabs
+          preview={
+            <div className="w-full max-w-3xl">
+              <FeatureGrid
+                columns={3}
+                items={[
+                  { icon: '🎨', title: 'Design System', desc: 'Shared UI kit' },
+                  { icon: '🔄', title: 'Hot Reload', desc: 'Instant feedback' },
+                ]}
+              />
+            </div>
+          }
+          code={`import { FeatureGrid } from '@synapse/shared-components';
 
 <FeatureGrid
   columns={3}  // 2 | 3 | 4
@@ -48,7 +58,7 @@ export function FeatureGridSection() {
     { icon: '🔄', title: 'Hot Reload', desc: 'Instant feedback' },
   ]}
 />`}
-          language="tsx"
+          previewClassName="w-full items-start justify-center"
         />
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>

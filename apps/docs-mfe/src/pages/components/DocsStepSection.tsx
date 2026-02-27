@@ -1,6 +1,5 @@
 import { Badge, Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { DocsStep } from '@synapse/shared-components';
+import { ExampleTabs, DocsStep } from '@synapse/shared-components';
 
 export function DocsStepSection() {
   return (
@@ -43,15 +42,24 @@ export function DocsStepSection() {
           <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-50 border-b pb-2">
             Usage
           </h2>
-          <CodeBlock
-            language="tsx"
-            codeString={`import { DocsStep } from '@synapse/shared-components';
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-2xl">
+                <DocsStep title="Step 1: Installation" color="emerald">
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Run <code>pnpm install</code> to get started.
+                  </p>
+                </DocsStep>
+              </div>
+            }
+            code={`import { DocsStep } from '@synapse/shared-components';
 
 <DocsStep title="Step 1: Installation" color="emerald">
   <p className="text-sm text-neutral-600">
     Run <code>pnpm install</code> to get started.
   </p>
-</DocsStep>`}
+ </DocsStep>`}
+            previewClassName="w-full items-start justify-center"
           />
         </div>
 

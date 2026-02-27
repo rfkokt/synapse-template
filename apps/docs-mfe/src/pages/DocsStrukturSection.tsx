@@ -68,6 +68,24 @@ export function DocsStrukturSection() {
               </code>{' '}
               — Setup Axios dan Endpoint (dilindungi interceptor).
             </li>
+            <li>
+              <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
+                shared-components
+              </code>{' '}
+              — Komponen dokumentasi reusable (CodeBlock, InfoBox, ExampleTabs, dst).
+            </li>
+            <li>
+              <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
+                shared-monitoring
+              </code>{' '}
+              — Setup observability (Sentry init, ErrorBoundary, profiler).
+            </li>
+            <li>
+              <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
+                mock-api
+              </code>{' '}
+              — Mock API layer (MSW handlers + bootstrap helper).
+            </li>
           </ul>
         </div>
         <CodeBlock
@@ -81,7 +99,10 @@ export function DocsStrukturSection() {
 ├── libs/
 │   ├── ui-kit/         ← Design System (@synapse/ui-kit)
 │   ├── shared-types/   ← TypeScript contracts (@synapse/shared-types)
-│   └── shared-api/     ← Axios interceptors (@synapse/shared-api)
+│   ├── shared-api/     ← Axios interceptors (@synapse/shared-api)
+│   ├── shared-components/ ← Reusable docs primitives (@synapse/shared-components)
+│   ├── shared-monitoring/ ← Monitoring helpers (@synapse/shared-monitoring)
+│   └── mock-api/       ← MSW mocks (@synapse/mock-api)
 ├── tools/              ← Generator & scripts
 ├── components.json     ← Shadcn CLI config
 └── package.json`}

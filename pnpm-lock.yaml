@@ -183,9 +183,18 @@ importers:
 
   apps/auth-mfe:
     dependencies:
+      '@synapse/mock-api':
+        specifier: workspace:*
+        version: link:../../libs/mock-api
       '@synapse/shared-api':
         specifier: workspace:*
         version: link:../../libs/shared-api
+      '@synapse/shared-components':
+        specifier: workspace:*
+        version: link:../../libs/shared-components
+      '@synapse/shared-monitoring':
+        specifier: workspace:*
+        version: link:../../libs/shared-monitoring
       '@synapse/shared-types':
         specifier: workspace:*
         version: link:../../libs/shared-types
@@ -247,12 +256,18 @@ importers:
 
   apps/docs-mfe:
     dependencies:
+      '@synapse/mock-api':
+        specifier: workspace:*
+        version: link:../../libs/mock-api
       '@synapse/shared-api':
         specifier: workspace:*
         version: link:../../libs/shared-api
       '@synapse/shared-components':
         specifier: workspace:*
         version: link:../../libs/shared-components
+      '@synapse/shared-monitoring':
+        specifier: workspace:*
+        version: link:../../libs/shared-monitoring
       '@synapse/shared-types':
         specifier: workspace:*
         version: link:../../libs/shared-types
@@ -293,9 +308,18 @@ importers:
 
   apps/shell:
     dependencies:
+      '@synapse/mock-api':
+        specifier: workspace:*
+        version: link:../../libs/mock-api
       '@synapse/shared-api':
         specifier: workspace:*
         version: link:../../libs/shared-api
+      '@synapse/shared-components':
+        specifier: workspace:*
+        version: link:../../libs/shared-components
+      '@synapse/shared-monitoring':
+        specifier: workspace:*
+        version: link:../../libs/shared-monitoring
       '@synapse/shared-types':
         specifier: workspace:*
         version: link:../../libs/shared-types

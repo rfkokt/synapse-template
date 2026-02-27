@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Input, Card, CardContent } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function InputSection() {
   const [val, setVal] = useState('');
@@ -34,12 +34,23 @@ export function InputSection() {
             <Input label="Disabled" disabled value="Tidak bisa diedit" />
           </div>
         </PreviewCard>
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <CodeBlock>{`import { Input } from '@synapse/ui-kit';
+        <PreviewCard title="Usage" className="mb-0">
+          <ExampleTabs
+            preview={
+              <div className="w-full max-w-md space-y-3">
+                <Input label="Email" type="email" placeholder="email@example.com" />
+                <Input label="Password" error="Minimal 8 karakter" />
+                <Input label="Catatan" hint="Opsional" />
+              </div>
+            }
+            code={`import { Input } from '@synapse/ui-kit';
 
 <Input label="Email" type="email" placeholder="email@example.com" />
 <Input label="Password" error="Minimal 8 karakter" />
-<Input label="Catatan" hint="Opsional" />`}</CodeBlock>
+<Input label="Catatan" hint="Opsional" />`}
+            previewClassName="w-full items-start justify-center"
+          />
+        </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Props</h3>
         <PropsTable
           rows={[
