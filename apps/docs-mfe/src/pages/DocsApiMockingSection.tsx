@@ -55,6 +55,20 @@ export function DocsApiMockingSection() {
               </p>
               <p>
                 <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">
+                  manager@Synapse.com
+                </code>{' '}
+                /{' '}
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">password123</code>
+              </p>
+              <p>
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">
+                  dev@Synapse.com
+                </code>{' '}
+                /{' '}
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">password123</code>
+              </p>
+              <p>
+                <code className="bg-white/80 dark:bg-indigo-900/50 px-1 rounded">
                   user@Synapse.com
                 </code>{' '}
                 /{' '}

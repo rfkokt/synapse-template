@@ -13,4 +13,7 @@ export const API = {
     orders: () => '/api/v1/orders',
     detail: (id: string) => `/api/v1/orders/${id}`,
   },
+  menu: {
+    list: () => '/api/v1/menus',
+  },
 } as const;

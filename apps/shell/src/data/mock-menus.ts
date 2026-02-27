@@ -8,29 +8,45 @@
  */
 import type { MenuGroup } from '@synapse/shared-types';
 
+const ROLES_ALL = ['admin', 'manager', 'user', 'developer'];
+const ROLES_ADMIN_ONLY = ['admin'];
+const ROLES_OPERATIONS = ['admin', 'manager', 'user'];
+const ROLES_REPORTING = ['admin', 'manager'];
+const ROLES_DEVELOPER = ['admin', 'developer'];
+
 export const MOCK_MENUS: MenuGroup[] = [
   {
     title: 'Main Menu',
+    roles: ROLES_ALL,
     items: [
       {
         id: 'dashboard',
         label: 'Dashboard',
         icon: 'LayoutDashboard',
         path: '/',
+        roles: ROLES_ALL,
       },
       {
         id: 'users',
         label: 'User Management',
         icon: 'Users',
         path: '/users-management',
+        roles: ROLES_ADMIN_ONLY,
         defaultOpen: true,
         children: [
-          { id: 'users-list', label: 'All Users', icon: 'Users', path: '/users-management/list' },
+          {
+            id: 'users-list',
+            label: 'All Users',
+            icon: 'Users',
+            path: '/users-management/list',
+            roles: ROLES_ADMIN_ONLY,
+          },
           {
             id: 'users-roles',
             label: 'Roles & Permissions',
             icon: 'Shield',
             path: '/users-management/roles',
+            roles: ROLES_ADMIN_ONLY,
           },
         ],
       },
@@ -39,13 +55,21 @@ export const MOCK_MENUS: MenuGroup[] = [
         label: 'Products',
         icon: 'Package',
         path: '/products',
+        roles: ROLES_OPERATIONS,
         children: [
-          { id: 'products-list', label: 'Product List', icon: 'List', path: '/products/list' },
+          {
+            id: 'products-list',
+            label: 'Product List',
+            icon: 'List',
+            path: '/products/list',
+            roles: ROLES_OPERATIONS,
+          },
           {
             id: 'products-categories',
             label: 'Categories',
             icon: 'Tags',
             path: '/products/categories',
+            roles: ROLES_OPERATIONS,
           },
         ],
       },
@@ -54,13 +78,21 @@ export const MOCK_MENUS: MenuGroup[] = [
         label: 'Reports',
         icon: 'ClipboardList',
         path: '/reports',
+        roles: ROLES_REPORTING,
         children: [
-          { id: 'reports-sales', label: 'Sales Report', icon: 'BarChart3', path: '/reports/sales' },
+          {
+            id: 'reports-sales',
+            label: 'Sales Report',
+            icon: 'BarChart3',
+            path: '/reports/sales',
+            roles: ROLES_REPORTING,
+          },
           {
             id: 'reports-inventory',
             label: 'Inventory Report',
             icon: 'Package',
             path: '/reports/inventory',
+            roles: ROLES_REPORTING,
           },
         ],
       },
@@ -68,12 +100,14 @@ export const MOCK_MENUS: MenuGroup[] = [
   },
   {
     title: 'Developer',
+    roles: ROLES_DEVELOPER,
     items: [
       {
         id: 'docs',
         label: 'Dokumentasi',
         icon: 'Book',
         path: '/docs',
+        roles: ROLES_DEVELOPER,
         defaultOpen: true,
         children: [
           {
@@ -174,6 +208,12 @@ export const MOCK_MENUS: MenuGroup[] = [
             icon: 'Component',
             path: '/docs/libs-workspace',
           },
+          {
+            id: 'docs-rbac-sidebar',
+            label: '18. Sidebar RBAC & Roles',
+            icon: 'Shield',
+            path: '/docs/sidebar-rbac',
+          },
         ],
       },
       {
@@ -181,54 +221,63 @@ export const MOCK_MENUS: MenuGroup[] = [
         label: 'Reusable Components',
         icon: 'Puzzle',
         path: '/docs/components',
+        roles: ROLES_DEVELOPER,
         children: [
           {
             id: 'rc-reusableguide',
             label: 'Build Reusable Component',
             icon: 'Book',
             path: '/docs/components/reusableguide',
+            roles: ROLES_DEVELOPER,
           },
           {
             id: 'rc-infobox',
             label: 'InfoBox',
             icon: 'MessageSquare',
             path: '/docs/components/infobox',
+            roles: ROLES_DEVELOPER,
           },
           {
             id: 'rc-comparisontable',
             label: 'ComparisonTable',
             icon: 'BarChart3',
             path: '/docs/components/comparisontable',
+            roles: ROLES_DEVELOPER,
           },
           {
             id: 'rc-featuregrid',
             label: 'FeatureGrid',
             icon: 'LayoutGrid',
             path: '/docs/components/featuregrid',
+            roles: ROLES_DEVELOPER,
           },
           {
             id: 'rc-utilities',
             label: 'Utilities',
             icon: 'Wrench',
             path: '/docs/components/utilities',
+            roles: ROLES_DEVELOPER,
           },
           {
             id: 'rc-codeblocktable',
             label: 'CodeBlockTable',
             icon: 'Table',
             path: '/docs/components/codeblocktable',
+            roles: ROLES_DEVELOPER,
           },
           {
             id: 'rc-docsstep',
             label: 'DocsStep',
             icon: 'ListOrdered',
             path: '/docs/components/docsstep',
+            roles: ROLES_DEVELOPER,
           },
           {
             id: 'rc-exampletabs',
             label: 'ExampleTabs',
             icon: 'Component',
             path: '/docs/components/exampletabs',
+            roles: ROLES_DEVELOPER,
           },
         ],
       },
@@ -237,6 +286,7 @@ export const MOCK_MENUS: MenuGroup[] = [
         label: 'UI Kit',
         icon: 'Globe',
         path: '/docs/ui-kit',
+        roles: ROLES_DEVELOPER,
         // Children are auto-injected from component-discovery.ts
         // Do NOT hardcode them here — they are generated at runtime.
         children: [],
@@ -245,9 +295,22 @@ export const MOCK_MENUS: MenuGroup[] = [
   },
   {
     title: 'Lainnya',
+    roles: ROLES_ALL,
     items: [
-      { id: 'pengaturan', label: 'Pengaturan', icon: 'Settings', path: '/pengaturan' },
-      { id: 'bantuan', label: 'Bantuan', icon: 'HelpCircle', path: '/bantuan' },
+      {
+        id: 'pengaturan',
+        label: 'Pengaturan',
+        icon: 'Settings',
+        path: '/pengaturan',
+        roles: ROLES_ALL,
+      },
+      {
+        id: 'bantuan',
+        label: 'Bantuan',
+        icon: 'HelpCircle',
+        path: '/bantuan',
+        roles: ROLES_ALL,
+      },
     ],
   },
 ];

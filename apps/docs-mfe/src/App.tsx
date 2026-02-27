@@ -26,6 +26,7 @@ import { DocsI18nSection } from './pages/DocsI18nSection';
 import { DocsApiMockingSection } from './pages/DocsApiMockingSection';
 import { DocsRoutingSection } from './pages/DocsRoutingSection';
 import { DocsLibsSection } from './pages/DocsLibsSection';
+import { DocsSidebarRbacSection } from './pages/DocsSidebarRbacSection';
 
 // ── Reusable Components Section imports ──
 import { InfoBoxSection } from './pages/components/InfoBoxSection';
@@ -160,6 +161,11 @@ export const DOCS_SECTION_MAP: Record<string, SectionData> = {
   'libs-workspace': {
     component: DocsLibsSection,
     title: '17. @libs Workspace & Reusability',
+    category: '🏗️ Arsitektur',
+  },
+  'sidebar-rbac': {
+    component: DocsSidebarRbacSection,
+    title: '18. Sidebar RBAC & Roles',
     category: '🏗️ Arsitektur',
   },
 };

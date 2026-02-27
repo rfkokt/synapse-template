@@ -2,13 +2,15 @@ import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import {
   useAuthStore,
   useMenuStore,
+  filterMenuGroupsByRole,
   useThemeStore,
   useNotificationStore,
   useIdleTimeout,
   MFE_EVENTS,
   dispatchMfeEvent,
 } from '@synapse/shared-types';
-import type { MenuItem } from '@synapse/shared-types';
+import type { MenuGroup, MenuItem } from '@synapse/shared-types';
+import { apiClient, API } from '@synapse/shared-api';
 import {
   LuLogOut as LogOut,
   LuSun as Sun,
@@ -18,7 +20,7 @@ import {
   LuPanelLeft as PanelLeft,
   LuGlobe as Globe,
 } from 'react-icons/lu';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { getIcon } from '../utils/icon-map';
 import { MOCK_MENUS } from '../data/mock-menus';
 import { ToastContainer, Modal, Button, DropdownMenu } from '@synapse/ui-kit';
@@ -110,6 +112,80 @@ const DEFAULT_DOCUMENTED_REUSABLE_SLUGS = new Set([
   'exampletabs',
 ]);
 
+function formatRoleLabel(role: string | null | undefined): string {
+  const normalized = String(role ?? 'user')
+    .trim()
+    .toLowerCase();
+  return normalized
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((segment) => segment[0].toUpperCase() + segment.slice(1))
+    .join(' ');
+}
+
+function enrichMenusWithDiscoveredComponents(baseMenus: MenuGroup[]): MenuGroup[] {
+  return baseMenus.map((group) => ({
+    ...group,
+    items: group.items.map((item) => {
+      if (item.id === 'ui-kit') {
+        const autoChildren: MenuItem[] = discoveredComponents.map((c) => ({
+          id: `uk-${c.slug}`,
+          label: c.name,
+          icon: 'FileText',
+          path: `/docs/ui-kit/${c.slug}`,
+          roles: item.roles,
+        }));
+        autoChildren.push({
+          id: 'uk-tutorial',
+          label: 'Tutorial',
+          icon: 'GraduationCap',
+          path: '/docs/ui-kit/tutorial',
+          roles: item.roles,
+        });
+        return { ...item, children: autoChildren };
+      }
+
+      if (item.id === 'reusable-components') {
+        const documentedSlugsFromMenu = (item.children ?? [])
+          .map((child) => child.path.split('/').pop()?.toLowerCase())
+          .filter((slug): slug is string => Boolean(slug));
+
+        const documentedSlugs = new Set([
+          ...DEFAULT_DOCUMENTED_REUSABLE_SLUGS,
+          ...documentedSlugsFromMenu,
+        ]);
+
+        const reusableGuideItem = item.children?.find((child) =>
+          child.path.endsWith('/reusableguide')
+        ) ?? {
+          id: 'rc-reusableguide',
+          label: 'Build Reusable Component',
+          icon: 'Book',
+          path: '/docs/components/reusableguide',
+          roles: item.roles,
+        };
+
+        const autoChildren: MenuItem[] = [reusableGuideItem];
+        for (const component of discoveredSharedComponents) {
+          autoChildren.push({
+            id: `rc-${component.slug}`,
+            label: documentedSlugs.has(component.slug)
+              ? component.name
+              : `${component.name} (Tidak ada dokumentasi)`,
+            icon: 'FileText',
+            path: `/docs/components/${component.slug}`,
+            roles: item.roles,
+          });
+        }
+
+        return { ...item, children: autoChildren };
+      }
+
+      return item;
+    }),
+  }));
+}
+
 /* ─────────────────────────────────────────────
    Render a single MenuItem (top-level or nested)
    ───────────────────────────────────────────── */
@@ -180,66 +256,52 @@ export function Layout() {
   // Menu store
   const menuGroups = useMenuStore((s) => s.groups) ?? [];
   const menuLoading = useMenuStore((s) => s.isLoading);
+  const [baseMenus, setBaseMenus] = useState<MenuGroup[] | null>(null);
+  const roleLabel = formatRoleLabel(user?.role);
 
   useEffect(() => {
-    if (menuGroups.length === 0) {
-      const enriched = MOCK_MENUS.map((group) => ({
-        ...group,
-        items: group.items.map((item) => {
-          if (item.id === 'ui-kit') {
-            const autoChildren: MenuItem[] = discoveredComponents.map((c) => ({
-              id: `uk-${c.slug}`,
-              label: c.name,
-              icon: 'FileText',
-              path: `/docs/ui-kit/${c.slug}`,
-            }));
-            autoChildren.push({
-              id: 'uk-tutorial',
-              label: 'Tutorial',
-              icon: 'GraduationCap',
-              path: '/docs/ui-kit/tutorial',
-            });
-            return { ...item, children: autoChildren };
-          }
-          if (item.id === 'reusable-components') {
-            const documentedSlugsFromMenu = (item.children ?? [])
-              .map((child) => child.path.split('/').pop()?.toLowerCase())
-              .filter((slug): slug is string => Boolean(slug));
+    let active = true;
 
-            const documentedSlugs = new Set([
-              ...DEFAULT_DOCUMENTED_REUSABLE_SLUGS,
-              ...documentedSlugsFromMenu,
-            ]);
+    const loadMenusFromApi = async () => {
+      useMenuStore.getState().setLoading(true);
 
-            const reusableGuideItem = item.children?.find((child) =>
-              child.path.endsWith('/reusableguide')
-            ) ?? {
-              id: 'rc-reusableguide',
-              label: 'Build Reusable Component',
-              icon: 'Book',
-              path: '/docs/components/reusableguide',
-            };
+      try {
+        const res = await apiClient.get<MenuGroup[] | { data?: MenuGroup[] }>(API.menu.list());
+        const payload = Array.isArray(res.data)
+          ? res.data
+          : Array.isArray(res.data?.data)
+            ? res.data.data
+            : [];
 
-            const autoChildren: MenuItem[] = [reusableGuideItem];
-            for (const component of discoveredSharedComponents) {
-              autoChildren.push({
-                id: `rc-${component.slug}`,
-                label: documentedSlugs.has(component.slug)
-                  ? component.name
-                  : `${component.name} (Tidak ada dokumentasi)`,
-                icon: 'FileText',
-                path: `/docs/components/${component.slug}`,
-              });
-            }
+        if (!active) return;
+        setBaseMenus(payload.length > 0 ? payload : MOCK_MENUS);
+      } catch (error) {
+        if (!active) return;
+        console.warn('[Menu] Failed to fetch /api/v1/menus. Using local fallback.', error);
+        setBaseMenus(MOCK_MENUS);
+      }
+    };
 
-            return { ...item, children: autoChildren };
-          }
-          return item;
-        }),
-      }));
-      useMenuStore.getState().setMenus(enriched);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    loadMenusFromApi();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const enrichedMenus = useMemo(
+    () => enrichMenusWithDiscoveredComponents(baseMenus ?? []),
+    [baseMenus]
+  );
+  const roleAwareMenus = useMemo(
+    () => filterMenuGroupsByRole(enrichedMenus, user?.role ?? 'user'),
+    [enrichedMenus, user?.role]
+  );
+
+  useEffect(() => {
+    if (!baseMenus) return;
+    useMenuStore.getState().setMenus(roleAwareMenus);
+  }, [baseMenus, roleAwareMenus]);
 
   const handleLogout = useCallback(() => {
     dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_OUT, {});
@@ -334,9 +396,12 @@ export function Layout() {
             <p className="text-sm text-neutral-500 dark:text-neutral-400">
               {t('menu.greeting', { defaultValue: 'Selamat Datang,' })}
             </p>
-            <p className="text-lg font-bold leading-tight">
+            <p className="text-lg font-bold leading-tight truncate">
               {user?.name || 'Ahmad Fahim Hakim'} 👋
             </p>
+            <span className="mt-1 inline-flex rounded-md border border-primary-300/50 bg-primary-50 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary-700 dark:border-primary-700/60 dark:bg-primary-900/20 dark:text-primary-300">
+              {roleLabel}
+            </span>
           </div>
 
           {/* ── Navigation ── */}
@@ -463,7 +528,7 @@ export function Layout() {
                   {user?.name || 'Ahmad Fahim Hakim'}
                 </span>
                 <span className="text-[11px] text-neutral-400">
-                  {user?.email || 'ahmadfahim@gmail.com'}
+                  {user?.email || 'ahmadfahim@gmail.com'} · {roleLabel}
                 </span>
               </div>
             </div>

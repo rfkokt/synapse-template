@@ -6,3 +6,4 @@ export const initMsw = async () => {
 };
 
 export { authHandlers } from './handlers/auth';
+export { menuHandlers } from './handlers/menus';

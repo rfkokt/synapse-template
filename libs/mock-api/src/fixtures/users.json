@@ -12,5 +12,19 @@
     "password": "password123",
     "name": "User Regular",
     "role": "user"
+  },
+  {
+    "id": "usr_456",
+    "email": "manager@Synapse.com",
+    "password": "password123",
+    "name": "Manager Operasional",
+    "role": "manager"
+  },
+  {
+    "id": "usr_789",
+    "email": "dev@Synapse.com",
+    "password": "password123",
+    "name": "Developer Platform",
+    "role": "developer"
   }
 ]
