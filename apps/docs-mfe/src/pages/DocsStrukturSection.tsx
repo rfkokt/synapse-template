@@ -1,5 +1,55 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
+import { CodeBlock, InfoBox, StepList } from '@synapse/shared-components';
+
+const currentRepoTree = `synapse/
+├── apps/
+│   ├── shell/          ← Host (Port 4000)
+│   ├── auth-mfe/       ← Login & Auth (Port 4001)
+│   ├── pendaftaran/    ← Modul Pendaftaran (Port 4002)
+│   └── docs-mfe/       ← Halaman ini (Port 4003)
+├── libs/
+│   ├── ui-kit/         ← Design System (@synapse/ui-kit)
+│   ├── shared-types/   ← TypeScript contracts (@synapse/shared-types)
+│   ├── shared-api/     ← Axios interceptors (@synapse/shared-api)
+│   ├── shared-components/ ← Reusable docs primitives (@synapse/shared-components)
+│   ├── shared-monitoring/ ← Monitoring helpers (@synapse/shared-monitoring)
+│   └── mock-api/       ← MSW mocks (@synapse/mock-api)
+├── tools/              ← Generator & scripts
+├── components.json     ← Shadcn CLI config
+└── package.json`;
+
+const appBestPracticeTree = `apps/<nama-mfe>/
+├── src/
+│   ├── app/                 ← bootstrap app (App.tsx, providers, router config)
+│   ├── pages/               ← route-level pages
+│   ├── features/            ← domain modules per fitur
+│   │   └── <fitur>/
+│   │       ├── components/  ← komponen lokal fitur
+│   │       ├── hooks/       ← hooks lokal fitur
+│   │       ├── services/    ← API calls untuk fitur
+│   │       ├── schemas/     ← schema validation fitur
+│   │       └── types.ts     ← type fitur
+│   ├── components/          ← komponen app-specific (dipakai lintas fitur di app ini)
+│   ├── hooks/               ← hooks generic app-specific
+│   ├── services/            ← service global app
+│   ├── stores/              ← state management app
+│   ├── utils/               ← pure helpers
+│   ├── styles/              ← styles global app
+│   └── main.tsx
+├── public/
+├── package.json
+├── tsconfig.json
+└── vite.config.ts`;
+
+const libsBestPracticeTree = `libs/<package-name>/
+├── src/
+│   ├── components/
+│   ├── hooks/
+│   ├── utils/
+│   ├── types/
+│   └── index.ts         ← public API (wajib)
+├── package.json
+└── tsconfig.json`;
 
 export function DocsStrukturSection() {
   return (
@@ -88,25 +138,67 @@ export function DocsStrukturSection() {
             </li>
           </ul>
         </div>
-        <CodeBlock
-          language="bash"
-          codeString={`synapse-hajj/
-├── apps/
-│   ├── shell/          ← Host (Port 4000)
-│   ├── auth-mfe/       ← Login & Auth (Port 4001)
-│   ├── pendaftaran/    ← Modul Pendaftaran (Port 4002)
-│   └── docs-mfe/       ← Halaman ini (Port 4003)
-├── libs/
-│   ├── ui-kit/         ← Design System (@synapse/ui-kit)
-│   ├── shared-types/   ← TypeScript contracts (@synapse/shared-types)
-│   ├── shared-api/     ← Axios interceptors (@synapse/shared-api)
-│   ├── shared-components/ ← Reusable docs primitives (@synapse/shared-components)
-│   ├── shared-monitoring/ ← Monitoring helpers (@synapse/shared-monitoring)
-│   └── mock-api/       ← MSW mocks (@synapse/mock-api)
-├── tools/              ← Generator & scripts
-├── components.json     ← Shadcn CLI config
-└── package.json`}
-        />
+        <CodeBlock language="bash" codeString={currentRepoTree} />
+
+        <div className="mt-8 border-t border-neutral-100 dark:border-neutral-800 pt-6 space-y-6">
+          <h3 className="font-semibold text-lg text-neutral-900 dark:text-neutral-100">
+            Best Practice Struktur Folder
+          </h3>
+
+          <InfoBox variant="blue" title="Rule Utama">
+            Simpan kode domain di dalam app masing-masing. Pindahkan ke <code>libs/</code> hanya
+            jika dipakai minimal 2 MFE dan API-nya sudah stabil.
+          </InfoBox>
+
+          <div className="space-y-2">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+              1. Struktur Ideal untuk Setiap MFE
+            </h4>
+            <CodeBlock language="bash" codeString={appBestPracticeTree} />
+          </div>
+
+          <div className="space-y-2">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+              2. Struktur Ideal untuk Shared Libraries
+            </h4>
+            <CodeBlock language="bash" codeString={libsBestPracticeTree} />
+          </div>
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+            3. Checklist Kapan Kode Dipindah ke libs/
+          </h4>
+          <StepList
+            steps={[
+              {
+                title: 'Dipakai lebih dari 1 MFE',
+                content: 'Jika masih dipakai satu app, tetap di app tersebut.',
+              },
+              {
+                title: 'Tidak mengandung dependency internal app',
+                content: 'Library tidak boleh import dari apps/*.',
+              },
+              {
+                title: 'Punya public API jelas di src/index.ts',
+                content: 'Export hanya bagian yang memang mau dipakai lintas app.',
+              },
+              {
+                title: 'Sudah ada dokumentasi usage minimum',
+                content: 'Minimal satu contoh import + cara pakai.',
+              },
+              {
+                title: 'Sudah diverifikasi typecheck/build',
+                content: 'Pastikan perubahan tidak merusak MFE lain.',
+              },
+            ]}
+          />
+
+          <InfoBox variant="amber" title="Anti Pattern yang Harus Dihindari">
+            Jangan import antar app pakai path relatif seperti{' '}
+            <code>../../../../apps/other-mfe/src/...</code>. Selalu lewat package workspace{' '}
+            <code>@synapse/*</code>.
+          </InfoBox>
+        </div>
+
         <div className="mt-8 border-t border-neutral-100 dark:border-neutral-800 pt-6">
           <h3 className="font-semibold text-lg text-neutral-900 dark:text-neutral-100 mb-4 flex items-center gap-2">
             🔌 Bagaimana Shell Mengakses Docs MFE?

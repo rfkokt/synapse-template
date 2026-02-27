@@ -19,7 +19,7 @@ export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps } from './components/Skeleton';
 
 export { ErrorFallback } from './components/ErrorFallback';
-export type { ErrorFallbackProps } from './components/ErrorFallback';
+export type { ErrorFallbackProps, ErrorFallbackVariant } from './components/ErrorFallback';
 export { ComponentBoundary, withComponentBoundary } from './components/ComponentBoundary';
 export type { ComponentBoundaryProps } from './components/ComponentBoundary';
 
