@@ -220,7 +220,7 @@ export function Layout() {
   return (
     <div className="flex h-screen overflow-hidden bg-white dark:bg-neutral-900 font-sans text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
       <ToastContainer
-        toasts={useNotificationStore((s) => s.toasts)}
+        toasts={useNotificationStore((s: any) => s.toasts)}
         onDismiss={useNotificationStore.getState().removeToast}
       />
 

@@ -6,6 +6,8 @@ import {
   LuBell as BellIcon,
   LuSearch as SearchIcon,
   LuCircleCheck as CheckCircleIcon,
+  LuPencil as EditIcon,
+  LuTrash2 as TrashIcon,
 } from 'react-icons/lu';
 
 export function IconSection() {
@@ -98,6 +100,21 @@ export function UserProfile() {
                 </div>
                 <span className="text-xs text-neutral-500 font-medium">Success</span>
               </div>
+              {/* Action/Edit Icon */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="p-3 bg-indigo-100 text-indigo-600 rounded-lg shadow-sm">
+                  <EditIcon className="h-6 w-6" />
+                </div>
+                <span className="text-xs text-neutral-500 font-medium">Action</span>
+              </div>
+
+              {/* Danger/Delete Icon */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="p-3 bg-red-100 text-red-600 rounded-lg shadow-sm hover:bg-red-200 transition-colors cursor-pointer">
+                  <TrashIcon className="h-6 w-6" />
+                </div>
+                <span className="text-xs text-neutral-500 font-medium">Danger</span>
+              </div>
 
               {/* Outline Form Icon */}
               <div className="flex flex-col items-center gap-2">
@@ -109,6 +126,37 @@ export function UserProfile() {
               </div>
             </div>
           </div>
+        </div>
+
+        <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100 mt-10">
+          3. Direktori Icon Lengkap (React Icons)
+        </h3>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+          Semua icon ini berasal dari library <strong>react-icons</strong> (khususnya kategori{' '}
+          <code>/lu</code> untuk Lucide). Anda wajib import komponen icon tersebut langsung dari{' '}
+          <code>react-icons/lu</code>.
+        </p>
+
+        <div className="bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex-1 space-y-2">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+              Cari Referensi Nama Icon?
+            </h4>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Kunjungi direktori pencarian resmi <strong>React Icons</strong> untuk melihat seluruh
+              daftar icon yang tersedia dan cara penulisan pastinya (sudah menggunakan CamelCase dan
+              prefix `Lu`).
+            </p>
+          </div>
+          <a
+            href="https://react-icons.github.io/react-icons/icons/lu/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors shadow-sm inline-flex items-center gap-2"
+          >
+            <span>Buka React Icons</span>
+            <SearchIcon className="h-4 w-4" />
+          </a>
         </div>
       </CardContent>
     </Card>

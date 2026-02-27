@@ -17,8 +17,10 @@ export type ToastVariant = 'success' | 'error' | 'warning' | 'info';
 
 export interface ToastItemData {
   id: string;
-  message: string;
+  message?: string;
   variant: ToastVariant;
+  title?: string;
+  list?: string[];
 }
 
 export interface ToastContainerProps {
@@ -94,7 +96,17 @@ function ToastItem({
       aria-live="polite"
     >
       <Icon className={`h-5 w-5 mt-0.5 shrink-0 ${variantIconColor[toast.variant]}`} />
-      <p className={`text-sm font-medium flex-1 ${variantText[toast.variant]}`}>{toast.message}</p>
+      <div className={`text-sm flex-1 ${variantText[toast.variant]}`}>
+        {toast.title && <p className="font-semibold mb-1">{toast.title}</p>}
+        {toast.message && <p className={toast.title ? 'mt-1' : 'font-medium'}>{toast.message}</p>}
+        {toast.list && toast.list.length > 0 && (
+          <ul className={`list-disc ml-4 mt-2 space-y-1 ${toast.title ? 'text-xs' : ''}`}>
+            {toast.list.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        )}
+      </div>
       <Button
         variant="ghost"
         size="icon"

@@ -36,13 +36,69 @@ export function ToastSection() {
             >
               ℹ️ Info
             </Button>
+            <Button
+              variant="outline"
+              className="border-red-200 text-red-700 bg-red-50 hover:bg-red-100"
+              onClick={() =>
+                useNotificationStore.getState().error({
+                  title: 'Validasi Gagal',
+                  message: 'Mohon periksa kembali form Anda:',
+                  list: [
+                    'Nama tidak boleh kosong',
+                    'Format email salah',
+                    'Password kurang dari 8 karakter',
+                  ],
+                  duration: 6000,
+                })
+              }
+            >
+              ❌ Error (List)
+            </Button>
           </div>
         </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
         <CodeBlock>{`import { useNotificationStore } from '@synapse/shared-types';
 
-useNotificationStore.getState().success('Berhasil!');
-useNotificationStore.getState().error('Gagal!');`}</CodeBlock>
+useNotificationStore.getState().success('Data berhasil disimpan!');
+
+// Advanced Error with Title & List
+useNotificationStore.getState().error({
+  title: 'Validasi Gagal',
+  message: 'Mohon periksa kembali form Anda:',
+  list: [
+    'Nama tidak boleh kosong', 
+    'Format email salah'
+  ],
+  duration: 8000
+});`}</CodeBlock>
+        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mt-6 md:mt-8">
+          Customization / Mengubah Tampilan
+        </h3>
+        <div className="bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-xl p-5 text-sm text-neutral-600 dark:text-neutral-400">
+          <p className="mb-3">
+            Komponen UI Toast bersifat <strong>dumb component</strong> dan source code aslinya
+            sepenuhnya menjadi kendali Anda di dalam project ini.
+          </p>
+          <p>
+            Jika Anda ingin mengubah warna, radius, padding, ikon, tata letak, atau menambahkan
+            animasi *entry/exit* kustom:
+          </p>
+          <ol className="list-decimal ml-5 mt-2 space-y-1 text-neutral-700 dark:text-neutral-300">
+            <li>
+              Buka file <code>libs/ui-kit/src/components/Toast.tsx</code>.
+            </li>
+            <li>
+              Cari konstan <code>variantStyles</code>, <code>variantText</code>, maupun{' '}
+              <code>variantIconColor</code> untuk mengganti *color palette* bawaan (sukses, error,
+              info, peringatan).
+            </li>
+            <li>
+              Modifikasi struktur atau class <i>Tailwind</i> langsung pada komponen{' '}
+              <code>&lt;ToastItem&gt;</code>. Perubahan Anda akan otomatis terefleksi ke seluruh MFE
+              yang menggunakan UI Kit ini!
+            </li>
+          </ol>
+        </div>
       </CardContent>
     </Card>
   );

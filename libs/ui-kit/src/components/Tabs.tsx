@@ -173,28 +173,28 @@ export function Tab({ value, children, disabled = false, className = '' }: TabPr
       tabIndex={isActive ? 0 : -1}
       disabled={disabled}
       onClick={() => !disabled && setActiveValue(value)}
-      className={`relative px-4 py-2.5 text-sm font-medium transition-colors h-auto rounded-none ${
+      className={`relative px-4 py-2.5 text-sm font-medium transition-colors h-auto focus-visible:ring-0 focus-visible:ring-offset-0 ${
         orientation === 'horizontal'
-          ? `${
+          ? `justify-center rounded-t-lg rounded-b-none ${
               isActive
                 ? 'text-primary-600 dark:text-primary-400 bg-transparent hover:bg-transparent'
                 : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 bg-transparent hover:bg-neutral-100/50 dark:hover:bg-neutral-800/50'
             }`
-          : `text-left w-full ${
+          : `justify-start text-left w-full rounded-l-lg rounded-r-none ${
               isActive
                 ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
                 : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800 bg-transparent'
-            } rounded-lg`
+            }`
       } ${className}`}
     >
       {children}
 
       {/* Active indicator */}
       {isActive && orientation === 'horizontal' && (
-        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600 dark:bg-primary-400 rounded-full" />
+        <span className="absolute bottom-[-1px] left-0 right-0 h-[2px] bg-primary-600 dark:bg-primary-400" />
       )}
       {isActive && orientation === 'vertical' && (
-        <span className="absolute top-1/2 -translate-y-1/2 right-0 w-0.5 h-4/5 bg-primary-600 dark:bg-primary-400 rounded-full" />
+        <span className="absolute top-0 bottom-0 right-[-1px] w-[2px] bg-primary-600 dark:bg-primary-400" />
       )}
     </Button>
   );

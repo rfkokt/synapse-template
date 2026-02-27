@@ -1,7 +1,7 @@
 import { StrictMode, useState, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { useAuthStore } from '@synapse/shared-types';
+import { useAuthStore, useNotificationStore } from '@synapse/shared-types';
 import './index.css';
 import { App } from './App';
 
@@ -119,6 +119,14 @@ function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+import { ToastContainer } from '@synapse/ui-kit';
+
+function StandaloneToastProvider() {
+  const toasts = useNotificationStore((s: any) => s.toasts);
+  const dismiss = useNotificationStore((s: any) => s.removeToast);
+  return <ToastContainer toasts={toasts} onDismiss={dismiss} />;
+}
+
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Failed to find the root element');
 
@@ -137,6 +145,7 @@ createRoot(rootElement).render(
             </p>
           </header>
           <App />
+          <StandaloneToastProvider />
         </div>
       </StandaloneAuthGuard>
     </BrowserRouter>
