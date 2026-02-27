@@ -12,6 +12,7 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@synapse/shared-components": "workspace:*",
     "@synapse/shared-api": "workspace:*",
     "@synapse/shared-types": "workspace:*",
     "@synapse/ui-kit": "workspace:*",

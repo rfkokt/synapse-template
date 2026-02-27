@@ -250,6 +250,9 @@ importers:
       '@synapse/shared-api':
         specifier: workspace:*
         version: link:../../libs/shared-api
+      '@synapse/shared-components':
+        specifier: workspace:*
+        version: link:../../libs/shared-components
       '@synapse/shared-types':
         specifier: workspace:*
         version: link:../../libs/shared-types
@@ -384,6 +387,25 @@ importers:
       vite:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+
+  libs/shared-components:
+    dependencies:
+      '@synapse/ui-kit':
+        specifier: workspace:*
+        version: link:../ui-kit
+      react:
+        specifier: ^19.0.0
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.4(react@19.2.4)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.2.3(@types/react@19.2.14)
 
   libs/shared-monitoring: {}
 

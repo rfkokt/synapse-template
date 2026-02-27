@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '../../components/CodeBlock';
-import { ComparisonTable } from '../../components/docs-primitives';
+import { CodeBlock } from '@synapse/shared-components';
+import { ComparisonTable } from '@synapse/shared-components';
 
 export function ComparisonTableSection() {
   return (
@@ -42,7 +42,7 @@ export function ComparisonTableSection() {
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
         <CodeBlock
-          codeString={`import { ComparisonTable } from '../components/docs-primitives';
+          codeString={`import { ComparisonTable } from '@synapse/shared-components';
 
 <ComparisonTable
   columns={[

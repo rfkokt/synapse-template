@@ -1,9 +1,9 @@
 import { Card, CardContent } from '@synapse/ui-kit';
 import { SectionHeader, PreviewCard, PropsTable } from '../../pages/ui-kit/shared';
-import { CodeBlockTable } from '../../components/CodeBlockTable';
-import { CodeBlock } from '../../components/CodeBlock';
+import { CodeBlockTable } from '@synapse/shared-components';
+import { CodeBlock } from '@synapse/shared-components';
 
-const stringExampleCode = `import { CodeBlockTable } from '../../components/CodeBlockTable';
+const stringExampleCode = `import { CodeBlockTable } from '@synapse/shared-components';
 
 const exampleCode = \`import { useState } from 'react';
 
@@ -25,7 +25,7 @@ export function MyComponent() {
   );
 }`;
 
-const arrayExampleCode = `import { CodeBlockTable } from '../../components/CodeBlockTable';
+const arrayExampleCode = `import { CodeBlockTable } from '@synapse/shared-components';
 
 const arrayCodeLines = [
   "// Instead of passing a single string",

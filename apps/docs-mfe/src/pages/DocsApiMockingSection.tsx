@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '../components/CodeBlock';
-import { DocsStep } from '../components/DocsStep';
+import { CodeBlock } from '@synapse/shared-components';
+import { DocsStep } from '@synapse/shared-components';
 
 export function DocsApiMockingSection() {
   return (

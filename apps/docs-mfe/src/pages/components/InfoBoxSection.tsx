@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '../../components/CodeBlock';
-import { InfoBox } from '../../components/docs-primitives';
+import { CodeBlock } from '@synapse/shared-components';
+import { InfoBox } from '@synapse/shared-components';
 
 export function InfoBoxSection() {
   return (
@@ -63,7 +63,7 @@ export function InfoBoxSection() {
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
         <CodeBlock
-          codeString={`import { InfoBox } from '../components/docs-primitives';
+          codeString={`import { InfoBox } from '@synapse/shared-components';
 
 // Basic
 <InfoBox variant="emerald" title="✅ Success">

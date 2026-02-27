@@ -1,13 +1,13 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '@synapse/shared-components';
 import {
   SectionTitle,
   FeatureGrid,
   ComparisonTable,
   InfoBox,
   KeyValueCard,
-} from '../components/docs-primitives';
-import type { ComparisonColumn, ComparisonRow } from '../components/docs-primitives';
+} from '@synapse/shared-components';
+import type { ComparisonColumn, ComparisonRow } from '@synapse/shared-components';
 
 /* ═══════════════════════════════════════════════
    Section: Kenapa Module Federation?

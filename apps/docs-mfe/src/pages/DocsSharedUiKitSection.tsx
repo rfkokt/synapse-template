@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '../components/CodeBlock';
+import { CodeBlock } from '@synapse/shared-components';
 
 export function DocsSharedUiKitSection() {
   return (

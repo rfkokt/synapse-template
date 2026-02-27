@@ -26,6 +26,8 @@
       "@synapse/shared-api/*": ["libs/shared-api/src/*"],
       "@synapse/ui-kit": ["libs/ui-kit/src/index.ts"],
       "@synapse/ui-kit/*": ["libs/ui-kit/src/*"],
+      "@synapse/shared-components": ["libs/shared-components/src/index.ts"],
+      "@synapse/shared-components/*": ["libs/shared-components/src/*"],
       "@/*": ["libs/ui-kit/src/*"],
       "@synapse/tools": ["tools/src/index.ts"],
       "@synapse/shared-monitoring": ["libs/shared-monitoring/src/index.ts"],

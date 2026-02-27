@@ -32,6 +32,8 @@ import { UtilitiesSection } from './pages/components/UtilitiesSection';
 import { ComponentsOverviewSection } from './pages/components/ComponentsOverviewSection';
 import CodeBlockTableSection from './pages/components/CodeBlockTableSection';
 import { DocsStepSection } from './pages/components/DocsStepSection';
+import { ExampleTabsSection } from './pages/components/ExampleTabsSection';
+import { ReusableComponentGuideSection } from './pages/components/ReusableComponentGuideSection';
 
 // --- UI Kit Section imports ---
 import { ButtonSection } from './pages/ui-kit/ButtonSection';
@@ -173,12 +175,14 @@ export const UIKIT_SECTION_MAP: Record<string, React.FC> = {
 
 /* ─── Reusable Components Section Map ─── */
 export const COMPONENTS_SECTION_MAP: Record<string, React.FC> = {
+  reusableguide: ReusableComponentGuideSection,
   infobox: InfoBoxSection,
   comparisontable: ComparisonTableSection,
   featuregrid: FeatureGridSection,
   utilities: UtilitiesSection,
   codeblocktable: CodeBlockTableSection,
   docsstep: DocsStepSection,
+  exampletabs: ExampleTabsSection,
 };
 
 /* ═══════════════════════════════════════════════

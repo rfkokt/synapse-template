@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { SectionTitle, ComparisonTable, InfoBox } from '../components/docs-primitives';
-import type { ComparisonColumn, ComparisonRow } from '../components/docs-primitives';
-import { CodeBlock } from '../components/CodeBlock';
+import { SectionTitle, ComparisonTable, InfoBox } from '@synapse/shared-components';
+import type { ComparisonColumn, ComparisonRow } from '@synapse/shared-components';
+import { CodeBlock } from '@synapse/shared-components';
 
 // ── Data: Routing Comparison ──
 const routingColumns: ComparisonColumn[] = [

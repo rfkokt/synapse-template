@@ -2,6 +2,11 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@synapse/ui-kit';
 
 const COMPONENT_MAP: Record<string, { name: string; description: string; icon: string }> = {
+  reusableguide: {
+    name: 'Build Reusable Component',
+    description: 'Panduan step-by-step membuat komponen baru agar bisa dipakai lintas MFE',
+    icon: '🛠️',
+  },
   infobox: {
     name: 'InfoBox',
     description: 'Callout berwarna — 7 varian (emerald, blue, amber, red, purple, orange, neutral)',
@@ -18,6 +23,11 @@ const COMPONENT_MAP: Record<string, { name: string; description: string; icon: s
     icon: '🧱',
   },
   utilities: { name: 'Utilities', description: 'SectionTitle, KeyValueCard, StepList', icon: '🔧' },
+  exampletabs: {
+    name: 'ExampleTabs',
+    description: 'Wrapper tab Preview/Code untuk contoh komponen yang reusable',
+    icon: '🗂️',
+  },
 };
 
 export function ComponentsOverviewSection({ sectionMap }: { sectionMap: Record<string, unknown> }) {
@@ -33,7 +43,7 @@ export function ComponentsOverviewSection({ sectionMap }: { sectionMap: Record<s
           <p className="text-neutral-500 dark:text-neutral-400">
             Komponen bersama untuk halaman dokumentasi. Import dari{' '}
             <code className="text-xs bg-neutral-200 dark:bg-neutral-700 px-1 rounded">
-              docs-primitives
+              @synapse/shared-components
             </code>
             .
           </p>
@@ -43,7 +53,7 @@ export function ComponentsOverviewSection({ sectionMap }: { sectionMap: Record<s
           <p className="text-sm text-blue-700 dark:text-blue-400">
             <strong>💡 Import:</strong>{' '}
             <code className="text-xs bg-blue-100 dark:bg-blue-800 px-1 rounded">
-              {"import { InfoBox, ComparisonTable, ... } from '../components/docs-primitives';"}
+              {"import { InfoBox, ComparisonTable, ... } from '@synapse/shared-components';"}
             </code>
           </p>
         </div>

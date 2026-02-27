@@ -1,6 +1,6 @@
 import { Badge, Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '../../components/CodeBlock';
-import { DocsStep } from '../../components/DocsStep';
+import { CodeBlock } from '@synapse/shared-components';
+import { DocsStep } from '@synapse/shared-components';
 
 export function DocsStepSection() {
   return (
@@ -45,7 +45,7 @@ export function DocsStepSection() {
           </h2>
           <CodeBlock
             language="tsx"
-            codeString={`import { DocsStep } from '../components/DocsStep';
+            codeString={`import { DocsStep } from '@synapse/shared-components';
 
 <DocsStep title="Step 1: Installation" color="emerald">
   <p className="text-sm text-neutral-600">

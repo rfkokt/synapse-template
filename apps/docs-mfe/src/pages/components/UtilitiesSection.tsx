@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '../../components/CodeBlock';
-import { KeyValueCard, StepList, SectionTitle } from '../../components/docs-primitives';
+import { CodeBlock } from '@synapse/shared-components';
+import { KeyValueCard, StepList, SectionTitle } from '@synapse/shared-components';
 
 export function UtilitiesSection() {
   return (
@@ -31,7 +31,7 @@ export function UtilitiesSection() {
             />
           </div>
           <CodeBlock
-            codeString={`import { SectionTitle } from '../components/docs-primitives';
+            codeString={`import { SectionTitle } from '@synapse/shared-components';
 
 <SectionTitle
   icon="🏗️"
@@ -59,7 +59,7 @@ export function UtilitiesSection() {
             ]}
           />
           <CodeBlock
-            codeString={`import { KeyValueCard } from '../components/docs-primitives';
+            codeString={`import { KeyValueCard } from '@synapse/shared-components';
 
 <KeyValueCard entries={[
   { label: 'Status', value: 'Active', valueColor: 'text-emerald-600' },
@@ -100,7 +100,7 @@ export function UtilitiesSection() {
             ]}
           />
           <CodeBlock
-            codeString={`import { StepList } from '../components/docs-primitives';
+            codeString={`import { StepList } from '@synapse/shared-components';
 
 <StepList steps={[
   { title: 'Step 1', content: 'Deskripsi...' },
