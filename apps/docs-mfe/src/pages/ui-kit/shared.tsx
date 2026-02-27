@@ -1,6 +1,8 @@
 import type React from 'react';
+import { Tabs, TabList, Tab, TabPanel } from '@synapse/ui-kit';
+import { CodeBlock } from '../../components/CodeBlock';
 
-export { CodeBlock } from '../../components/CodeBlock';
+export { CodeBlock };
 
 export function SectionHeader({ title, description }: { title: string; description: string }) {
   return (
@@ -57,6 +59,55 @@ export function PropsTable({ rows }: { rows: [string, string, string][] }) {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+export function ExampleTabs({
+  preview,
+  code,
+  language = 'tsx',
+  defaultTab = 'preview',
+  className = '',
+  previewClassName = '',
+}: {
+  preview: React.ReactNode;
+  code: string;
+  language?: string;
+  defaultTab?: 'preview' | 'code';
+  className?: string;
+  previewClassName?: string;
+}) {
+  return (
+    <div
+      className={`overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900 ${className}`}
+    >
+      <Tabs defaultValue={defaultTab} className="w-full">
+        <div className="border-b border-neutral-200 bg-neutral-50 px-3 pt-3 dark:border-neutral-800 dark:bg-neutral-950/60">
+          <TabList className="border-0 gap-1">
+            <Tab value="preview" className="rounded-md rounded-b-none px-3 py-1.5 text-xs">
+              Preview
+            </Tab>
+            <Tab value="code" className="rounded-md rounded-b-none px-3 py-1.5 text-xs">
+              Code
+            </Tab>
+          </TabList>
+        </div>
+
+        <TabPanel value="preview" className="rounded-none focus-visible:ring-0">
+          <div
+            className={`flex min-h-[180px] items-center justify-center p-6 bg-white dark:bg-neutral-900 ${previewClassName}`}
+          >
+            {preview}
+          </div>
+        </TabPanel>
+
+        <TabPanel value="code" className="rounded-none focus-visible:ring-0">
+          <div className="p-3">
+            <CodeBlock codeString={code} language={language} />
+          </div>
+        </TabPanel>
+      </Tabs>
     </div>
   );
 }

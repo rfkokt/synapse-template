@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@synapse/ui-kit';
 import { apiClient } from '@synapse/shared-api';
-import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
+import { ExampleTabs, SectionHeader, PreviewCard, PropsTable } from './shared';
 
 const fruitOptions: SearchableSelectOption[] = [
   { value: 'apel', label: '🍎 Apel', keywords: ['apple', 'merah'] },
@@ -39,6 +39,136 @@ const cityApiDataset: SearchableSelectOption[] = [
   { value: 'balikpapan', label: 'Balikpapan', group: 'Kalimantan' },
   { value: 'pontianak', label: 'Pontianak', group: 'Kalimantan' },
 ];
+
+const basicExampleCode = `import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@synapse/ui-kit';
+
+const [value, setValue] = useState('');
+
+<Select value={value} onValueChange={setValue}>
+  <SelectTrigger className="w-[200px]">
+    <SelectValue placeholder="Pilih buah..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apel">🍎 Apel</SelectItem>
+    <SelectItem value="pisang">🍌 Pisang</SelectItem>
+    <SelectItem value="jeruk">🍊 Jeruk</SelectItem>
+    <SelectItem value="mangga">🥭 Mangga</SelectItem>
+  </SelectContent>
+</Select>;`;
+
+const groupedExampleCode = `import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  SelectGroup,
+  SelectLabel,
+  SelectSeparator,
+} from '@synapse/ui-kit';
+
+const [city, setCity] = useState('');
+
+<Select value={city} onValueChange={setCity}>
+  <SelectTrigger className="w-[240px]">
+    <SelectValue placeholder="Pilih kota..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>Jawa</SelectLabel>
+      <SelectItem value="jakarta">Jakarta</SelectItem>
+      <SelectItem value="surabaya">Surabaya</SelectItem>
+      <SelectItem value="bandung">Bandung</SelectItem>
+    </SelectGroup>
+    <SelectSeparator />
+    <SelectGroup>
+      <SelectLabel>Sumatera</SelectLabel>
+      <SelectItem value="medan">Medan</SelectItem>
+      <SelectItem value="palembang">Palembang</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>;`;
+
+const searchLocalExampleCode = `import {
+  SearchableSelect,
+  type SearchableSelectOption,
+} from '@synapse/ui-kit';
+
+const [value, setValue] = useState('');
+const fruitOptions: SearchableSelectOption[] = [
+  { value: 'apel', label: '🍎 Apel' },
+  { value: 'pisang', label: '🍌 Pisang' },
+  { value: 'jeruk', label: '🍊 Jeruk' },
+  { value: 'mangga', label: '🥭 Mangga' },
+];
+
+<SearchableSelect
+  value={value}
+  onValueChange={setValue}
+  options={fruitOptions}
+  placeholder="Pilih buah..."
+  searchPlaceholder="Cari buah..."
+  triggerClassName="w-[240px]"
+/>;`;
+
+const searchApiExampleCode = `import {
+  SearchableSelect,
+  type SearchableSelectOption,
+} from '@synapse/ui-kit';
+import { apiClient } from '@synapse/shared-api';
+
+const [city, setCity] = useState('');
+
+const fetchCities = async (query: string) => {
+  const response = await apiClient.get('/api/users/me', {
+    params: { q: query },
+  });
+  return (response.data?.data ?? response.data) as SearchableSelectOption[];
+};
+
+<SearchableSelect
+  value={city}
+  onValueChange={setCity}
+  fetchOptions={fetchCities}
+  minQueryLength={2}
+  placeholder="Cari kota..."
+  searchPlaceholder="Ketik nama kota..."
+  triggerClassName="w-[240px]"
+/>;`;
+
+const sizesExampleCode = `import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@synapse/ui-kit';
+
+<Select>
+  <SelectTrigger size="sm" className="w-[160px]">
+    <SelectValue placeholder="Size SM" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </SelectContent>
+</Select>
+
+<Select>
+  <SelectTrigger size="default" className="w-[160px]">
+    <SelectValue placeholder="Size Default" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+    <SelectItem value="b">Option B</SelectItem>
+  </SelectContent>
+</Select>;`;
 
 export function SelectSection() {
   const [fruit, setFruit] = useState('');
@@ -96,204 +226,134 @@ export function SelectSection() {
 
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
           <PreviewCard title="Basic" className="mb-0 h-full">
-            <div className="flex flex-wrap gap-4 items-start">
-              <Select value={fruit} onValueChange={setFruit}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Pilih buah..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="apel">🍎 Apel</SelectItem>
-                  <SelectItem value="pisang">🍌 Pisang</SelectItem>
-                  <SelectItem value="jeruk">🍊 Jeruk</SelectItem>
-                  <SelectItem value="mangga">🥭 Mangga</SelectItem>
-                </SelectContent>
-              </Select>
-              {fruit && (
-                <span className="text-sm text-neutral-500 self-center">Selected: {fruit}</span>
-              )}
-            </div>
+            <ExampleTabs
+              preview={
+                <div className="flex flex-wrap items-center gap-4">
+                  <Select value={fruit} onValueChange={setFruit}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Pilih buah..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="apel">🍎 Apel</SelectItem>
+                      <SelectItem value="pisang">🍌 Pisang</SelectItem>
+                      <SelectItem value="jeruk">🍊 Jeruk</SelectItem>
+                      <SelectItem value="mangga">🥭 Mangga</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {fruit && <span className="text-sm text-neutral-500">Selected: {fruit}</span>}
+                </div>
+              }
+              code={basicExampleCode}
+            />
           </PreviewCard>
 
           <PreviewCard title="Grouped Items" className="mb-0 h-full">
-            <Select value={city} onValueChange={setCity}>
-              <SelectTrigger className="w-[240px]">
-                <SelectValue placeholder="Pilih kota..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Jawa</SelectLabel>
-                  <SelectItem value="jakarta">Jakarta</SelectItem>
-                  <SelectItem value="surabaya">Surabaya</SelectItem>
-                  <SelectItem value="bandung">Bandung</SelectItem>
-                </SelectGroup>
-                <SelectSeparator />
-                <SelectGroup>
-                  <SelectLabel>Sumatera</SelectLabel>
-                  <SelectItem value="medan">Medan</SelectItem>
-                  <SelectItem value="palembang">Palembang</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <ExampleTabs
+              preview={
+                <Select value={city} onValueChange={setCity}>
+                  <SelectTrigger className="w-[240px]">
+                    <SelectValue placeholder="Pilih kota..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Jawa</SelectLabel>
+                      <SelectItem value="jakarta">Jakarta</SelectItem>
+                      <SelectItem value="surabaya">Surabaya</SelectItem>
+                      <SelectItem value="bandung">Bandung</SelectItem>
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup>
+                      <SelectLabel>Sumatera</SelectLabel>
+                      <SelectItem value="medan">Medan</SelectItem>
+                      <SelectItem value="palembang">Palembang</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              }
+              code={groupedExampleCode}
+            />
           </PreviewCard>
 
           <PreviewCard title="Search (Local)" className="mb-0 h-full">
-            <div className="flex flex-wrap gap-4 items-start">
-              <SearchableSelect
-                value={searchableFruit}
-                onValueChange={setSearchableFruit}
-                options={fruitOptions}
-                placeholder="Pilih buah..."
-                searchPlaceholder="Cari buah..."
-                triggerClassName="w-[240px]"
-              />
-              {searchableFruit && (
-                <span className="text-sm text-neutral-500 self-center">
-                  Selected: {selectedLocalFruitLabel}
-                </span>
-              )}
-            </div>
+            <ExampleTabs
+              preview={
+                <div className="flex flex-wrap items-center gap-4">
+                  <SearchableSelect
+                    value={searchableFruit}
+                    onValueChange={setSearchableFruit}
+                    options={fruitOptions}
+                    placeholder="Pilih buah..."
+                    searchPlaceholder="Cari buah..."
+                    triggerClassName="w-[240px]"
+                  />
+                  {searchableFruit && (
+                    <span className="text-sm text-neutral-500">
+                      Selected: {selectedLocalFruitLabel}
+                    </span>
+                  )}
+                </div>
+              }
+              code={searchLocalExampleCode}
+            />
           </PreviewCard>
 
           <PreviewCard title="Search (API)" className="mb-0 h-full">
-            <div className="flex flex-wrap gap-4 items-start">
-              <SearchableSelect
-                value={searchableCity}
-                onValueChange={setSearchableCity}
-                fetchOptions={fetchCities}
-                placeholder="Cari kota..."
-                searchPlaceholder="Ketik nama kota..."
-                minQueryLength={2}
-                triggerClassName="w-[240px]"
-                emptyText="Kota tidak ditemukan."
-              />
-              {searchableCity && (
-                <span className="text-sm text-neutral-500 self-center">
-                  Selected: {selectedApiCityLabel}
-                </span>
-              )}
-            </div>
-            <p className="mt-2 text-xs text-neutral-500">
-              Ketik minimal 2 karakter untuk query API.
-            </p>
+            <ExampleTabs
+              preview={
+                <div className="flex flex-col items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-4">
+                    <SearchableSelect
+                      value={searchableCity}
+                      onValueChange={setSearchableCity}
+                      fetchOptions={fetchCities}
+                      placeholder="Cari kota..."
+                      searchPlaceholder="Ketik nama kota..."
+                      minQueryLength={2}
+                      triggerClassName="w-[240px]"
+                      emptyText="Kota tidak ditemukan."
+                    />
+                    {searchableCity && (
+                      <span className="text-sm text-neutral-500">
+                        Selected: {selectedApiCityLabel}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-500">
+                    Ketik minimal 2 karakter untuk query API.
+                  </p>
+                </div>
+              }
+              code={searchApiExampleCode}
+            />
           </PreviewCard>
 
           <PreviewCard title="Sizes" className="mb-0 xl:col-span-2">
-            <div className="flex flex-wrap gap-4 items-start">
-              <Select>
-                <SelectTrigger size="sm" className="w-[160px]">
-                  <SelectValue placeholder="Size SM" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="a">Option A</SelectItem>
-                  <SelectItem value="b">Option B</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select>
-                <SelectTrigger size="default" className="w-[160px]">
-                  <SelectValue placeholder="Size Default" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="a">Option A</SelectItem>
-                  <SelectItem value="b">Option B</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <ExampleTabs
+              preview={
+                <div className="flex flex-wrap items-center gap-4">
+                  <Select>
+                    <SelectTrigger size="sm" className="w-[160px]">
+                      <SelectValue placeholder="Size SM" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="a">Option A</SelectItem>
+                      <SelectItem value="b">Option B</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select>
+                    <SelectTrigger size="default" className="w-[160px]">
+                      <SelectValue placeholder="Size Default" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="a">Option A</SelectItem>
+                      <SelectItem value="b">Option B</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              }
+              code={sizesExampleCode}
+            />
           </PreviewCard>
-        </div>
-
-        <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-          <div className="min-w-0">
-            <p className="mb-2 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-              Select (Basic + Grouped)
-            </p>
-            <CodeBlock>{`import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-  SelectGroup,
-  SelectLabel,
-  SelectSeparator,
-} from '@synapse/ui-kit';
-
-const [fruit, setFruit] = useState('');
-const [city, setCity] = useState('');
-
-<Select value={fruit} onValueChange={setFruit}>
-  <SelectTrigger className="w-[200px]">
-    <SelectValue placeholder="Pilih buah..." />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="apel">🍎 Apel</SelectItem>
-    <SelectItem value="pisang">🍌 Pisang</SelectItem>
-    <SelectItem value="jeruk">🍊 Jeruk</SelectItem>
-    <SelectItem value="mangga">🥭 Mangga</SelectItem>
-  </SelectContent>
-</Select>
-
-<Select value={city} onValueChange={setCity}>
-  <SelectTrigger className="w-[240px]">
-    <SelectValue placeholder="Pilih kota..." />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectGroup>
-      <SelectLabel>Jawa</SelectLabel>
-      <SelectItem value="jakarta">Jakarta</SelectItem>
-      <SelectItem value="surabaya">Surabaya</SelectItem>
-      <SelectItem value="bandung">Bandung</SelectItem>
-    </SelectGroup>
-    <SelectSeparator />
-    <SelectGroup>
-      <SelectLabel>Sumatera</SelectLabel>
-      <SelectItem value="medan">Medan</SelectItem>
-      <SelectItem value="palembang">Palembang</SelectItem>
-    </SelectGroup>
-  </SelectContent>
-</Select>`}</CodeBlock>
-          </div>
-
-          <div className="min-w-0">
-            <p className="mb-2 text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-              SearchableSelect (Local + API)
-            </p>
-            <CodeBlock>{`import {
-  SearchableSelect,
-  type SearchableSelectOption,
-} from '@synapse/ui-kit';
-import { apiClient } from '@synapse/shared-api';
-
-const localOptions: SearchableSelectOption[] = [
-  { value: 'apel', label: '🍎 Apel' },
-  { value: 'pisang', label: '🍌 Pisang' },
-];
-const [searchableFruit, setSearchableFruit] = useState('');
-const [searchableCity, setSearchableCity] = useState('');
-
-const fetchCities = async (query: string) => {
-  const response = await apiClient.get('/api/users/me', {
-    params: { q: query },
-  });
-  return (response.data?.data ?? response.data) as SearchableSelectOption[];
-};
-
-<SearchableSelect
-  value={searchableFruit}
-  onValueChange={setSearchableFruit}
-  options={localOptions}
-  placeholder="Pilih buah..."
-  searchPlaceholder="Cari buah..."
-/>;
-
-<SearchableSelect
-  value={searchableCity}
-  onValueChange={setSearchableCity}
-  fetchOptions={fetchCities}
-  minQueryLength={2}
-  placeholder="Cari kota..."
-/>;`}</CodeBlock>
-          </div>
         </div>
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Components</h3>
