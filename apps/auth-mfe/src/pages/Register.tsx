@@ -8,7 +8,7 @@ import {
   CardTitle,
   CardDescription,
 } from '@synapse/ui-kit';
-import { UserPlus, Eye, EyeOff } from 'lucide-react';
+import { LuUserPlus as UserPlus, LuEye as Eye, LuEyeOff as EyeOff } from 'react-icons/lu';
 import { useTranslation } from 'react-i18next';
 import { SharedOriginGuard } from '@synapse/shared-types';
 

@@ -1,7 +1,13 @@
 import { Card, CardContent, Button, Table, DropdownMenu } from '@synapse/ui-kit';
 import type { Column } from '@synapse/ui-kit';
 import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
-import { Pencil, Trash2, Plus, Eye, UserPlus } from 'lucide-react';
+import {
+  LuPencil as Pencil,
+  LuTrash2 as Trash2,
+  LuPlus as Plus,
+  LuEye as Eye,
+  LuUserPlus as UserPlus,
+} from 'react-icons/lu';
 
 interface Paket {
   id: number;
@@ -221,7 +227,11 @@ export function TableSection() {
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
         <CodeBlock>{`import { Table, Button } from '@synapse/ui-kit';
 import type { Column } from '@synapse/ui-kit';
-import { Plus, Pencil, Trash2 } from 'lucide-react';
+import {
+  LuPlus as Plus,
+  LuPencil as Pencil,
+  LuTrash2 as Trash2
+} from 'react-icons/lu';
 
 const columns: Column<Paket>[] = [
   { key: 'nama', header: 'Nama', sortable: true },

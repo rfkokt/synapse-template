@@ -34,3 +34,10 @@ export const discoveredComponents: DiscoveredComponent[] = Object.keys(component
   })
   .filter((c) => c.name.length > 0)
   .sort((a, b) => a.name.localeCompare(b.name));
+
+// Manually add the Icon documentation page since it's not a component in libs/
+discoveredComponents.push({
+  name: 'Icon',
+  slug: 'icon',
+});
+discoveredComponents.sort((a, b) => a.name.localeCompare(b.name));

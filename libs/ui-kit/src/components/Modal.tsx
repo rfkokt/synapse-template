@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { X } from 'lucide-react';
+import { LuX as X } from 'react-icons/lu';
 import { Button } from './Button';
 
 /* ─────────────────────────────────────────────

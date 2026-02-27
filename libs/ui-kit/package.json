@@ -9,7 +9,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.0.0",
-    "lucide-react": "^0.475.0",
+    "react-icons": "^5.5.0",
     "tailwind-merge": "^3.0.0",
     "yup": "^1.7.1"
   },

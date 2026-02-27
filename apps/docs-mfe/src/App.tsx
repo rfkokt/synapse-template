@@ -22,6 +22,7 @@ import { DocsSecuritySection } from './pages/DocsSecuritySection';
 import { DocsWhyMfSection } from './pages/DocsWhyMfSection';
 import { DocsI18nSection } from './pages/DocsI18nSection';
 import { DocsApiMockingSection } from './pages/DocsApiMockingSection';
+import { DocsRoutingSection } from './pages/DocsRoutingSection';
 
 // ── Reusable Components Section imports ──
 import { InfoBoxSection } from './pages/components/InfoBoxSection';
@@ -49,6 +50,7 @@ import { SelectSection } from './pages/ui-kit/SelectSection';
 import { TableSection } from './pages/ui-kit/TableSection';
 import { TabsSection } from './pages/ui-kit/TabsSection';
 import { DropdownMenuSection } from './pages/ui-kit/DropdownMenuSection';
+import { IconSection } from './pages/ui-kit/IconSection';
 import { OverviewSection as UIKitOverviewSection } from './pages/ui-kit/OverviewSection';
 import { UndocumentedSection } from './pages/ui-kit/UndocumentedSection';
 
@@ -80,65 +82,70 @@ export const DOCS_SECTION_MAP: Record<string, SectionData> = {
     title: '3. Membuat MFE Baru',
     category: '🚀 Getting Started',
   },
+  'routing-best-practices': {
+    component: DocsRoutingSection,
+    title: '4. MFE Routing Best Practices',
+    category: '🚀 Getting Started',
+  },
   'menambah-package': {
     component: DocsMenambahPackageSection,
-    title: '4. Menambah Package Baru',
+    title: '5. Menambah Package Baru',
     category: '🚀 Getting Started',
   },
   'token-auth': {
     component: DocsTokenAuthSection,
-    title: '5. Token & Auth Management',
+    title: '6. Token & Auth Management',
     category: '🏗️ Arsitektur',
   },
   'api-interceptors': {
     component: DocsApiInterceptorsSection,
-    title: '6. API & Interceptors',
+    title: '7. API & Interceptors',
     category: '🏗️ Arsitektur',
   },
   'dynamic-remotes': {
     component: DocsDynamicRemotesSection,
-    title: '7. Dynamic Remotes & Menu',
+    title: '8. Dynamic Remotes & Menu',
     category: '🏗️ Arsitektur',
   },
   'shared-ui-kit': {
     component: DocsSharedUiKitSection,
-    title: '8. Shared UI Kit & Shadcn',
+    title: '9. Shared UI Kit & Shadcn',
     category: '🎨 UI & Styling',
   },
   'tailwind-theme': {
     component: DocsTailwindThemeSection,
-    title: '9. Tailwind v4 & Theming',
+    title: '10. Tailwind v4 & Theming',
     category: '🎨 UI & Styling',
   },
   'events-error': {
     component: DocsEventsErrorSection,
-    title: '10. Custom Events & Error',
+    title: '11. Custom Events & Error',
     category: '📚 Panduan Lanjutan',
   },
   'env-dark-mode': {
     component: DocsEnvDarkModeSection,
-    title: '11. Environment & Dark Mode',
+    title: '12. Environment & Dark Mode',
     category: '📚 Panduan Lanjutan',
   },
   'git-perf': {
     component: DocsGitPerfSection,
-    title: '12. Git Workflow & Perf',
+    title: '13. Git Workflow & Perf',
     category: '📚 Panduan Lanjutan',
   },
   security: {
     component: DocsSecuritySection,
-    title: '13. Security Best Practices',
+    title: '14. Security Best Practices',
     category: '📚 Panduan Lanjutan',
   },
 
   i18n: {
     component: DocsI18nSection,
-    title: '14. Internationalization (i18n)',
+    title: '15. Internationalization (i18n)',
     category: '📚 Panduan Lanjutan',
   },
   'api-mocking': {
     component: DocsApiMockingSection,
-    title: '15. API Mocking (MSW)',
+    title: '16. API Mocking (MSW)',
     category: '📚 Panduan Lanjutan',
   },
 };
@@ -161,6 +168,7 @@ export const UIKIT_SECTION_MAP: Record<string, React.FC> = {
   table: TableSection,
   tabs: TabsSection,
   dropdownmenu: DropdownMenuSection,
+  icon: IconSection,
 };
 
 /* ─── Reusable Components Section Map ─── */

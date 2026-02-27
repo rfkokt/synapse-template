@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react';
-import { MoreHorizontal } from 'lucide-react';
+import { LuEllipsis as MoreHorizontal } from 'react-icons/lu';
 import { Button } from './Button';
 
 /* ─────────────────────────────────────────────
@@ -10,7 +10,7 @@ import { Button } from './Button';
 export interface DropdownMenuItem {
   /** Menu item label */
   label?: string;
-  /** Icon element (e.g. lucide-react icon) */
+  /** Icon element (e.g. react-icons icon) */
   icon?: ReactNode;
   /** Click handler */
   onClick?: () => void;

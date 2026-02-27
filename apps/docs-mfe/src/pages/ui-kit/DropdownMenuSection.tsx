@@ -1,6 +1,11 @@
 import { Card, CardContent, DropdownMenu, Button } from '@synapse/ui-kit';
 import { SectionHeader, PreviewCard, CodeBlock, PropsTable } from './shared';
-import { Settings, LogOut, User, Bell } from 'lucide-react';
+import {
+  LuSettings as Settings,
+  LuLogOut as LogOut,
+  LuUser as User,
+  LuBell as Bell,
+} from 'react-icons/lu';
 
 export function DropdownMenuSection() {
   return (
@@ -46,7 +51,10 @@ export function DropdownMenuSection() {
 
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Usage</h3>
         <CodeBlock>{`import { DropdownMenu } from '@synapse/ui-kit';
-import { Settings, LogOut } from 'lucide-react';
+import {
+  LuSettings as Settings,
+  LuLogOut as LogOut
+} from 'react-icons/lu';
 
 <DropdownMenu
   align="right"

@@ -15,7 +15,14 @@ import {
   SharedOriginGuard,
 } from '@synapse/shared-types';
 import type { AuthEventPayload } from '@synapse/shared-types';
-import { User as UserIcon, Save, Camera, Shield, Mail, BadgeCheck } from 'lucide-react';
+import {
+  LuUser as UserIcon,
+  LuSave as Save,
+  LuCamera as Camera,
+  LuShield as Shield,
+  LuMail as Mail,
+  LuBadgeCheck as BadgeCheck,
+} from 'react-icons/lu';
 import { useTranslation } from 'react-i18next';
 
 export default function Profile() {

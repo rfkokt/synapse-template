@@ -17,7 +17,12 @@ import {
 } from '@synapse/shared-types';
 import type { AuthEventPayload, User, AppError } from '@synapse/shared-types';
 import { apiClient, API } from '@synapse/shared-api';
-import { LogIn, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import {
+  LuLogIn as LogIn,
+  LuEye as Eye,
+  LuEyeOff as EyeOff,
+  LuCircleCheck as CheckCircle,
+} from 'react-icons/lu';
 import { useTranslation } from 'react-i18next';
 
 interface LoginResponse {

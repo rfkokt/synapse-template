@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { X, CheckCircle, AlertTriangle, AlertCircle, Info } from 'lucide-react';
+import {
+  LuX as X,
+  LuCircleCheck as CheckCircle,
+  LuTriangleAlert as AlertTriangle,
+  LuCircleAlert as AlertCircle,
+  LuInfo as Info,
+} from 'react-icons/lu';
 import { Button } from './Button';
 
 /* ─────────────────────────────────────────────

@@ -40,3 +40,10 @@ export const discoveredComponents: DiscoveredComponent[] = Object.keys(component
   })
   .filter((c) => c.name.length > 0)
   .sort((a, b) => a.name.localeCompare(b.name));
+
+// Manually add documentation pages that aren't strictly components in libs/ui-kit
+discoveredComponents.push({
+  name: 'Icon',
+  slug: 'icon',
+});
+discoveredComponents.sort((a, b) => a.name.localeCompare(b.name));

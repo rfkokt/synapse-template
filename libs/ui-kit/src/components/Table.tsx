@@ -1,5 +1,12 @@
 import { useState, useMemo, type ReactNode } from 'react';
-import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import {
+  LuArrowUpDown as ArrowUpDown,
+  LuArrowUp as ArrowUp,
+  LuArrowDown as ArrowDown,
+  LuChevronLeft as ChevronLeft,
+  LuChevronRight as ChevronRight,
+  LuSearch as Search,
+} from 'react-icons/lu';
 import { Button } from './Button';
 
 /* ─────────────────────────────────────────────

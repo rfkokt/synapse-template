@@ -1,5 +1,5 @@
 import type { JSX } from 'react';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { LuTriangleAlert as AlertTriangle, LuRefreshCw as RefreshCw } from 'react-icons/lu';
 import { Button } from './Button';
 import { Card, CardContent } from './Card';
 

@@ -1,5 +1,10 @@
 import { Card, CardContent, Table, DropdownMenu, type Column } from '@synapse/ui-kit';
-import { TrendingUp, TrendingDown, UserPlus, Eye } from 'lucide-react';
+import {
+  LuTrendingUp as TrendingUp,
+  LuTrendingDown as TrendingDown,
+  LuUserPlus as UserPlus,
+  LuEye as Eye,
+} from 'react-icons/lu';
 
 /* ─── Stat Card Data ─── */
 const stats = [

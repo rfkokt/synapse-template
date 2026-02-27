@@ -1,4 +1,4 @@
-import { ChevronRight } from 'lucide-react';
+import { LuChevronRight as ChevronRight } from 'react-icons/lu';
 import { cn } from '../utils/cn';
 import { Button } from './Button';
 

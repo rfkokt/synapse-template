@@ -361,7 +361,7 @@ shared: {
   react:       { singleton: true, requiredVersion: '^19.0.0' },
   'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
   'react-router-dom': { singleton: true, requiredVersion: '^6.30.0' },
-  'lucide-react':  { singleton: false }, // boleh duplikat
+  'react-icons':  { singleton: false }, // boleh duplikat
 }`}
                 language="typescript"
               />

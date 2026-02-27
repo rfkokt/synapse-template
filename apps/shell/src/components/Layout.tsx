@@ -9,7 +9,15 @@ import {
   dispatchMfeEvent,
 } from '@synapse/shared-types';
 import type { MenuItem } from '@synapse/shared-types';
-import { LogOut, Sun, Moon, ChevronDown, AlertTriangle, PanelLeft, Globe } from 'lucide-react';
+import {
+  LuLogOut as LogOut,
+  LuSun as Sun,
+  LuMoon as Moon,
+  LuChevronDown as ChevronDown,
+  LuTriangleAlert as AlertTriangle,
+  LuPanelLeft as PanelLeft,
+  LuGlobe as Globe,
+} from 'react-icons/lu';
 import React, { useState, useEffect, useCallback } from 'react';
 import { getIcon } from '../utils/icon-map';
 import { MOCK_MENUS } from '../data/mock-menus';

@@ -38,7 +38,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ env.VERSION }}" \
-            --title "v${{ env.VERSION }}" \
-            --notes "Published \`create-synapse-mfe@${{ env.VERSION }}\` to NPM." \
+          gh release create "v$VERSION" \
+            --title "v$VERSION" \
+            --notes "Published \`create-synapse-mfe@$VERSION\` to NPM." \
             --target main
