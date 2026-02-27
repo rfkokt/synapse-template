@@ -39,14 +39,14 @@ export function InputSection() {
             preview={
               <div className="w-full max-w-md space-y-3">
                 <Input label="Email" type="email" placeholder="email@example.com" />
-                <Input label="Password" error="Minimal 8 karakter" />
+                <Input label="Password" type="password" error="Minimal 8 karakter" />
                 <Input label="Catatan" hint="Opsional" />
               </div>
             }
             code={`import { Input } from '@synapse/ui-kit';
 
 <Input label="Email" type="email" placeholder="email@example.com" />
-<Input label="Password" error="Minimal 8 karakter" />
+<Input label="Password" type="password" error="Minimal 8 karakter" />
 <Input label="Catatan" hint="Opsional" />`}
             previewClassName="w-full items-start justify-center"
           />
@@ -57,6 +57,7 @@ export function InputSection() {
             ['label', 'string', '—'],
             ['error', 'string', '—'],
             ['hint', 'string', '—'],
+            ['showPasswordToggle', 'boolean', 'true'],
           ]}
         />
       </CardContent>

@@ -194,6 +194,7 @@ export default function Login() {
                     required
                     autoComplete="current-password"
                     className="pr-10"
+                    showPasswordToggle={false}
                   />
                   <Button
                     type="button"

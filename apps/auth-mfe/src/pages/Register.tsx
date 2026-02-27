@@ -134,6 +134,7 @@ export default function Register() {
                     autoComplete="new-password"
                     hint={t('register.passwordHint')}
                     className="pr-10"
+                    showPasswordToggle={false}
                   />
                   <Button
                     type="button"
