@@ -97,6 +97,10 @@ const subNavClass = ({ isActive }: { isActive: boolean }) =>
 
 const DEFAULT_DOCUMENTED_REUSABLE_SLUGS = new Set([
   'reusableguide',
+  'codeblock',
+  'sectiontitle',
+  'keyvaluecard',
+  'steplist',
   'infobox',
   'comparisontable',
   'featuregrid',
@@ -275,6 +279,16 @@ export function Layout() {
         onClose={handleStayLoggedIn}
         title="Sesi Akan Berakhir"
         size="sm"
+        footer={
+          <div className="flex gap-3 w-full">
+            <Button variant="secondary" className="flex-1" onClick={handleLogout}>
+              Logout
+            </Button>
+            <Button variant="primary" className="flex-1" onClick={handleStayLoggedIn}>
+              Tetap Login
+            </Button>
+          </div>
+        }
       >
         <div className="flex flex-col items-center text-center gap-4 py-2">
           <div className="h-14 w-14 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
@@ -284,14 +298,6 @@ export function Layout() {
             Anda tidak aktif selama 30 menit. Sesi akan otomatis berakhir dalam{' '}
             <strong>5 menit</strong>.
           </p>
-          <div className="flex gap-3 w-full">
-            <Button variant="secondary" className="flex-1" onClick={handleLogout}>
-              Logout
-            </Button>
-            <Button variant="primary" className="flex-1" onClick={handleStayLoggedIn}>
-              Tetap Login
-            </Button>
-          </div>
         </div>
       </Modal>
 

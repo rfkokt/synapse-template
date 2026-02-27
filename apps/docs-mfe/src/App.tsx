@@ -33,6 +33,7 @@ import { ComparisonTableSection } from './pages/components/ComparisonTableSectio
 import { FeatureGridSection } from './pages/components/FeatureGridSection';
 import { UtilitiesSection } from './pages/components/UtilitiesSection';
 import { ComponentsOverviewSection } from './pages/components/ComponentsOverviewSection';
+import CodeBlockSection from './pages/components/CodeBlockSection';
 import CodeBlockTableSection from './pages/components/CodeBlockTableSection';
 import { DocsStepSection } from './pages/components/DocsStepSection';
 import { ExampleTabsSection } from './pages/components/ExampleTabsSection';
@@ -54,6 +55,7 @@ import { ComponentBoundarySection } from './pages/ui-kit/ComponentBoundarySectio
 import { BreadcrumbSection } from './pages/ui-kit/BreadcrumbSection';
 import { LabelSection } from './pages/ui-kit/LabelSection';
 import { SelectSection } from './pages/ui-kit/SelectSection';
+import { SearchableSelectSection } from './pages/ui-kit/SearchableSelectSection';
 import { TableSection } from './pages/ui-kit/TableSection';
 import { TabsSection } from './pages/ui-kit/TabsSection';
 import { DropdownMenuSection } from './pages/ui-kit/DropdownMenuSection';
@@ -178,6 +180,7 @@ export const UIKIT_SECTION_MAP: Record<string, React.FC> = {
   breadcrumb: BreadcrumbSection,
   label: LabelSection,
   select: SelectSection,
+  'searchable-select': SearchableSelectSection,
   table: TableSection,
   tabs: TabsSection,
   dropdownmenu: DropdownMenuSection,
@@ -187,10 +190,14 @@ export const UIKIT_SECTION_MAP: Record<string, React.FC> = {
 /* ─── Reusable Components Section Map ─── */
 export const COMPONENTS_SECTION_MAP: Record<string, React.FC> = {
   reusableguide: ReusableComponentGuideSection,
+  codeblock: CodeBlockSection,
   infobox: InfoBoxSection,
   comparisontable: ComparisonTableSection,
   featuregrid: FeatureGridSection,
   utilities: UtilitiesSection,
+  sectiontitle: UtilitiesSection,
+  keyvaluecard: UtilitiesSection,
+  steplist: UtilitiesSection,
   codeblocktable: CodeBlockTableSection,
   docsstep: DocsStepSection,
   exampletabs: ExampleTabsSection,

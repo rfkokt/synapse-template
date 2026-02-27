@@ -20,13 +20,25 @@ export interface DiscoveredComponent {
   slug: string;
 }
 
+function toDisplayName(filename: string): string {
+  if (filename.includes('-') || filename.includes('_')) {
+    return filename
+      .split(/[-_]+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('');
+  }
+
+  return filename.charAt(0).toUpperCase() + filename.slice(1);
+}
+
 /** All discovered component names, sorted alphabetically */
 export const discoveredComponents: DiscoveredComponent[] = Object.keys(componentModules)
   .map((path) => {
     // "/libs/ui-kit/src/components/Button.tsx" → "Button"
     const filename = path.split('/').pop()?.replace('.tsx', '') ?? '';
-    // Ensure PascalCase: "select" → "Select", "ErrorFallback" stays same
-    const name = filename.charAt(0).toUpperCase() + filename.slice(1);
+    // Ensure PascalCase: "select" → "Select", "searchable-select" → "SearchableSelect"
+    const name = toDisplayName(filename);
     return {
       name,
       slug: filename.toLowerCase(),

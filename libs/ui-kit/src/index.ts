@@ -26,7 +26,7 @@ export type { ComponentBoundaryProps } from './components/ComponentBoundary';
 export { ToastContainer } from './components/Toast';
 
 export { Modal } from './components/Modal';
-export type { ModalProps } from './components/Modal';
+export type { ModalProps, ModalSize, ModalPosition } from './components/Modal';
 
 export { Badge } from './components/Badge';
 export type { BadgeProps, BadgeVariant } from './components/Badge';
