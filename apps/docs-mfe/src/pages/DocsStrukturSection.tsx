@@ -5,7 +5,6 @@ const currentRepoTree = `synapse/
 ├── apps/
 │   ├── shell/          ← Host (Port 4000)
 │   ├── auth-mfe/       ← Login & Auth (Port 4001)
-│   ├── pendaftaran/    ← Modul Pendaftaran (Port 4002)
 │   └── docs-mfe/       ← Halaman ini (Port 4003)
 ├── libs/
 │   ├── ui-kit/         ← Design System (@synapse/ui-kit)
@@ -80,12 +79,6 @@ export function DocsStrukturSection() {
                 auth-mfe
               </code>{' '}
               — Domain Autentikasi (Port 4001). Pre-loaded remote module.
-            </li>
-            <li>
-              <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
-                pendaftaran
-              </code>{' '}
-              — Modul pendaftaran dan jamaah (Port 4002).
             </li>
             <li>
               <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
@@ -232,7 +225,7 @@ export function DocsStrukturSection() {
 "docs-mfe": {
   "name": "docsmfe",
   "entry": "http://localhost:4003/mf-manifest.json",
-  "activeWhenPath": "/docs-mfe",
+  "activeWhenPath": "/docs",
   "exposes": {
     "./App": "./App"
   }

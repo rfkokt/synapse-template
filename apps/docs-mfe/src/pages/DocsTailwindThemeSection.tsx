@@ -16,11 +16,11 @@ export function DocsTailwindThemeSection() {
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
           <p>
-            Semua MFE sudah support Tailwind v4. Warna brand diatur di{' '}
+            Semua MFE sudah support Tailwind v4. Token tema didefinisikan di file{' '}
             <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
-              ui-kit
+              src/theme.css
             </code>
-            .
+            masing-masing aplikasi agar fleksibel per domain.
           </p>
           <CodeBlock
             language="tsx"
@@ -43,10 +43,13 @@ export function DocsTailwindThemeSection() {
           <CardDescription>Mengganti warna brand global</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
-          <p>Ubah satu file → otomatis teraplikasi ke semua MFE:</p>
+          <p>
+            Ubah token di app yang ingin disesuaikan (contoh shell), lalu sinkronkan ke app lain
+            jika ingin konsisten global:
+          </p>
           <CodeBlock
             language="css"
-            codeString={`/* libs/ui-kit/src/index.css */
+            codeString={`/* apps/shell/src/theme.css */
 @theme {
   --color-primary-50: #f0fdf4;
   --color-primary-100: #dcfce7;

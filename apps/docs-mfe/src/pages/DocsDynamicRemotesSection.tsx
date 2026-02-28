@@ -29,9 +29,25 @@ export function DocsDynamicRemotesSection() {
             language="json"
             codeString={`// shell/public/remotes.json
 {
-  "authMfe": "http://localhost:4001",
-  "pendaftaran": "http://localhost:4002",
-  "docsMfe": "http://localhost:4003"
+  "remotes": {
+    "authMfe": {
+      "name": "authMfe",
+      "entry": "http://localhost:4001/mf-manifest.json",
+      "activeWhenPath": "/auth",
+      "exposes": {
+        "LoginPage": "./LoginPage",
+        "RegisterPage": "./RegisterPage"
+      }
+    },
+    "docs-mfe": {
+      "name": "docsmfe",
+      "entry": "http://localhost:4003/mf-manifest.json",
+      "activeWhenPath": "/docs",
+      "exposes": {
+        "./App": "./App"
+      }
+    }
+  }
 }`}
           />
           <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
@@ -63,21 +79,24 @@ export function DocsDynamicRemotesSection() {
             </p>
             <CodeBlock
               language="bash"
-              codeString={`# shell/.env.production
-VITE_DOCS_MFE_URL=https://docs.Synapse.com
-VITE_AUTH_MFE_URL=https://auth.Synapse.com`}
+              codeString={`# apps/shell/.env.production
+VITE_AUTH_MFE_URL=https://auth.synapse.com
+VITE_DOCS_MFE_URL=https://docs.synapse.com
+
+# Alias kompatibilitas (remote.name = "docsmfe")
+# VITE_DOCSMFE_URL=https://docs.synapse.com`}
             />
             <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400 mb-4">
-              Vite otomatis meresolusi nama MFE di <code>remotes.json</code> (contoh:{' '}
-              <code>docsMfe</code>) mencari nilai ENV{' '}
+              Loader Shell akan mencari override URL berdasarkan key registry di{' '}
+              <code>remotes.json</code> (contoh: <code>docs-mfe</code> →{' '}
               <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
                 VITE_DOCS_MFE_URL
               </code>{' '}
-              dan{' '}
+              ), dan tetap kompatibel dengan key berbasis <code>remote.name</code> (
               <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
-                VITE_AUTH_MFE_URL
+                VITE_DOCSMFE_URL
               </code>
-              . Sehingga kita tidak perlu repot mengubah{' '}
+              ). Sehingga kita tidak perlu repot mengubah{' '}
               <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">remotes.json</code>{' '}
               berkali-kali!
             </p>
@@ -93,14 +112,14 @@ import { loadEnv } from 'vite';
 function loadFederationRemotes(mode: string) {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
   // ... read remotes.json
-  
-  // Format camelCase dari remotes.json direplace jadi ENV CONSTANT
-  // authMfe -> VITE_AUTH_MFE_URL
-  const envKeyName = remote.name.replace(/([a-z])([A-Z])/g, '$1_$2').replace(/-/g, '_').toUpperCase();
-  const envKey = \`VITE_\${envKeyName}_URL\`;
-  
-  // Timpa URL di remotes.json dengan variabel lingkungan (jika ada)
-  const entryUrl = env[envKey] ? \`\${env[envKey]}/mf-manifest.json\` : remote.entry;
+
+  // dukung key registry + remote.name:
+  // docs-mfe -> VITE_DOCS_MFE_URL
+  // docsmfe  -> VITE_DOCSMFE_URL
+  const envKeyFromRegistry = \`VITE_\${toEnvKeyName(registryKey)}_URL\`;
+  const envKeyFromName = \`VITE_\${toEnvKeyName(remote.name)}_URL\`;
+  const envBaseUrl = env[envKeyFromRegistry] || env[envKeyFromName];
+  const entryUrl = envBaseUrl ? \`\${envBaseUrl}/mf-manifest.json\` : remote.entry;
   // ...
 }`}
             />
@@ -121,8 +140,20 @@ function loadFederationRemotes(mode: string) {
               language="json"
               codeString={`// remotes.json (Di aplikasi milik tim lain)
 {
-  "docsMfe": "https://docs.Synapse.com/mf-manifest.json",
-  "authMfe": "https://auth.Synapse.com/mf-manifest.json"
+  "remotes": {
+    "docs-mfe": {
+      "name": "docsmfe",
+      "entry": "https://docs.synapse.com/mf-manifest.json",
+      "activeWhenPath": "/docs",
+      "exposes": { "./App": "./App" }
+    },
+    "authMfe": {
+      "name": "authMfe",
+      "entry": "https://auth.synapse.com/mf-manifest.json",
+      "activeWhenPath": "/auth",
+      "exposes": { "LoginPage": "./LoginPage", "RegisterPage": "./RegisterPage" }
+    }
+  }
 }`}
             />
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mt-4">

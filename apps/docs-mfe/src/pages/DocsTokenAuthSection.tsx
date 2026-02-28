@@ -40,7 +40,7 @@ const { user, isAuthenticated } = useAuthStore();`}
           <li>
             POST{' '}
             <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
-              /api/login
+              /api/v1/auth/login
             </code>{' '}
             → server set HttpOnly session cookie
           </li>
@@ -49,7 +49,7 @@ const { user, isAuthenticated } = useAuthStore();`}
             <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">{`{ user }`}</code>
           </li>
           <li>
-            auth-mfe dispatch event{' '}
+            auth-mfe update shared auth state + dispatch event integrasi{' '}
             <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
               USER_LOGGED_IN
             </code>
@@ -63,7 +63,7 @@ const { user, isAuthenticated } = useAuthStore();`}
           <li>
             Logout: Shell clear Zustand + POST{' '}
             <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
-              /api/logout
+              /api/v1/auth/logout
             </code>
           </li>
         </ol>

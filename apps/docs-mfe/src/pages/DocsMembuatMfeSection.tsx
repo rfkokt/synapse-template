@@ -158,13 +158,13 @@ pnpm run dev:new`}
 import { Button, Input, Card, ComponentBoundary } from '@synapse/ui-kit';
 import { InfoBox } from '@synapse/shared-components';
 import { useAuthStore } from '@synapse/shared-types';
-import { apiClient } from '@synapse/shared-api';
+import { apiClient, API } from '@synapse/shared-api';
 import { initMonitoring } from '@synapse/shared-monitoring';
 import { initMsw } from '@synapse/mock-api';
 
 // Contoh fetch data
-const res = await apiClient.get('/api/reports');
-// ↑ Header Authorization diinject otomatis via interceptor!
+const res = await apiClient.get(API.business.orders());
+// ↑ Session cookie + refresh flow ditangani shared-api client
 
 initMonitoring();
 await initMsw();`}

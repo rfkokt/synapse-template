@@ -62,9 +62,8 @@ SKIP_PRE_PUSH_REVIEW=1 git push`}
             </li>
             <li className="text-secondary-500">
               <em>Note:</em> Saat menjalankan <code>pnpm build</code>, plugin{' '}
-              <code>rollup-plugin-visualizer</code> akan otomatis membuka grafik Treemap interaktif
-              di browser (biasanya <code>http://127.0.0.1:5000</code>) untuk membantu analisis
-              ukuran bundle.
+              <code>rollup-plugin-visualizer</code> akan menghasilkan file <code>stats.html</code>{' '}
+              per app untuk analisis bundle (dibuka manual).
             </li>
           </ul>
           <CodeBlock

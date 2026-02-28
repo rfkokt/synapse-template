@@ -6,126 +6,125 @@ import {
   LuTrash2 as Trash2,
   LuPlus as Plus,
   LuEye as Eye,
-  LuUserPlus as UserPlus,
 } from 'react-icons/lu';
 
 interface Paket {
   id: number;
   nama: string;
-  jenis: string;
-  maskapai: string;
-  hotel: string;
-  keberangkatan: string;
+  kategori: string;
+  vendor: string;
+  deskripsi: string;
+  rilis: string;
   status: string;
 }
 
 const sampleData: Paket[] = [
   {
     id: 1,
-    nama: 'Umroh Tengah Ramadhan',
-    jenis: 'Umroh Bronze',
-    maskapai: 'Garuda Indonesia',
-    hotel: 'Al Shohada (Makkah)\nConcorde Dar Al Khair Hotel (Madinah)',
-    keberangkatan: '28 Feb 2026',
+    nama: 'Starter CRM Bundle',
+    kategori: 'Starter',
+    vendor: 'Synapse Labs',
+    deskripsi: 'Lead tracking dasar\nPipeline management',
+    rilis: '28 Feb 2026',
     status: 'Belum Aktif',
   },
   {
     id: 2,
-    nama: 'Umroh Akhir Ramadhan',
-    jenis: 'Umroh Gold',
-    maskapai: 'Garuda Indonesia',
-    hotel: 'Anjum Hotel Makkah (Makkah)\nDeyar Al Eiman (Madinah)',
-    keberangkatan: '27 Maret 2026',
+    nama: 'Growth CRM Bundle',
+    kategori: 'Growth',
+    vendor: 'Synapse Labs',
+    deskripsi: 'Workflow automation\nTeam dashboard',
+    rilis: '27 Mar 2026',
     status: 'Kadaluwarsa',
   },
   {
     id: 3,
-    nama: 'Haji Reguler 2026',
-    jenis: 'Haji Plus',
-    maskapai: 'Saudi Airlines',
-    hotel: 'Hilton Suites (Makkah)\nOberoi Madinah (Madinah)',
-    keberangkatan: '15 Jun 2026',
+    nama: 'Operations Suite 2026',
+    kategori: 'Enterprise',
+    vendor: 'Northwind Tech',
+    deskripsi: 'Order orchestration\nSLA monitoring',
+    rilis: '15 Jun 2026',
     status: 'Aktif',
   },
   {
     id: 4,
-    nama: 'Umroh Awal Tahun',
-    jenis: 'Umroh Silver',
-    maskapai: 'Garuda Indonesia',
-    hotel: 'Swissotel Al Maqam (Makkah)\nPullman Madinah (Madinah)',
-    keberangkatan: '10 Jan 2026',
+    nama: 'Analytics Starter',
+    kategori: 'Standard',
+    vendor: 'DataWorks',
+    deskripsi: 'Dashboard KPI\nScheduled report',
+    rilis: '10 Jan 2026',
     status: 'Aktif',
   },
   {
     id: 5,
-    nama: 'Umroh Liburan Sekolah',
-    jenis: 'Umroh Bronze',
-    maskapai: 'Batik Air',
-    hotel: 'Al Safwah Tower (Makkah)\nAnwar Al Madinah (Madinah)',
-    keberangkatan: '20 Jul 2026',
+    nama: 'Support Automation Pack',
+    kategori: 'Starter',
+    vendor: 'Helpgrid',
+    deskripsi: 'Auto ticket routing\nKnowledge snippets',
+    rilis: '20 Jul 2026',
     status: 'Belum Aktif',
   },
   {
     id: 6,
-    nama: 'Umroh Premium Akhir Tahun',
-    jenis: 'Umroh Platinum',
-    maskapai: 'Emirates',
-    hotel: 'Raffles Makkah Palace (Makkah)\nThe Oberoi Madinah (Madinah)',
-    keberangkatan: '15 Des 2026',
+    nama: 'Omnichannel Premium',
+    kategori: 'Premium',
+    vendor: 'Connext',
+    deskripsi: 'Email, WA, push integration\nUnified inbox',
+    rilis: '15 Dec 2026',
     status: 'Aktif',
   },
   {
     id: 7,
-    nama: 'Haji Furoda 2026',
-    jenis: 'Haji Furoda',
-    maskapai: 'Saudi Airlines',
-    hotel: 'Conrad Makkah (Makkah)\nCrowne Plaza Madinah (Madinah)',
-    keberangkatan: '1 Jun 2026',
+    nama: 'Security Compliance Pack',
+    kategori: 'Enterprise',
+    vendor: 'SecureOps',
+    deskripsi: 'Audit log lengkap\nPolicy enforcement',
+    rilis: '1 Jun 2026',
     status: 'Aktif',
   },
   {
     id: 8,
-    nama: 'Umroh Syawal',
-    jenis: 'Umroh Gold',
-    maskapai: 'Garuda Indonesia',
-    hotel: 'Makkah Hotel (Makkah)\nMarriott Madinah (Madinah)',
-    keberangkatan: '5 Apr 2026',
+    nama: 'Commerce Pro Suite',
+    kategori: 'Growth',
+    vendor: 'Mercato',
+    deskripsi: 'Catalog manager\nPromo engine',
+    rilis: '5 Apr 2026',
     status: 'Belum Aktif',
   },
   {
     id: 9,
-    nama: 'Umroh Musim Panas',
-    jenis: 'Umroh Silver',
-    maskapai: 'Batik Air',
-    hotel: 'Le Meridien (Makkah)\nHilton Madinah (Madinah)',
-    keberangkatan: '1 Aug 2026',
+    nama: 'HR Essentials',
+    kategori: 'Standard',
+    vendor: 'PeopleFlow',
+    deskripsi: 'Leave management\nAttendance sync',
+    rilis: '1 Aug 2026',
     status: 'Kadaluwarsa',
   },
   {
     id: 10,
-    nama: 'Umroh Idul Adha',
-    jenis: 'Umroh Gold',
-    maskapai: 'Emirates',
-    hotel: 'Fairmont Makkah (Makkah)\nRitz Carlton Madinah (Madinah)',
-    keberangkatan: '10 Jun 2026',
+    nama: 'Finance Core Bundle',
+    kategori: 'Growth',
+    vendor: 'Ledgerly',
+    deskripsi: 'Invoicing\nCashflow tracking',
+    rilis: '10 Jun 2026',
     status: 'Aktif',
   },
   {
     id: 11,
-    nama: 'Umroh Hemat Q1',
-    jenis: 'Umroh Bronze',
-    maskapai: 'Lion Air',
-    hotel: 'Elaf Ajyad (Makkah)\nDar Al Iman (Madinah)',
-    keberangkatan: '15 Feb 2026',
+    nama: 'Project Delivery Lite',
+    kategori: 'Starter',
+    vendor: 'Sprintline',
+    deskripsi: 'Board Kanban\nMilestone tracker',
+    rilis: '15 Feb 2026',
     status: 'Belum Aktif',
   },
   {
     id: 12,
-    nama: 'Umroh VIP Exclusive',
-    jenis: 'Umroh Platinum',
-    maskapai: 'Qatar Airways',
-    hotel: 'Four Seasons Makkah\nFour Seasons Madinah',
-    keberangkatan: '20 Nov 2026',
+    nama: 'Executive Insights',
+    kategori: 'Premium',
+    vendor: 'Boardview',
+    deskripsi: 'Strategic dashboard\nCustom KPI alert',
+    rilis: '20 Nov 2026',
     status: 'Aktif',
   },
 ];
@@ -138,15 +137,15 @@ const statusColor: Record<string, string> = {
 
 const columns: Column<Paket>[] = [
   { key: 'nama', header: 'Nama Paket', sortable: true },
-  { key: 'jenis', header: 'Jenis Paket', sortable: true },
-  { key: 'maskapai', header: 'Maskapai', sortable: true },
+  { key: 'kategori', header: 'Kategori', sortable: true },
+  { key: 'vendor', header: 'Vendor', sortable: true },
   {
-    key: 'hotel',
-    header: 'Hotel',
+    key: 'deskripsi',
+    header: 'Deskripsi',
     sortable: true,
-    render: (row) => <span className="whitespace-pre-line text-sm">{row.hotel}</span>,
+    render: (row) => <span className="whitespace-pre-line text-sm">{row.deskripsi}</span>,
   },
-  { key: 'keberangkatan', header: 'Keberangkatan', sortable: true },
+  { key: 'rilis', header: 'Tanggal Rilis', sortable: true },
   {
     key: 'status',
     header: 'Status',
@@ -166,7 +165,7 @@ const columns: Column<Paket>[] = [
       <DropdownMenu
         items={[
           { label: 'Lihat Detail', icon: <Eye className="h-4 w-4" /> },
-          { label: 'Tambah Jamaah', icon: <UserPlus className="h-4 w-4" /> },
+          { label: 'Tambah Item', icon: <Plus className="h-4 w-4" /> },
           { label: 'Edit', icon: <Pencil className="h-4 w-4" />, divider: true },
           { label: 'Hapus', icon: <Trash2 className="h-4 w-4" />, danger: true },
         ]}
@@ -194,7 +193,7 @@ export function TableSection() {
             showRowNumbers
             searchable
             searchPlaceholder="Cari paket"
-            searchKeys={['nama', 'jenis', 'maskapai', 'status']}
+            searchKeys={['nama', 'kategori', 'vendor', 'status']}
             toolbarActions={
               <Button size="sm">
                 <Plus className="h-4 w-4" />
@@ -206,7 +205,7 @@ export function TableSection() {
 
         <PreviewCard title="Minimal (tanpa toolbar)">
           <Table<Paket>
-            columns={columns.filter((c) => ['nama', 'jenis', 'status'].includes(c.key))}
+            columns={columns.filter((c) => ['nama', 'kategori', 'status'].includes(c.key))}
             data={sampleData.slice(0, 3)}
             rowKey={(row) => row.id}
             paginated={false}
@@ -215,11 +214,11 @@ export function TableSection() {
 
         <PreviewCard title="Empty State">
           <Table<Paket>
-            title="Daftar Jamaah"
-            columns={columns.filter((c) => ['nama', 'jenis', 'status'].includes(c.key))}
+            title="Daftar Data"
+            columns={columns.filter((c) => ['nama', 'kategori', 'status'].includes(c.key))}
             data={[]}
             rowKey={(row) => row.id}
-            emptyMessage="Belum ada data jamaah."
+            emptyMessage="Belum ada data."
             searchable
           />
         </PreviewCard>
@@ -229,7 +228,7 @@ export function TableSection() {
             preview={
               <div className="w-full">
                 <Table<Paket>
-                  columns={columns.filter((c) => ['nama', 'jenis', 'status'].includes(c.key))}
+                  columns={columns.filter((c) => ['nama', 'kategori', 'status'].includes(c.key))}
                   data={sampleData.slice(0, 3)}
                   rowKey={(row) => row.id}
                   paginated={false}

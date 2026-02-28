@@ -96,7 +96,7 @@ export default defineConfig({
               <li>
                 Initial JS bundle per Remote MFE dibatasi{' '}
                 <strong className="font-semibold text-neutral-900 dark:text-neutral-100">
-                  &lt; 100KB
+                  &lt; 250KB
                 </strong>{' '}
                 (gzipped).
               </li>

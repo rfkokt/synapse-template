@@ -23,12 +23,11 @@ pnpm install
 pnpm run dev:new
 
 # Atau jalankan secara spesifik tanpa clear cache
-pnpm nx run-many --target=serve --projects=shell,auth-mfe --parallel
+pnpm nx run-many --target=serve --projects=shell,auth-mfe,docs-mfe --parallel
 
 # Buka di browser
 # Shell:         http://localhost:4000
 # Auth MFE:      http://localhost:4001
-# Pendaftaran:   http://localhost:4002
 # Docs MFE:      http://localhost:4003`}
         />
       </CardContent>

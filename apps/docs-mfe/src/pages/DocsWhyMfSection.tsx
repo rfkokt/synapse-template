@@ -247,7 +247,7 @@ export function DocsWhyMfSection() {
               {
                 icon: '⚡',
                 title: 'Performa Build',
-                desc: 'Build time harus cepat, terutama di mesin Apple Silicon M4',
+                desc: 'Build time harus cepat dan konsisten di berbagai environment development',
               },
             ]}
           />
@@ -363,14 +363,34 @@ export function DocsWhyMfSection() {
               <CodeBlock
                 codeString={`// shell/public/remotes.json
 {
-  "authMfe": "http://localhost:4001/mf-manifest.json",
-  "docsMfe": "http://localhost:4003/mf-manifest.json"
+  "remotes": {
+    "authMfe": {
+      "name": "authMfe",
+      "entry": "http://localhost:4001/mf-manifest.json",
+      "activeWhenPath": "/auth"
+    },
+    "docs-mfe": {
+      "name": "docsmfe",
+      "entry": "http://localhost:4003/mf-manifest.json",
+      "activeWhenPath": "/docs"
+    }
+  }
 }
 
 // Production — cukup ganti URL manifest:
 {
-  "authMfe": "https://auth.synapse.id/mf-manifest.json",
-  "docsMfe": "https://docs.synapse.id/mf-manifest.json"
+  "remotes": {
+    "authMfe": {
+      "name": "authMfe",
+      "entry": "https://auth.synapse.id/mf-manifest.json",
+      "activeWhenPath": "/auth"
+    },
+    "docs-mfe": {
+      "name": "docsmfe",
+      "entry": "https://docs.synapse.id/mf-manifest.json",
+      "activeWhenPath": "/docs"
+    }
+  }
 }`}
                 language="json"
               />
@@ -386,7 +406,7 @@ export function DocsWhyMfSection() {
 shared: {
   react:       { singleton: true, requiredVersion: '^19.0.0' },
   'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
-  'react-router-dom': { singleton: true, requiredVersion: '^6.30.0' },
+  'react-router-dom': { singleton: true, requiredVersion: '^7.0.0' },
   'react-icons':  { singleton: false }, // boleh duplikat
 }`}
                 language="typescript"
@@ -396,7 +416,7 @@ shared: {
             <InfoBox variant="purple" title="3. Resilience — Error Boundary per Remote">
               <p className="mb-3">
                 Setiap remote dibungkus <code>React.Suspense</code> + <code>ErrorBoundary</code>.
-                Jika auth-mfe crash, Shell dan pendaftaran tetap jalan normal.
+                Jika auth-mfe crash, Shell dan remote lain tetap berjalan normal.
               </p>
               <CodeBlock
                 codeString={`// Shell router — setiap remote terisolasi
@@ -481,7 +501,7 @@ function Header() {
               {
                 label: 'Context',
                 value:
-                  'Sistem travel Hajj/Umroh multi-modul (Auth, CS, Paket, Inventaris) yang akan dikembangkan oleh tim paralel.',
+                  'Sistem enterprise multi-modul (Auth, Customer Service, Produk, Inventaris) yang akan dikembangkan oleh tim paralel.',
               },
               {
                 label: 'Decision',

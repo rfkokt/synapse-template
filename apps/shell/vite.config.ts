@@ -24,26 +24,31 @@ function loadFederationRemotes(mode: string): Record<string, FederationRemoteCon
   // eslint-disable-next-line no-undef
   const env = loadEnv(mode, process.cwd(), 'VITE_');
 
+  const toEnvKeyName = (value: string) =>
+    value
+      .replace(/([a-z])([A-Z])/g, '$1_$2')
+      .replace(/-/g, '_')
+      .toUpperCase();
+
   try {
     const raw = fs.readFileSync(registryPath, 'utf-8');
     const registry = JSON.parse(raw) as RemoteRegistry;
 
-    return Object.values(registry.remotes).reduce(
-      (acc, remote) => {
+    return Object.entries(registry.remotes).reduce(
+      (acc, [registryKey, remote]) => {
         if (!remote.name || !remote.entry) {
           return acc;
         }
 
-        // e.g. "authMfe" -> "VITE_AUTH_MFE_URL"
-        // Also supports camelCase/kebab-case mappings by replacing dashes and uppercasing.
-        const envKeyName = remote.name
-          .replace(/([a-z])([A-Z])/g, '$1_$2')
-          .replace(/-/g, '_')
-          .toUpperCase();
-        const envKey = `VITE_${envKeyName}_URL`;
+        // Support both:
+        // - remote.name style: authMfe -> VITE_AUTH_MFE_URL
+        // - registry key style: docs-mfe -> VITE_DOCS_MFE_URL
+        const envKeyFromName = `VITE_${toEnvKeyName(remote.name)}_URL`;
+        const envKeyFromRegistry = `VITE_${toEnvKeyName(registryKey)}_URL`;
+        const envBaseUrl = env[envKeyFromRegistry] || env[envKeyFromName];
 
         // Use ENV if available, fallback to remotes.json entry
-        const entryUrl = env[envKey] ? `${env[envKey]}/mf-manifest.json` : remote.entry;
+        const entryUrl = envBaseUrl ? `${envBaseUrl}/mf-manifest.json` : remote.entry;
 
         acc[remote.name] = {
           type: 'module',

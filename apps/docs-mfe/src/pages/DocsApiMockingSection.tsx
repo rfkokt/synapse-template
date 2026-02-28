@@ -95,9 +95,9 @@ export function DocsApiMockingSection() {
               language="tsx"
               codeString={`import { http, HttpResponse } from 'msw';
 
-export const pendaftaranHandlers = [
-  http.get('/api/v1/pendaftaran/status', () => {
-    return HttpResponse.json({ status: 'AKTIF', pendaftar: 15 });
+export const reportingHandlers = [
+  http.get('/api/v1/reports/status', () => {
+    return HttpResponse.json({ status: 'ACTIVE', total: 15 });
   }),
 ];`}
             />
@@ -112,11 +112,11 @@ export const pendaftaranHandlers = [
               codeString={`// libs/mock-api/src/browser.ts
 import { setupWorker } from 'msw/browser';
 import { authHandlers } from './handlers/auth';
-import { pendaftaranHandlers } from './handlers/pendaftaran'; // <-- import
+import { reportingHandlers } from './handlers/reporting'; // <-- import
 
 export const worker = setupWorker(
   ...authHandlers,
-  ...pendaftaranHandlers // <-- pasang di sini
+  ...reportingHandlers // <-- pasang di sini
 );`}
             />
           </DocsStep>
@@ -179,20 +179,20 @@ export const worker = setupWorker(...authHandlers, ...menuHandlers);`}
             <CodeBlock
               language="tsx"
               codeString={`import { useEffect, useState } from 'react';
-import { apiClient } from '@synapse/shared-api';
+import { apiClient, API } from '@synapse/shared-api';
 
-export function ProfilPengguna() {
-  const [user, setUser] = useState(null);
+export function DaftarMenu() {
+  const [menus, setMenus] = useState([]);
 
   useEffect(() => {
     // 👇 Request ini akan di-intercept otomatis oleh MSW (jika VITE_ENABLE_MSW=true) 
     // atau diteruskan ke backend betulan (jika VITE_ENABLE_MSW=false)
-    apiClient.get('/api/v1/auth/user')
-      .then(res => setUser(res.data.data))
+    apiClient.get(API.menu.list())
+      .then(res => setMenus(Array.isArray(res.data) ? res.data : res.data?.data ?? []))
       .catch(console.error);
   }, []);
 
-              return <div>Halo, {user?.name || 'Loading...'}</div>;
+  return <div>Total menu: {menus.length}</div>;
 }`}
             />
           </DocsStep>

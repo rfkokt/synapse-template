@@ -26,12 +26,14 @@ export function DocsEnvDarkModeSection() {
             language="bash"
             codeString={`# .env.development
 VITE_AUTH_MFE_URL=http://localhost:4001
+VITE_DOCS_MFE_URL=http://localhost:4003
 VITE_API_BASE_URL=/
 # Jika MSW dimatikan, arahkan ke backend beneran
 # VITE_API_BASE_URL=http://localhost:8080
 
 # .env.production
 VITE_AUTH_MFE_URL=https://auth.synapse.com
+VITE_DOCS_MFE_URL=https://docs.synapse.com
 VITE_API_BASE_URL=https://api.synapse.com`}
           />
 

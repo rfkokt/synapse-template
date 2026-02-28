@@ -22,7 +22,7 @@ export function TabsSection() {
             </TabList>
             <TabPanel value="profil" className="p-4">
               <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                Informasi profil jamaah: nama, KTP, passport, dll.
+                Informasi profil pengguna: nama, identitas, kontak, dan detail akun.
               </p>
             </TabPanel>
             <TabPanel value="alamat" className="p-4">
@@ -32,7 +32,7 @@ export function TabsSection() {
             </TabPanel>
             <TabPanel value="riwayat" className="p-4">
               <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                Riwayat keberangkatan haji/umroh sebelumnya.
+                Riwayat aktivitas dan transaksi sebelumnya.
               </p>
             </TabPanel>
           </Tabs>

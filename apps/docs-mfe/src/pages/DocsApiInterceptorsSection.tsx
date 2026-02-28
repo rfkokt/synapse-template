@@ -11,7 +11,7 @@ export function DocsApiInterceptorsSection() {
           </span>
           API Client & Interceptors
         </CardTitle>
-        <CardDescription>Auto-inject token & error handling</CardDescription>
+        <CardDescription>Session cookie flow & error handling</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
         <p>
@@ -29,12 +29,15 @@ export function DocsApiInterceptorsSection() {
           language="typescript"
           codeString={`import { apiClient } from '@synapse/shared-api';
 
-// Token otomatis disisipkan!
-const res = await apiClient.get('/api/users/me');`}
+// Cookie session terkirim otomatis (withCredentials: true)
+const res = await apiClient.get('/api/v1/user/profile');`}
         />
         <p>
-          <strong>Jika Token expired?</strong> Interceptor otomatis: hit /refresh → simpan token
-          baru → replay request gagal.
+          <strong>Jika session expired?</strong> Interceptor otomatis mencoba{' '}
+          <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+            /api/v1/auth/refresh
+          </code>{' '}
+          lalu me-replay request yang gagal.
         </p>
         <ul className="list-disc ml-4 space-y-1">
           <li>
@@ -65,7 +68,7 @@ const res = await apiClient.get('/api/users/me');`}
 }
 
 try {
-  await apiClient.post('/api/login', data);
+  await apiClient.post('/api/v1/auth/login', data);
 } catch (error) {
   const appError = error as AppError;
   toast.error(appError.message);

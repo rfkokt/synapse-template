@@ -16,34 +16,39 @@ export function DocsEventsErrorSection() {
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
           <p>
-            Secara garis besar, pertukaran <em>State</em> sinkronus (seperti status session dan info
-            User) <strong>wajib</strong> menggunakan Zustand melalui `shared-types`. Hanya gunakan
-            Browser Events (`window.dispatchEvent`) untuk interaksi <em>one-off</em> atau event{' '}
-            <em>UI-agnostic</em>.
+            Untuk source of truth state sinkron (session/user), prioritaskan store dari{' '}
+            <code>@synapse/shared-types</code>. Browser Events tetap dipakai sebagai kontrak
+            integrasi host-remote untuk sinyal auth (login/logout/refresh) dan event lintas app yang
+            one-off.
           </p>
           <CodeBlock
             language="typescript"
-            codeString={`// ❌ ANTI-PATTERN untuk Auth (Jangan gunakan Event)
-dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, data);
+            codeString={`// source of truth: shared store
+useAuthStore.getState().setAuth(user);
 
-// ✅ STANDAR BARU (Reaktif lintas-MFE)
-import { useAuthStore } from '@synapse/shared-types';
-
-const setAuth = useAuthStore(s => s.setAuth);
-setAuth(user);`}
+// integration signal: host-remote contract
+dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, {
+  userId: user.id,
+  user,
+});`}
           />
           <p>
-            <strong>Legacy Events (Tinggalkan bertahap):</strong>
+            <strong>Core Integration Events (aktif):</strong>
           </p>
           <ul className="list-disc ml-4 space-y-1">
-            <li className="line-through opacity-50">
+            <li>
               <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
                 AUTH.USER_LOGGED_IN
               </code>
             </li>
-            <li className="line-through opacity-50">
+            <li>
               <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
                 AUTH.USER_LOGGED_OUT
+              </code>
+            </li>
+            <li>
+              <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                AUTH.TOKEN_REFRESHED
               </code>
             </li>
           </ul>

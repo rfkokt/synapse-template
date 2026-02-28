@@ -53,7 +53,7 @@ pnpm remove:ui accordion
 pnpm remove:ui accordion calendar`}
         />
         <p>
-          Lihat galeri lengkap di halaman <strong>/ui-kit</strong> di sidebar.
+          Lihat galeri lengkap di halaman <strong>/docs/ui-kit</strong> di sidebar.
         </p>
       </CardContent>
     </Card>

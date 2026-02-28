@@ -18,6 +18,7 @@ export function DocsSecuritySection() {
             <p className="font-semibold text-emerald-700 dark:text-emerald-400 mb-2">✅ WAJIB</p>
             <ul className="list-disc ml-4 space-y-1">
               <li>Access token HANYA di memory (Zustand)</li>
+              <li>Gunakan HttpOnly refresh cookie dari backend (bukan JS-readable cookie)</li>
               <li>
                 Gunakan{' '}
                 <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
@@ -54,7 +55,7 @@ export function DocsSecuritySection() {
           <div>
             <p className="font-semibold text-red-700 dark:text-red-400 mb-2">❌ DILARANG</p>
             <ul className="list-disc ml-4 space-y-1">
-              <li>Simpan token di localStorage / cookie</li>
+              <li>Simpan access token di localStorage/sessionStorage/non-HttpOnly cookie</li>
               <li>Buat Axios instance sendiri</li>
               <li>
                 Gunakan{' '}
