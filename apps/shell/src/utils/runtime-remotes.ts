@@ -9,8 +9,21 @@ interface FederationRuntimeRemote {
 interface FederationRuntimeInstance {
   options?: {
     name?: string;
+    remotes?: FederationRuntimeRemote[];
   };
   registerRemotes: (remotes: FederationRuntimeRemote[], options?: { force?: boolean }) => void;
+}
+
+function normalizeEntry(entry: string): string {
+  if (typeof window === 'undefined') {
+    return entry;
+  }
+
+  try {
+    return new URL(entry, window.location.origin).href;
+  } catch {
+    return entry;
+  }
 }
 
 function getShellFederationInstance(): FederationRuntimeInstance | null {
@@ -81,5 +94,21 @@ export async function registerRuntimeRemotesFromRegistry() {
     return;
   }
 
-  runtimeInstance.registerRemotes(remotes, { force: true });
+  const existingRemotes = runtimeInstance.options?.remotes ?? [];
+  const existingRemoteByName = new Map(existingRemotes.map((remote) => [remote.name, remote]));
+
+  const remotesToRegister = remotes.filter((remote) => {
+    const existingRemote = existingRemoteByName.get(remote.name);
+    if (!existingRemote) {
+      return true;
+    }
+
+    return normalizeEntry(existingRemote.entry) !== normalizeEntry(remote.entry);
+  });
+
+  if (remotesToRegister.length === 0) {
+    return;
+  }
+
+  runtimeInstance.registerRemotes(remotesToRegister, { force: true });
 }
