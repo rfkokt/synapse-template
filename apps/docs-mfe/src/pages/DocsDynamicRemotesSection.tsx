@@ -173,14 +173,25 @@ interface MenuItem {
   label: string;
   icon: string;         // Lucide icon name
   path: string;
+  roles?: string[];     // ['admin', 'manager'] atau ['*']
   children?: MenuItem[];
   badge?: string;       // "NEW" atau "3"
 }
 
 interface MenuGroup {
   title: string;        // "MENU", "LAINNYA"
+  roles?: string[];
   items: MenuItem[];
 }`}
+          />
+          <CodeBlock
+            language="tsx"
+            codeString={`import { apiClient, API } from '@synapse/shared-api';
+import { filterMenuGroupsByRole } from '@synapse/shared-types';
+
+const response = await apiClient.get(API.menu.list());
+const menus = Array.isArray(response.data) ? response.data : response.data?.data ?? [];
+const roleAwareMenus = filterMenuGroupsByRole(menus, user.role);`}
           />
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
             <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
@@ -188,6 +199,9 @@ interface MenuGroup {
               <code className="text-xs bg-blue-100 dark:bg-blue-900/50 px-1 rounded">
                 mock-menus.ts
               </code>
+            </p>
+            <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
+              Detail RBAC sidebar ada di <code>/docs/sidebar-rbac</code>.
             </p>
           </div>
         </CardContent>

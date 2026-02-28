@@ -71,7 +71,19 @@ npx shadcn@latest search shadcn`}</CodeBlock>
         <CodeBlock>{`import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@synapse/ui-kit';`}</CodeBlock>
 
         <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-          4. (Opsional) Tambah dokumentasi
+          4. Hapus komponen (jika tidak dipakai)
+        </h3>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          Gunakan script ini untuk menghapus file komponen dan export di barrel secara otomatis.
+        </p>
+        <CodeBlock>{`# Hapus satu komponen
+pnpm remove:ui accordion
+
+# Hapus beberapa komponen sekaligus
+pnpm remove:ui accordion calendar`}</CodeBlock>
+
+        <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
+          5. (Opsional) Tambah dokumentasi
         </h3>
         <CodeBlock>{`// Di apps/shell/src/pages/ui-kit/AccordionSection.tsx
 

@@ -31,13 +31,19 @@ export function OverviewSection({ sectionMap }: { sectionMap: Record<string, Rea
       <CodeBlock>{`import { Button, Input, Card, Modal, Badge } from '@synapse/ui-kit';`}</CodeBlock>
 
       <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-2 mt-6">
-        2. Tambah komponen baru via Shadcn CLI
+        2. Kelola komponen via CLI
       </h3>
       <CodeBlock>{`# Install satu komponen
 pnpm add:ui accordion
 
 # Install beberapa sekaligus
-pnpm add:ui accordion tabs dialog dropdown-menu`}</CodeBlock>
+pnpm add:ui accordion tabs dialog dropdown-menu
+
+# Hapus satu komponen
+pnpm remove:ui accordion
+
+# Hapus beberapa komponen sekaligus
+pnpm remove:ui accordion calendar`}</CodeBlock>
 
       <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-2 mt-6">
         3. Atau buat manual

@@ -133,7 +133,35 @@ export const worker = setupWorker(
             </p>
           </DocsStep>
 
-          <DocsStep title="4. Contoh Penggunaan di Komponen Sehari-hari" color="indigo">
+          <DocsStep title="4. Contoh Endpoint Sidebar Menu (RBAC)" color="emerald">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Untuk kasus Shell, endpoint menu juga dimock agar alur RBAC bisa dites tanpa backend
+              asli.
+            </p>
+            <CodeBlock
+              language="tsx"
+              codeString={`// libs/mock-api/src/handlers/menus.ts
+import { http, HttpResponse, delay } from 'msw';
+import menus from '../fixtures/menus.json';
+
+export const menuHandlers = [
+  http.get('/api/v1/menus', async () => {
+    await delay(500);
+    return HttpResponse.json(menus, { status: 200 });
+  }),
+];`}
+            />
+            <CodeBlock
+              language="tsx"
+              codeString={`// libs/mock-api/src/browser.ts
+import { authHandlers } from './handlers/auth';
+import { menuHandlers } from './handlers/menus';
+
+export const worker = setupWorker(...authHandlers, ...menuHandlers);`}
+            />
+          </DocsStep>
+
+          <DocsStep title="5. Contoh Penggunaan di Komponen Sehari-hari" color="indigo">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Bagian terbaik dari MSW adalah Anda{' '}
               <strong>
@@ -164,12 +192,12 @@ export function ProfilPengguna() {
       .catch(console.error);
   }, []);
 
-  return <div>Halo, {user?.name || 'Loading...'}</div>;
+              return <div>Halo, {user?.name || 'Loading...'}</div>;
 }`}
             />
           </DocsStep>
 
-          <DocsStep title="5. Catatan CORS Saat Development" color="slate">
+          <DocsStep title="6. Catatan CORS Saat Development" color="slate">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Saat MSW aktif dan client menggunakan{' '}
               <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">

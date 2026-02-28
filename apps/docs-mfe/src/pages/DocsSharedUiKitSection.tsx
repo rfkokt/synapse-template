@@ -42,6 +42,17 @@ pnpm add:ui accordion
 # import { Accordion } from '@synapse/ui-kit';`}
         />
         <p>
+          <strong>Menghapus komponen UI Kit:</strong>
+        </p>
+        <CodeBlock
+          language="bash"
+          codeString={`# Hapus satu komponen
+pnpm remove:ui accordion
+
+# Hapus beberapa komponen sekaligus
+pnpm remove:ui accordion calendar`}
+        />
+        <p>
           Lihat galeri lengkap di halaman <strong>/ui-kit</strong> di sidebar.
         </p>
       </CardContent>

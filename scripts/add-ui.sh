@@ -38,8 +38,11 @@ export npm_config_ignore_workspace_root_check=true
 # Track existing files before install
 BEFORE=$(ls "$COMPONENTS_DIR"/*.tsx 2>/dev/null | sort)
 
-# 1. Run shadcn CLI (use --pm pnpm to avoid npm fallback)
-npx shadcn@latest add "$@" --yes --overwrite
+# 1. Run shadcn CLI in non-interactive mode.
+#    If shadcn asks "file already exists, overwrite?", auto-answer "no"
+#    so existing customized components are not replaced.
+OVERWRITE_ANSWERS="$(printf 'n\n%.0s' {1..20})"
+npx shadcn@latest add "$@" --yes <<< "$OVERWRITE_ANSWERS"
 
 # Track new files after install
 AFTER=$(ls "$COMPONENTS_DIR"/*.tsx 2>/dev/null | sort)
@@ -74,6 +77,61 @@ for file in $NEW_FILES; do
   # Fix @/hooks/XYZ → ../hooks/XYZ
   sed -i '' 's|from "@/hooks/\([^"]*\)"|from "../hooks/\1"|g' "$file"
   sed -i '' "s|from '@/hooks/\([^']*\)'|from '../hooks/\1'|g" "$file"
+
+  # Convert lucide-react imports to react-icons/lu aliases
+  if rg -q "from ['\"]lucide-react['\"]" "$file"; then
+    node - "$file" <<'NODE'
+const fs = require('node:fs');
+const filePath = process.argv[2];
+if (!filePath) process.exit(0);
+
+const toReactIconsImport = (rawList) => {
+  const names = rawList
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const mapped = names.map((name) => {
+    if (/\sas\s/.test(name)) return name;
+    const normalized = name.replace(/Icon$/, '');
+    return `Lu${normalized} as ${name}`;
+  });
+
+  return `import {\n  ${mapped.join(',\n  ')},\n} from 'react-icons/lu'`;
+};
+
+const source = fs.readFileSync(filePath, 'utf8');
+const next = source.replace(
+  /import\s*\{([\s\S]*?)\}\s*from\s*['"]lucide-react['"];?/g,
+  (_, imports) => toReactIconsImport(imports)
+);
+
+fs.writeFileSync(filePath, next);
+NODE
+  fi
+
+  # Normalize local component import casing (./button -> ./Button) if target already exists
+  LOCAL_IMPORTS=$(rg -o "from ['\"]\\./[^'\"]+['\"]" "$file" \
+    | sed -E "s/from ['\"](\\.[^'\"]+)['\"]/\\1/" \
+    | sort -u || true)
+
+  for local_path in $LOCAL_IMPORTS; do
+    module_name=$(basename "$local_path")
+    [ -z "$module_name" ] && continue
+
+    # Skip if exact file already exists (casing already correct)
+    if [ -f "$COMPONENTS_DIR/$module_name.tsx" ] || [ -f "$COMPONENTS_DIR/$module_name.ts" ]; then
+      continue
+    fi
+
+    ACTUAL_FILE=$(find "$COMPONENTS_DIR" -maxdepth 1 -type f \( -iname "$module_name.tsx" -o -iname "$module_name.ts" \) | head -n 1)
+    if [ -n "$ACTUAL_FILE" ]; then
+      actual_basename=$(basename "$ACTUAL_FILE")
+      actual_name="${actual_basename%.*}"
+      sed -i '' "s|from \"\\./$module_name\"|from \"./$actual_name\"|g" "$file"
+      sed -i '' "s|from '\\./$module_name'|from './$actual_name'|g" "$file"
+    fi
+  done
 done
 
 # 3. Auto-export from barrel (index.ts)
