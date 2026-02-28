@@ -16,7 +16,7 @@ export function DocsEventsErrorSection() {
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
           <p>
-            Secara garis besar, pertukaran <em>State</em> sinkronus (seperti Auth Token dan info
+            Secara garis besar, pertukaran <em>State</em> sinkronus (seperti status session dan info
             User) <strong>wajib</strong> menggunakan Zustand melalui `shared-types`. Hanya gunakan
             Browser Events (`window.dispatchEvent`) untuk interaksi <em>one-off</em> atau event{' '}
             <em>UI-agnostic</em>.
@@ -30,7 +30,7 @@ dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, data);
 import { useAuthStore } from '@synapse/shared-types';
 
 const setAuth = useAuthStore(s => s.setAuth);
-setAuth({ user, token });`}
+setAuth(user);`}
           />
           <p>
             <strong>Legacy Events (Tinggalkan bertahap):</strong>

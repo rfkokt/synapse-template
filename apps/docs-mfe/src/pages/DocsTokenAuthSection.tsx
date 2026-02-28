@@ -11,11 +11,13 @@ export function DocsTokenAuthSection() {
           </span>
           Token & Auth Management
         </CardTitle>
-        <CardDescription>Memory-only token + HttpOnly refresh cookie flow</CardDescription>
+        <CardDescription>
+          HttpOnly session cookie flow tanpa penyimpanan token di frontend
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
         <p>
-          Status login dan access token dikelola tunggal via Zustand Store di{' '}
+          Status login dan profil user dikelola tunggal via Zustand Store di{' '}
           <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
             @synapse/shared-types
           </code>
@@ -26,7 +28,7 @@ export function DocsTokenAuthSection() {
           codeString={`import { useAuthStore } from '@synapse/shared-types';
 
 // Di dalam React Component
-const { accessToken, isAuthenticated, logout } = useAuthStore();`}
+const { user, isAuthenticated } = useAuthStore();`}
         />
         <p>
           <strong>Auth Flow Lengkap:</strong>
@@ -40,11 +42,11 @@ const { accessToken, isAuthenticated, logout } = useAuthStore();`}
             <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
               /api/login
             </code>{' '}
-            → server set HttpOnly cookie (refresh_token)
+            → server set HttpOnly session cookie
           </li>
           <li>
             Server response:{' '}
-            <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">{`{ access_token, user }`}</code>
+            <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">{`{ user }`}</code>
           </li>
           <li>
             auth-mfe dispatch event{' '}
@@ -52,8 +54,8 @@ const { accessToken, isAuthenticated, logout } = useAuthStore();`}
               USER_LOGGED_IN
             </code>
           </li>
-          <li>Shell simpan access_token di Zustand (memory only, non-persistent)</li>
-          <li>Token expired? Interceptor auto-refresh via HttpOnly cookie (withCredentials)</li>
+          <li>Shell sinkronisasi user ke Zustand (memory only, non-persistent)</li>
+          <li>Session invalid? Interceptor mencoba refresh session via HttpOnly cookie</li>
           <li>
             Standalone mode tidak menerima token dari query param; login lokal dilakukan explicit di
             origin MFE.
@@ -67,7 +69,7 @@ const { accessToken, isAuthenticated, logout } = useAuthStore();`}
         </ol>
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
           <p className="text-xs font-semibold text-red-700 dark:text-red-400">
-            ⚠️ Access Token HANYA di memory (Zustand) — TIDAK di localStorage/cookie!
+            Frontend tidak menyimpan access token di localStorage/sessionStorage/cookie.
           </p>
         </div>
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">

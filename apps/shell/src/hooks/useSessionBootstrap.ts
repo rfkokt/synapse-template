@@ -4,7 +4,6 @@ import { useAuthStore } from '@synapse/shared-types';
 import type { User } from '@synapse/shared-types';
 
 interface RefreshResponse {
-  access_token: string;
   user?: User;
 }
 
@@ -22,16 +21,15 @@ export function useSessionBootstrap() {
 
     const bootstrapSession = async () => {
       try {
-        if (useAuthStore.getState().accessToken) {
+        if (useAuthStore.getState().isAuthenticated) {
           return;
         }
 
         const res = await apiClient.post<RefreshResponse>(API.auth.refresh(), {});
-        const token = res.data.access_token;
         const user = res.data.user ?? useAuthStore.getState().user;
 
-        if (token && user) {
-          setAuth(token, user);
+        if (user) {
+          setAuth(user);
         } else {
           if (!cancelled) clearAuth();
         }

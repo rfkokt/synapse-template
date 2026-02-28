@@ -14,8 +14,8 @@ export declare const MFE_EVENTS: {
 };
 export interface AuthEventPayload {
   userId: string;
-  accessToken: string;
-  expiresAt: number;
+  user?: User;
+  expiresAt?: number;
 }
 export interface User {
   id: string;

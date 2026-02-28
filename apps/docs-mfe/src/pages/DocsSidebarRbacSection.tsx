@@ -53,12 +53,11 @@ export const menuHandlers = [
 const loginRoleSnippet = `const payload: AuthEventPayload = {
   userId: user.id,
   user, // wajib mengandung field "role"
-  accessToken,
   expiresAt: Date.now() + 15 * 60 * 1000,
 };
 
 dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, payload);
-useAuthStore.getState().setAuth(payload.accessToken, user);`;
+useAuthStore.getState().setAuth(user);`;
 
 export function DocsSidebarRbacSection() {
   return (
@@ -114,7 +113,7 @@ export function DocsSidebarRbacSection() {
           steps={[
             {
               title: 'User login di auth-mfe',
-              content: 'Server mengembalikan user + role + access token.',
+              content: 'Server mengembalikan user + role dan mengikat session via HttpOnly cookie.',
             },
             {
               title: 'Auth event dikirim ke Shell',

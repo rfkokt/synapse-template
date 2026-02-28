@@ -24,7 +24,7 @@ function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    useAuthStore.getState().setAuth('mock-standalone-token', {
+    useAuthStore.getState().setAuth({
       id: 'dev-user',
       name: 'Developer (MFE Local)',
       email: DEV_USERNAME,

@@ -31,7 +31,6 @@ export const authHandlers = [
 
     return HttpResponse.json(
       {
-        access_token: `mock_access_token_${Date.now()}`,
         user: userInfo,
       },
       {
@@ -70,7 +69,6 @@ export const authHandlers = [
 
     return HttpResponse.json(
       {
-        access_token: `mock_access_token_refreshed_${Date.now()}`,
         user: userInfo,
       },
       { status: 200 }

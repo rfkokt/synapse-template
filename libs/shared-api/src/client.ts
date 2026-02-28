@@ -39,27 +39,24 @@ function normalizeError(error: AxiosError): AppError {
 /**
  * Single promise for refresh token to avoid concurrent refresh calls.
  */
-let refreshPromise: Promise<string> | null = null;
+let refreshPromise: Promise<void> | null = null;
 
 interface RefreshResponse {
-  access_token: string;
   user?: User;
 }
 
-async function refreshToken(): Promise<string> {
+async function refreshSession(): Promise<void> {
   if (refreshPromise) return refreshPromise;
 
   refreshPromise = apiClient
     .post<RefreshResponse>(API.auth.refresh(), {}, { withCredentials: true })
     .then((res) => {
-      const newToken = res.data.access_token;
       const nextUser = res.data.user ?? useAuthStore.getState().user;
       if (!nextUser) {
         useAuthStore.getState().clearAuth();
         throw new Error('AUTH_USER_CONTEXT_MISSING');
       }
-      useAuthStore.getState().setAuth(newToken, nextUser);
-      return newToken;
+      useAuthStore.getState().setAuth(nextUser);
     })
     .catch((err) => {
       useAuthStore.getState().clearAuth();
@@ -72,16 +69,7 @@ async function refreshToken(): Promise<string> {
   return refreshPromise;
 }
 
-// Request interceptor: inject access token
-apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = useAuthStore.getState().accessToken;
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-// Response interceptor: auto-refresh + error normalization
+// Response interceptor: auto-refresh session via HttpOnly cookies + error normalization
 apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -92,9 +80,7 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest?._retry && !isRefreshRequest) {
       originalRequest._retry = true;
       try {
-        const newToken = await refreshToken();
-        originalRequest.headers = originalRequest.headers ?? {};
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        await refreshSession();
         return apiClient(originalRequest);
       } catch {
         return Promise.reject(normalizeError(error));

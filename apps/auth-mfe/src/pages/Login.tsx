@@ -26,7 +26,6 @@ import {
 import { useTranslation } from 'react-i18next';
 
 interface LoginResponse {
-  access_token: string;
   user: User;
 }
 
@@ -113,17 +112,15 @@ export default function Login() {
       }
 
       const res = await apiClient.post<LoginResponse>(API.auth.login(), { email, password });
-      const accessToken = res.data.access_token;
       const user = res.data.user;
 
-      if (!accessToken || !user) {
+      if (!user) {
         throw new Error(t('login.errorAuth'));
       }
 
       const payload: AuthEventPayload = {
         userId: user.id,
         user,
-        accessToken,
         expiresAt: Date.now() + 15 * 60 * 1000,
       };
 
@@ -131,7 +128,7 @@ export default function Login() {
       dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, payload);
 
       // Also update the shared store directly for immediate effect
-      useAuthStore.getState().setAuth(payload.accessToken, user);
+      useAuthStore.getState().setAuth(user);
 
       if (safeRedirectTarget) {
         window.location.assign(safeRedirectTarget);

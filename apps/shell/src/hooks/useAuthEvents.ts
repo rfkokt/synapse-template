@@ -26,7 +26,7 @@ export function useAuthEvents() {
 
   useEffect(() => {
     const unsubLogin = onMfeEvent<AuthEventPayload>(MFE_EVENTS.AUTH.USER_LOGGED_IN, (payload) => {
-      setAuth(payload.accessToken, resolveUserFromPayload(payload));
+      setAuth(resolveUserFromPayload(payload));
     });
 
     const unsubLogout = onMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_OUT, () => {
@@ -36,7 +36,7 @@ export function useAuthEvents() {
     const unsubRefresh = onMfeEvent<AuthEventPayload>(
       MFE_EVENTS.AUTH.TOKEN_REFRESHED,
       (payload) => {
-        setAuth(payload.accessToken, resolveUserFromPayload(payload));
+        setAuth(resolveUserFromPayload(payload));
       }
     );
 

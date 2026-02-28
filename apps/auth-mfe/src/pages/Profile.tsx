@@ -27,7 +27,6 @@ import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
   const user = useAuthStore((s) => s.user);
-  const accessToken = useAuthStore((s) => s.accessToken);
 
   const [name, setName] = useState(user?.name || '');
   const [email, setEmail] = useState(user?.email || '');
@@ -54,16 +53,15 @@ export default function Profile() {
       // Simulate API call (replace with actual apiClient.put when backend is ready)
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      if (name && email && accessToken) {
+      if (name && email && user) {
         // Update the store with new data
         const updatedUser = { ...user!, name, email };
-        useAuthStore.getState().setAuth(accessToken, updatedUser);
+        useAuthStore.getState().setAuth(updatedUser);
 
-        // Dispatch token refreshed event so Shell/other MFEs pick up the change
+        // Dispatch auth refresh event so Shell/other MFEs pick up the updated user profile
         const payload: AuthEventPayload = {
           userId: updatedUser.id,
           user: updatedUser,
-          accessToken,
           expiresAt: Date.now() + 15 * 60 * 1000,
         };
         dispatchMfeEvent(MFE_EVENTS.AUTH.TOKEN_REFRESHED, payload);

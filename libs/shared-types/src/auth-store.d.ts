@@ -1,10 +1,9 @@
 import type { User } from './events';
 export interface AuthState {
-  accessToken: string | null;
   user: User | null;
   isAuthenticated: boolean;
   isHydrating: boolean;
-  setAuth: (token: string, user: User) => void;
+  setAuth: (user: User) => void;
   clearAuth: () => void;
   setHydrating: (hydrating: boolean) => void;
 }
