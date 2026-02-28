@@ -15,20 +15,45 @@ echo "==> Pre-push review"
 echo "    base: ${BASE_REF}"
 echo "    head: ${HEAD_REF}"
 
+run_nx_with_sqlite_retry() {
+  local output_file
+  output_file="$(mktemp)"
+
+  set +e
+  "$@" 2>&1 | tee "$output_file"
+  local exit_code=${PIPESTATUS[0]}
+  set -e
+
+  if [[ $exit_code -eq 0 ]]; then
+    rm -f "$output_file"
+    return 0
+  fi
+
+  if grep -Eiq 'DB transaction error|SqliteFailure|disk I/O error' "$output_file"; then
+    echo "    Nx sqlite I/O issue detected. Retrying with NX_DAEMON=false ..."
+    rm -f "$output_file"
+    NX_DAEMON=false "$@"
+    return $?
+  fi
+
+  rm -f "$output_file"
+  return $exit_code
+}
+
 echo "==> 1/6 Format check (affected)"
-pnpm nx format:check --base="$BASE_REF" --head="$HEAD_REF"
+run_nx_with_sqlite_retry pnpm nx format:check --base="$BASE_REF" --head="$HEAD_REF"
 
 echo "==> 2/6 Lint (affected)"
-pnpm nx affected --target=lint --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
+run_nx_with_sqlite_retry pnpm nx affected --target=lint --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
 
 echo "==> 3/6 Typecheck (affected)"
-pnpm nx affected --target=typecheck --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
+run_nx_with_sqlite_retry pnpm nx affected --target=typecheck --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
 
 echo "==> 4/6 Test (affected)"
-pnpm nx affected --target=test --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
+run_nx_with_sqlite_retry pnpm nx affected --target=test --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
 
 echo "==> 5/6 Build (affected)"
-pnpm nx affected --target=build --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
+run_nx_with_sqlite_retry pnpm nx affected --target=build --base="$BASE_REF" --head="$HEAD_REF" --parallel=3
 
 echo "==> 6/6 Bundle budget"
 pnpm budget:check
