@@ -1,4 +1,14 @@
-import { useState, useRef, useEffect, type ReactNode } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  isValidElement,
+  cloneElement,
+  type ReactElement,
+  type ReactNode,
+  type MouseEvent as ReactMouseEvent,
+  type MouseEventHandler,
+} from 'react';
 import { LuEllipsis as MoreHorizontal } from 'react-icons/lu';
 import { Button } from './Button';
 
@@ -42,6 +52,7 @@ export function DropdownMenu({
 }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const toggleOpen = () => setOpen((prev) => !prev);
 
   // Close on click outside
   useEffect(() => {
@@ -65,19 +76,65 @@ export function DropdownMenu({
     return () => document.removeEventListener('keydown', handler);
   }, [open]);
 
+  const renderTrigger = () => {
+    if (!trigger) {
+      return (
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={toggleOpen}
+          className="text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors h-8 w-8 px-0 bg-transparent hover:bg-neutral-100/50"
+          aria-haspopup="menu"
+          aria-expanded={open}
+        >
+          <MoreHorizontal className="h-4 w-4" />
+        </Button>
+      );
+    }
+
+    if (isValidElement(trigger)) {
+      type TriggerProps = {
+        onClick?: MouseEventHandler<HTMLElement>;
+        type?: string;
+        [key: string]: unknown;
+      };
+
+      const customTrigger = trigger as ReactElement<TriggerProps>;
+      const originalOnClick = customTrigger.props.onClick;
+      const isNativeButton =
+        typeof customTrigger.type === 'string' && customTrigger.type === 'button';
+
+      return cloneElement(customTrigger, {
+        onClick: (event: ReactMouseEvent<HTMLElement>) => {
+          originalOnClick?.(event);
+          toggleOpen();
+        },
+        'aria-haspopup': 'menu',
+        'aria-expanded': open,
+        ...(isNativeButton && customTrigger.props.type == null ? { type: 'button' } : {}),
+      });
+    }
+
+    return (
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        onClick={toggleOpen}
+        className="text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors h-8 w-8 px-0 bg-transparent hover:bg-neutral-100/50"
+        aria-haspopup="menu"
+        aria-expanded={open}
+      >
+        {trigger}
+      </Button>
+    );
+  };
+
   return (
     <div ref={ref} className={`relative inline-flex ${className}`}>
       {/* Trigger */}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => setOpen(!open)}
-        className="text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors h-8 w-8 px-0 bg-transparent hover:bg-neutral-100/50"
-        aria-haspopup="true"
-        aria-expanded={open}
-      >
-        {trigger || <MoreHorizontal className="h-4 w-4" />}
-      </Button>
+      {renderTrigger()}
 
       {/* Dropdown Panel */}
       {open && (
@@ -92,6 +149,7 @@ export function DropdownMenu({
               )}
               {item.label && (
                 <Button
+                  type="button"
                   variant="ghost"
                   onClick={() => {
                     item.onClick?.();
