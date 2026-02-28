@@ -12,6 +12,39 @@ import { GeneratorGeneratorSchema } from './schema';
 import { execSync } from 'child_process';
 import path from 'path';
 
+const SECURITY_OVERRIDES: Record<string, string> = {
+  'ajv@8.12.0': '8.18.0',
+  'ajv@8.13.0': '8.18.0',
+  'koa@3.0.3': '3.1.2',
+  'serialize-javascript@6.0.2': '7.0.3',
+  'minimatch@3.1.3': '3.1.4',
+  'minimatch@5.1.7': '5.1.8',
+  'minimatch@9.0.6': '9.0.7',
+  'minimatch@10.2.1': '10.2.4',
+  'minimatch@10.2.2': '10.2.4',
+};
+
+function ensureWorkspaceSecurityOverrides(tree: Tree) {
+  const rootPackageJsonPath = 'package.json';
+  if (!tree.exists(rootPackageJsonPath)) return;
+
+  const rootPkg = readJson(tree, rootPackageJsonPath);
+  const currentOverrides = (rootPkg.pnpm?.overrides ?? {}) as Record<string, string>;
+
+  const hasDiff = Object.entries(SECURITY_OVERRIDES).some(
+    ([dep, version]) => currentOverrides[dep] !== version
+  );
+  if (!hasDiff) return;
+
+  rootPkg.pnpm = rootPkg.pnpm ?? {};
+  rootPkg.pnpm.overrides = {
+    ...currentOverrides,
+    ...SECURITY_OVERRIDES,
+  };
+  writeJson(tree, rootPackageJsonPath, rootPkg);
+  logger.info('Applied workspace security overrides for transitive dependencies.');
+}
+
 export async function generatorGenerator(tree: Tree, options: GeneratorGeneratorSchema) {
   // eslint-disable-next-line no-undef
   const cwd = path.resolve(process.cwd());
@@ -415,6 +448,8 @@ createRoot(rootElement).render(
       serve: `vite --port ${port}`,
       build: 'tsc -b && vite build',
       preview: `vite preview --port ${port + 100}`,
+      typecheck: 'tsc --noEmit',
+      lint: 'eslint .',
     },
     dependencies: {
       '@synapse/mock-api': 'workspace:*',
@@ -425,15 +460,18 @@ createRoot(rootElement).render(
       '@synapse/shared-api': 'workspace:*',
       react: '^19.0.0',
       'react-dom': '^19.0.0',
-      'react-router-dom': '^7.0.0',
+      'react-router-dom': '^7.13.0',
       'react-icons': '^5.5.0',
     },
     devDependencies: {
-      '@types/node': '^22.0.0',
+      '@types/node': '^25.3.0',
+      '@types/react': '^19.0.0',
+      '@types/react-dom': '^19.0.0',
       '@module-federation/vite': '^1.11.0',
       '@tailwindcss/vite': '^4.0.0',
       tailwindcss: '^4.0.0',
       '@vitejs/plugin-react': '^4.5.0',
+      vite: '^7.3.1',
     },
   };
   writeJson(tree, packageJsonPath, pkg);
@@ -518,6 +556,9 @@ createRoot(rootElement).render(
       tree.write(routerPath, routerContent);
     }
   }
+
+  // 12. Ensure workspace-level security overrides are present for all MFs (existing + new)
+  ensureWorkspaceSecurityOverrides(tree);
 
   await formatFiles(tree);
 
