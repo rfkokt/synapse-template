@@ -34,7 +34,7 @@ const approachRows: ComparisonRow[] = [
   {
     criteria: 'State Sharing',
     values: [
-      '✅ Zustand store langsung',
+      '⚠️ Bisa langsung jika store dikontrak sebagai shared singleton',
       '❌ Hanya via postMessage',
       '⚠️ Custom event bus',
       '⚠️ Custom event bus',
@@ -96,15 +96,20 @@ const implRows: ComparisonRow[] = [
   {
     criteria: 'Bundler',
     values: [
-      '✅ Vite (native ESM, ~10x faster dev)',
-      '⚠️ Webpack (slower, legacy)',
+      '✅ Vite (ESM-first, cepat di dev loop)',
+      '✅ Webpack (paling mature untuk MF)',
       '✅ Rspack (Rust, fast)',
       '❌ Belum support MF',
     ],
   },
   {
     criteria: 'Dev Server Speed',
-    values: ['✅ ~200ms HMR', '❌ ~2-5s HMR', '✅ ~300ms HMR', '✅ ~100ms HMR'],
+    values: [
+      '✅ Cepat (bergantung ukuran proyek)',
+      '⚠️ Umumnya lebih berat dari Vite/Rspack',
+      '✅ Cepat',
+      '✅ Cepat',
+    ],
   },
   {
     criteria: 'React 19 Support',
@@ -116,24 +121,39 @@ const implRows: ComparisonRow[] = [
   },
   {
     criteria: 'Shared Deps Singleton',
-    values: ['✅ Automatic dedup', '✅ Automatic dedup', '✅ Automatic dedup', '❌ N/A'],
+    values: [
+      '✅ Via konfigurasi shared/singleton',
+      '✅ Via konfigurasi shared/singleton',
+      '✅ Via konfigurasi shared/singleton',
+      '❌ N/A',
+    ],
   },
   {
     criteria: 'TypeScript DX',
-    values: ['✅ Type hinting plugin', '⚠️ Manual d.ts', '✅ Type hinting plugin', '❌ N/A'],
+    values: [
+      '⚠️ Dukungan d.ts tersedia, perlu konfigurasi',
+      '⚠️ Umumnya perlu setup tambahan d.ts',
+      '⚠️ Dukungan d.ts tersedia, perlu konfigurasi',
+      '❌ N/A',
+    ],
   },
   {
     criteria: 'Nx / Monorepo',
     values: [
-      '✅ Nx plugin tersedia',
+      '⚠️ Bisa dipakai di Nx monorepo, bukan jalur utama docs Nx MF',
       '✅ Nx generator mature',
-      '⚠️ Community support',
+      '✅ Didukung pada ekosistem Nx MF',
       '⚠️ Turborepo only',
     ],
   },
   {
     criteria: 'Production Maturity',
-    values: ['✅ v1.11+ stabil', '✅ Paling mature', '⚠️ Early adoption', '❌ Belum tersedia'],
+    values: [
+      '✅ Siap produksi dengan guardrail yang baik',
+      '✅ Paling mature',
+      '⚠️ Adopsi meningkat',
+      '❌ Belum tersedia',
+    ],
   },
   {
     criteria: 'ESM Output',
@@ -253,9 +273,10 @@ export function DocsWhyMfSection() {
               mencerminkan state child app.
             </InfoBox>
             <InfoBox variant="amber" title="⚠️ Single SPA">
-              Mature tapi terlalu terikat pada Webpack. Setup awal sangat verbose, dan karena kita
-              sudah pakai <strong>Vite + React 19</strong>, integrasi menjadi tidak natural. Shared
-              dependency management juga lebih manual dibanding Module Federation.
+              Single-spa bersifat bundler-agnostic dan bisa dipakai dengan Vite. Trade-off utamanya
+              ada di level orkestrasi: shared dependency policy, runtime contracts, dan integrasi
+              antar-app biasanya membutuhkan wiring yang lebih manual dibandingkan Module
+              Federation.
             </InfoBox>
             <InfoBox variant="amber" title="⚠️ Import Map / Native ESM">
               Pendekatan paling "pure" tapi butuh banyak boilerplate untuk state management,
@@ -278,15 +299,14 @@ export function DocsWhyMfSection() {
 
           <div className="space-y-3 mt-4">
             <InfoBox variant="amber" title="⚠️ Webpack 5 Module Federation">
-              Implementasi original dan paling mature, tapi kami sudah memilih <strong>Vite</strong>{' '}
-              sebagai bundler karena dev server speed yang jauh lebih cepat (~10x improvement). Tim
-              pembuat Webpack MF (Zack Jackson) sendiri yang membuat{' '}
-              <code>@module-federation/vite</code> — jadi kualitasnya terjamin.
+              Implementasi original dan paling mature. Di proyek ini kami memilih{' '}
+              <strong>Vite</strong> untuk dev loop yang lebih ringan serta integrasi ESM-first,
+              sambil tetap menggunakan ekosistem Module Federation yang sama.
             </InfoBox>
             <InfoBox variant="amber" title="⚠️ Rspack Module Federation">
               Rspack sangat cepat (Rust-based) dan support MF, tapi masih di tahap{' '}
-              <strong>early adoption</strong>. Ecosystem plugin masih kecil, dan Nx integration
-              belum se-mature Vite. Bisa menjadi pilihan di masa depan.
+              <strong>early adoption</strong>. Ecosystem plugin masih berkembang, dan workflow tim
+              di proyek ini saat ini lebih matang di stack Vite. Bisa menjadi pilihan di masa depan.
             </InfoBox>
             <InfoBox variant="red" title="❌ Turbopack">
               Turbopack (dari Vercel/Next.js) belum mendukung Module Federation sama sekali.
@@ -301,8 +321,8 @@ export function DocsWhyMfSection() {
           >
             <ul className="space-y-1.5 list-disc list-inside mt-1">
               <li>
-                <strong>Satu tim pembuat</strong> dengan Webpack MF — Zack Jackson langsung maintain
-                kedua versi
+                <strong>Ekosistem Module Federation yang sama</strong> dengan jalur konfigurasi yang
+                konsisten lintas bundler
               </li>
               <li>
                 <strong>Native Vite integration</strong> — langsung plug-in ke vite.config.ts
@@ -314,12 +334,18 @@ export function DocsWhyMfSection() {
                 <strong>ESM-first output</strong> — lebih ringan dan cepat di browser modern
               </li>
               <li>
-                <strong>Type hinting plugin</strong> — otomatis generate d.ts untuk remote exposes
+                <strong>Type hinting plugin</strong> — dapat generate d.ts untuk remote exposes jika{' '}
+                <code>dts</code> diaktifkan
               </li>
               <li>
-                <strong>Production-ready</strong> — v1.11+ sudah stabil
+                <strong>Production-ready</strong> — dengan kontrak shared deps yang disiplin
               </li>
             </ul>
+          </InfoBox>
+
+          <InfoBox variant="blue" title="Catatan Implementasi Repo Ini" className="mt-4">
+            Saat ini konfigurasi federation di repo ini menggunakan <code>dts: false</code>. Artinya
+            dukungan auto-generated type hints untuk remote belum diaktifkan secara runtime config.
           </InfoBox>
         </section>
 
@@ -385,10 +411,12 @@ shared: {
               />
             </InfoBox>
 
-            <InfoBox variant="orange" title="4. Zustand State — Langsung Shared">
+            <InfoBox variant="orange" title="4. Zustand State — Shared by Contract">
               <p className="mb-3">
                 Auth state, theme, notification — semua Zustand store didefinisikan di{' '}
-                <code>shared-types</code> dan langsung bisa diakses dari semua MFE.
+                <code>shared-types</code> sehingga kontrak state konsisten lintas app. Untuk
+                menjamin instance store tunggal lintas remote di runtime MF, dependency store perlu
+                dikelola di kebijakan <code>shared</code>.
               </p>
               <CodeBlock
                 codeString={`// Dari MFE manapun — state langsung sync:
@@ -477,6 +505,100 @@ function Header() {
               },
             ]}
           />
+        </section>
+
+        <section>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-3">
+            Referensi Teknis
+          </h3>
+          <ul className="space-y-2 list-disc list-inside text-sm text-neutral-700 dark:text-neutral-300">
+            <li>
+              Module Federation Vite Guide:{' '}
+              <a
+                href="https://module-federation.io/guide/basic/vite"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                module-federation.io/guide/basic/vite
+              </a>
+            </li>
+            <li>
+              Module Federation shared config:{' '}
+              <a
+                href="https://module-federation.io/configure/shared"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                module-federation.io/configure/shared
+              </a>
+            </li>
+            <li>
+              Webpack Module Federation plugin:{' '}
+              <a
+                href="https://webpack.js.org/plugins/module-federation-plugin/"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                webpack.js.org/plugins/module-federation-plugin
+              </a>
+            </li>
+            <li>
+              single-spa recommended setup:{' '}
+              <a
+                href="https://single-spa.js.org/docs/recommended-setup/"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                single-spa.js.org/docs/recommended-setup
+              </a>
+            </li>
+            <li>
+              Vite features/performance context:{' '}
+              <a
+                href="https://vite.dev/guide/features.html"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                vite.dev/guide/features
+              </a>
+            </li>
+            <li>
+              Nx Module Federation overview:{' '}
+              <a
+                href="https://nx.dev/concepts/module-federation/module-federation-and-nx"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                nx.dev/concepts/module-federation/module-federation-and-nx
+              </a>{' '}
+              dan{' '}
+              <a
+                href="https://nx.dev/technologies/module-federation/introduction"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                nx.dev/technologies/module-federation/introduction
+              </a>
+            </li>
+            <li>
+              Turbopack architecture/status:{' '}
+              <a
+                href="https://nextjs.org/docs/architecture/turbopack"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold underline hover:text-blue-800"
+              >
+                nextjs.org/docs/architecture/turbopack
+              </a>
+            </li>
+          </ul>
         </section>
       </CardContent>
     </Card>
