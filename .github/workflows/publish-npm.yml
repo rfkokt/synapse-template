@@ -6,6 +6,17 @@ on:
       - main
     paths:
       - 'tools/create-synapse/**'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Optional version override (e.g. 1.0.8)'
+        required: false
+        type: string
+      publish:
+        description: 'Publish package to npm'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: write
@@ -24,7 +35,30 @@ jobs:
 
       - name: 📦 Extract Version
         id: package-version
-        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        run: |
+          OVERRIDE_VERSION="${{ github.event.inputs.version || '' }}"
+          if [ -n "$OVERRIDE_VERSION" ]; then
+            VERSION="$OVERRIDE_VERSION"
+          else
+            VERSION="$(node -p "require('./package.json').version")"
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            REQUEST_PUBLISH="${{ github.event.inputs.publish }}"
+          else
+            REQUEST_PUBLISH="true"
+          fi
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "REQUEST_PUBLISH=$REQUEST_PUBLISH" >> $GITHUB_ENV
+
+      - name: 🔎 Check NPM Version
+        run: |
+          if npm view "create-synapse-mfe@$VERSION" version >/dev/null 2>&1; then
+            echo "NPM_VERSION_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "NPM_VERSION_EXISTS=false" >> $GITHUB_ENV
+          fi
 
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
@@ -33,7 +67,13 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: 🚀 Publish to NPM
-        run: npm publish --access public
+        if: ${{ env.REQUEST_PUBLISH == 'true' }}
+        run: |
+          if [ "$NPM_VERSION_EXISTS" = "true" ]; then
+            echo "create-synapse-mfe@$VERSION already exists on npm. Skipping publish."
+            exit 0
+          fi
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
