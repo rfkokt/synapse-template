@@ -1,20 +1,11 @@
 import React from 'react';
 import './index.css';
-import { useLocation, Link } from 'react-router-dom';
-import { discoveredComponents } from './utils/component-discovery';
-import { discoveredSharedComponents } from './utils/shared-component-discovery';
 import { SharedOriginGuard } from '@synapse/shared-types';
 import { ComponentBoundary } from '@synapse/ui-kit';
+import { useLocation, Link } from 'react-router-dom';
+import { DocsLayout } from './components/DocsLayout';
 
 // ── Documentation Section imports ──
-import { DocsOverviewSection } from './pages/DocsOverviewSection';
-import { DocsStrukturSection } from './pages/DocsStrukturSection';
-import { DocsMenjalankanSection } from './pages/DocsMenjalankanSection';
-import { DocsMembuatMfeSection } from './pages/DocsMembuatMfeSection';
-import { DocsMenambahPackageSection } from './pages/DocsMenambahPackageSection';
-import { DocsTokenAuthSection } from './pages/DocsTokenAuthSection';
-import { DocsApiInterceptorsSection } from './pages/DocsApiInterceptorsSection';
-import { DocsDynamicRemotesSection } from './pages/DocsDynamicRemotesSection';
 import { DocsSharedUiKitSection } from './pages/DocsSharedUiKitSection';
 import { DocsTailwindThemeSection } from './pages/DocsTailwindThemeSection';
 import { DocsEventsErrorSection } from './pages/DocsEventsErrorSection';
@@ -27,6 +18,7 @@ import { DocsApiMockingSection } from './pages/DocsApiMockingSection';
 import { DocsRoutingSection } from './pages/DocsRoutingSection';
 import { DocsLibsSection } from './pages/DocsLibsSection';
 import { DocsSidebarRbacSection } from './pages/DocsSidebarRbacSection';
+import { DocsMarkdownGuideSection } from './pages/DocsMarkdownGuideSection';
 
 // ── Reusable Components Section imports ──
 import { InfoBoxSection } from './pages/components/InfoBoxSection';
@@ -40,29 +32,39 @@ import { DocsStepSection } from './pages/components/DocsStepSection';
 import { ExampleTabsSection } from './pages/components/ExampleTabsSection';
 import { ReusableComponentGuideSection } from './pages/components/ReusableComponentGuideSection';
 import { UndocumentedSection as SharedComponentsUndocumentedSection } from './pages/components/UndocumentedSection';
+import { DocsApiInterceptorsSection } from './pages/DocsApiInterceptorsSection';
+import { DocsDynamicRemotesSection } from './pages/DocsDynamicRemotesSection';
+import { DocsMembuatMfeSection } from './pages/DocsMembuatMfeSection';
+import { DocsMenambahPackageSection } from './pages/DocsMenambahPackageSection';
+import { DocsMenjalankanSection } from './pages/DocsMenjalankanSection';
+import { DocsOverviewSection } from './pages/DocsOverviewSection';
+import { DocsStrukturSection } from './pages/DocsStrukturSection';
+import { DocsTokenAuthSection } from './pages/DocsTokenAuthSection';
 
 // --- UI Kit Section imports ---
-import { ButtonSection } from './pages/ui-kit/ButtonSection';
-import { InputSection } from './pages/ui-kit/InputSection';
-import { CardSection } from './pages/ui-kit/CardSection';
 import { BadgeSection } from './pages/ui-kit/BadgeSection';
-import { SkeletonSection } from './pages/ui-kit/SkeletonSection';
-import { ModalSection } from './pages/ui-kit/ModalSection';
-import { ToastSection } from './pages/ui-kit/ToastSection';
-import { ErrorFallbackSection } from './pages/ui-kit/ErrorFallbackSection';
-import { TutorialSection } from './pages/ui-kit/TutorialSection';
 import { FormFieldSection } from './pages/ui-kit/FormFieldSection';
 import { ComponentBoundarySection } from './pages/ui-kit/ComponentBoundarySection';
 import { BreadcrumbSection } from './pages/ui-kit/BreadcrumbSection';
+import { ButtonSection } from './pages/ui-kit/ButtonSection';
+import { CardSection } from './pages/ui-kit/CardSection';
 import { LabelSection } from './pages/ui-kit/LabelSection';
-import { SelectSection } from './pages/ui-kit/SelectSection';
-import { SearchableSelectSection } from './pages/ui-kit/SearchableSelectSection';
 import { TableSection } from './pages/ui-kit/TableSection';
 import { TabsSection } from './pages/ui-kit/TabsSection';
 import { DropdownMenuSection } from './pages/ui-kit/DropdownMenuSection';
+import { ErrorFallbackSection } from './pages/ui-kit/ErrorFallbackSection';
 import { IconSection } from './pages/ui-kit/IconSection';
+import { InputSection } from './pages/ui-kit/InputSection';
+import { ModalSection } from './pages/ui-kit/ModalSection';
 import { OverviewSection as UIKitOverviewSection } from './pages/ui-kit/OverviewSection';
+import { SearchableSelectSection } from './pages/ui-kit/SearchableSelectSection';
+import { SelectSection } from './pages/ui-kit/SelectSection';
+import { SkeletonSection } from './pages/ui-kit/SkeletonSection';
+import { ToastSection } from './pages/ui-kit/ToastSection';
+import { TutorialSection } from './pages/ui-kit/TutorialSection';
 import { UndocumentedSection as UIKitUndocumentedSection } from './pages/ui-kit/UndocumentedSection';
+import { discoveredComponents } from './utils/component-discovery';
+import { discoveredSharedComponents } from './utils/shared-component-discovery';
 
 type SectionData = {
   component: React.FC;
@@ -168,46 +170,80 @@ export const DOCS_SECTION_MAP: Record<string, SectionData> = {
     title: '18. Sidebar RBAC & Roles',
     category: '🏗️ Arsitektur',
   },
+  'markdown-guide': {
+    component: DocsMarkdownGuideSection,
+    title: '19. Menulis Docs dengan Markdown',
+    category: '📚 Panduan Lanjutan',
+  },
 };
 
 /* ─── UI Kit Section Map (documented components) ─── */
-export const UIKIT_SECTION_MAP: Record<string, React.FC> = {
-  button: ButtonSection,
-  input: InputSection,
-  card: CardSection,
-  badge: BadgeSection,
-  skeleton: SkeletonSection,
-  modal: ModalSection,
-  toast: ToastSection,
-  errorfallback: ErrorFallbackSection,
-  formfield: FormFieldSection,
-  componentboundary: ComponentBoundarySection,
-  tutorial: TutorialSection,
-  breadcrumb: BreadcrumbSection,
-  label: LabelSection,
-  select: SelectSection,
-  'searchable-select': SearchableSelectSection,
-  table: TableSection,
-  tabs: TabsSection,
-  dropdownmenu: DropdownMenuSection,
-  icon: IconSection,
+export const UIKIT_SECTION_MAP: Record<string, SectionData> = {
+  button: { component: ButtonSection, title: 'Button', category: '🧱 Form Controls' },
+  input: { component: InputSection, title: 'Input', category: '🧱 Form Controls' },
+  formfield: { component: FormFieldSection, title: 'FormField', category: '🧱 Form Controls' },
+  label: { component: LabelSection, title: 'Label', category: '🧱 Form Controls' },
+  select: { component: SelectSection, title: 'Select', category: '🧱 Form Controls' },
+  'searchable-select': {
+    component: SearchableSelectSection,
+    title: 'SearchableSelect',
+    category: '🧱 Form Controls',
+  },
+  card: { component: CardSection, title: 'Card', category: '📦 Layout' },
+  badge: { component: BadgeSection, title: 'Badge', category: '📦 Layout' },
+  skeleton: { component: SkeletonSection, title: 'Skeleton', category: '📦 Layout' },
+  breadcrumb: { component: BreadcrumbSection, title: 'Breadcrumb', category: '📦 Layout' },
+  table: { component: TableSection, title: 'Table', category: '📦 Layout' },
+  tabs: { component: TabsSection, title: 'Tabs', category: '📦 Layout' },
+  modal: { component: ModalSection, title: 'Modal', category: '🔔 Overlays' },
+  toast: { component: ToastSection, title: 'Toast', category: '🔔 Overlays' },
+  dropdownmenu: { component: DropdownMenuSection, title: 'DropdownMenu', category: '🔔 Overlays' },
+  errorfallback: {
+    component: ErrorFallbackSection,
+    title: 'ErrorFallback',
+    category: '🛠️ Utilities',
+  },
+  componentboundary: {
+    component: ComponentBoundarySection,
+    title: 'ComponentBoundary',
+    category: '🛠️ Utilities',
+  },
+  tutorial: { component: TutorialSection, title: 'Tutorial', category: '🛠️ Utilities' },
+  icon: { component: IconSection, title: 'Icon', category: '🛠️ Utilities' },
 };
 
 /* ─── Reusable Components Section Map ─── */
-export const COMPONENTS_SECTION_MAP: Record<string, React.FC> = {
-  reusableguide: ReusableComponentGuideSection,
-  codeblock: CodeBlockSection,
-  infobox: InfoBoxSection,
-  comparisontable: ComparisonTableSection,
-  featuregrid: FeatureGridSection,
-  utilities: UtilitiesSection,
-  sectiontitle: UtilitiesSection,
-  keyvaluecard: UtilitiesSection,
-  steplist: UtilitiesSection,
-  codeblocktable: CodeBlockTableSection,
-  docsstep: DocsStepSection,
-  exampletabs: ExampleTabsSection,
+export const COMPONENTS_SECTION_MAP: Record<string, SectionData> = {
+  reusableguide: {
+    component: ReusableComponentGuideSection,
+    title: 'Panduan Reusable Components',
+    category: '📖 Panduan',
+  },
+  codeblock: { component: CodeBlockSection, title: 'CodeBlock', category: '🧩 Komponen' },
+  infobox: { component: InfoBoxSection, title: 'InfoBox', category: '🧩 Komponen' },
+  comparisontable: {
+    component: ComparisonTableSection,
+    title: 'ComparisonTable',
+    category: '🧩 Komponen',
+  },
+  featuregrid: { component: FeatureGridSection, title: 'FeatureGrid', category: '🧩 Komponen' },
+  utilities: { component: UtilitiesSection, title: 'Utilities', category: '🧩 Komponen' },
+  sectiontitle: { component: UtilitiesSection, title: 'SectionTitle', category: '🧩 Komponen' },
+  keyvaluecard: { component: UtilitiesSection, title: 'KeyValueCard', category: '🧩 Komponen' },
+  steplist: { component: UtilitiesSection, title: 'StepList', category: '🧩 Komponen' },
+  codeblocktable: {
+    component: CodeBlockTableSection,
+    title: 'CodeBlockTable',
+    category: '🧩 Komponen',
+  },
+  docsstep: { component: DocsStepSection, title: 'DocsStep', category: '🧩 Komponen' },
+  exampletabs: { component: ExampleTabsSection, title: 'ExampleTabs', category: '🧩 Komponen' },
 };
+
+/** Helper to extract a simple map (slug → component) from a SectionData map */
+function toComponentMap(map: Record<string, SectionData>): Record<string, React.FC> {
+  return Object.fromEntries(Object.entries(map).map(([k, v]) => [k, v.component]));
+}
 
 /* ═══════════════════════════════════════════════
    Main Page — Router for Docs + UI Kit
@@ -225,23 +261,21 @@ export function App() {
     const componentName = subSlug || '';
 
     if (componentName && componentName in COMPONENTS_SECTION_MAP) {
-      const Section = COMPONENTS_SECTION_MAP[componentName];
+      const Section = COMPONENTS_SECTION_MAP[componentName].component;
       return (
-        <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-          <ComponentBoundary
-            fallbackTitle="Section Komponen Gagal Dimuat"
-            fallbackDescription="Bagian ini error, tetapi halaman docs lain tetap aman."
+        <div className="p-8 mx-auto w-full pb-20">
+          <DocsLayout
+            currentSlug={componentName}
+            sectionMap={COMPONENTS_SECTION_MAP}
+            basePath="/docs/components"
           >
-            <Section />
-          </ComponentBoundary>
-          <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
-            <Link
-              to="/docs/components"
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+            <ComponentBoundary
+              fallbackTitle="Section Komponen Gagal Dimuat"
+              fallbackDescription="Bagian ini error, tetapi halaman docs lain tetap aman."
             >
-              ← Kembali ke Reusable Components
-            </Link>
-          </div>
+              <Section />
+            </ComponentBoundary>
+          </DocsLayout>
         </div>
       );
     }
@@ -269,7 +303,7 @@ export function App() {
     return (
       <div className="p-8 mx-auto w-full">
         <ComponentsOverviewSection
-          sectionMap={COMPONENTS_SECTION_MAP}
+          sectionMap={toComponentMap(COMPONENTS_SECTION_MAP)}
           discoveredComponents={discoveredSharedComponents}
         />
       </div>
@@ -282,23 +316,21 @@ export function App() {
 
     // Documented component
     if (componentName && componentName in UIKIT_SECTION_MAP) {
-      const Section = UIKIT_SECTION_MAP[componentName];
+      const Section = UIKIT_SECTION_MAP[componentName].component;
       return (
-        <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-          <ComponentBoundary
-            fallbackTitle="Section UI Kit Gagal Dimuat"
-            fallbackDescription="Komponen ini error, tetapi docs dan MFE lain tetap berjalan."
+        <div className="p-8 mx-auto w-full pb-20">
+          <DocsLayout
+            currentSlug={componentName}
+            sectionMap={UIKIT_SECTION_MAP}
+            basePath="/docs/ui-kit"
           >
-            <Section />
-          </ComponentBoundary>
-          <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
-            <Link
-              to="/docs/ui-kit"
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+            <ComponentBoundary
+              fallbackTitle="Section UI Kit Gagal Dimuat"
+              fallbackDescription="Komponen ini error, tetapi docs dan MFE lain tetap berjalan."
             >
-              ← Kembali ke UI Kit
-            </Link>
-          </div>
+              <Section />
+            </ComponentBoundary>
+          </DocsLayout>
         </div>
       );
     }
@@ -325,7 +357,7 @@ export function App() {
     // UI Kit overview
     return (
       <div className="p-8 mx-auto w-full">
-        <UIKitOverviewSection sectionMap={UIKIT_SECTION_MAP} />
+        <UIKitOverviewSection sectionMap={toComponentMap(UIKIT_SECTION_MAP)} />
       </div>
     );
   }
@@ -341,26 +373,21 @@ export function App() {
     );
   }
 
-  // 2. Section Page
+  // 2. Section Page — wrapped in DocsLayout
   if (sectionSlug in DOCS_SECTION_MAP) {
     const data = DOCS_SECTION_MAP[sectionSlug];
     const SectionComponent = data.component;
 
     return (
-      <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-        <ComponentBoundary
-          fallbackTitle="Section Dokumentasi Gagal Dimuat"
-          fallbackDescription="Halaman ini error, tetapi navigation docs tetap aman."
-        >
-          <SectionComponent />
-        </ComponentBoundary>
-
-        {/* Simple back navigation footer */}
-        <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
-          <Link to="/docs" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
-            ← Kembali ke Daftar Isi
-          </Link>
-        </div>
+      <div className="p-8 mx-auto w-full pb-20">
+        <DocsLayout currentSlug={sectionSlug} sectionMap={DOCS_SECTION_MAP}>
+          <ComponentBoundary
+            fallbackTitle="Section Dokumentasi Gagal Dimuat"
+            fallbackDescription="Halaman ini error, tetapi navigation docs tetap aman."
+          >
+            <SectionComponent />
+          </ComponentBoundary>
+        </DocsLayout>
       </div>
     );
   }
