@@ -6,6 +6,7 @@ node_modules/
 dist/
 build/
 .nx/
+*.tsbuildinfo
 
 # Environment
 .env
