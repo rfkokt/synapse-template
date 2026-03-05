@@ -80,9 +80,7 @@ export default [
         'warn',
         {
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-          pathGroups: [
-            { pattern: '@synapse/**', group: 'internal', position: 'before' },
-          ],
+          pathGroups: [{ pattern: '@synapse/**', group: 'internal', position: 'before' }],
           'newlines-between': 'never',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
