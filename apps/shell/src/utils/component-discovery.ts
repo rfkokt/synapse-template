@@ -38,24 +38,22 @@ function toDisplayName(filename: string): string {
   return filename.charAt(0).toUpperCase() + filename.slice(1);
 }
 
-/** All discovered component names, sorted alphabetically */
-export const discoveredComponents: DiscoveredComponent[] = Object.keys(componentModules)
-  .map((path) => {
-    // "/libs/ui-kit/src/components/Button.tsx" → "Button"
-    const filename = path.split('/').pop()?.replace('.tsx', '') ?? '';
-    // Ensure PascalCase: "select" → "Select", "searchable-select" → "SearchableSelect"
-    const name = toDisplayName(filename);
-    return {
-      name,
-      slug: filename.toLowerCase(),
-    };
-  })
-  .filter((c) => c.name.length > 0)
-  .sort((a, b) => a.name.localeCompare(b.name));
+/** Manually-registered documentation pages that aren't auto-discovered */
+const manualEntries: DiscoveredComponent[] = [{ name: 'Icon', slug: 'icon' }];
 
-// Manually add documentation pages that aren't strictly components in libs/ui-kit
-discoveredComponents.push({
-  name: 'Icon',
-  slug: 'icon',
-});
-discoveredComponents.sort((a, b) => a.name.localeCompare(b.name));
+/** All discovered component names, sorted alphabetically */
+export const discoveredComponents: readonly DiscoveredComponent[] = [
+  ...Object.keys(componentModules)
+    .map((path) => {
+      // "/libs/ui-kit/src/components/Button.tsx" → "Button"
+      const filename = path.split('/').pop()?.replace('.tsx', '') ?? '';
+      // Ensure PascalCase: "select" → "Select", "searchable-select" → "SearchableSelect"
+      const name = toDisplayName(filename);
+      return {
+        name,
+        slug: filename.toLowerCase(),
+      };
+    })
+    .filter((c) => c.name.length > 0),
+  ...manualEntries,
+].sort((a, b) => a.name.localeCompare(b.name));

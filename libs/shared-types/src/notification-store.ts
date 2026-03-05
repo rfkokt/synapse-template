@@ -81,8 +81,22 @@ const createNotificationStore = () =>
     info: (payload) => get().addToast(payload, 'info'),
   }));
 
-const GLOBAL_KEY = '__SYNAPSE_NOTIFICATION_STORE__';
-const _window = typeof window !== 'undefined' ? window : ({} as any);
+declare global {
+  interface Window {
+    __SYNAPSE_NOTIFICATION_STORE__?: ReturnType<typeof createNotificationStore>;
+  }
+}
 
-export const useNotificationStore =
-  (_window as any)[GLOBAL_KEY] || ((_window as any)[GLOBAL_KEY] = createNotificationStore());
+const GLOBAL_KEY = '__SYNAPSE_NOTIFICATION_STORE__' as const;
+
+function getOrCreateStore(): ReturnType<typeof createNotificationStore> {
+  if (typeof window === 'undefined') {
+    return createNotificationStore();
+  }
+  if (!window[GLOBAL_KEY]) {
+    window[GLOBAL_KEY] = createNotificationStore();
+  }
+  return window[GLOBAL_KEY]!;
+}
+
+export const useNotificationStore = getOrCreateStore();

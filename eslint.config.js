@@ -3,6 +3,8 @@ import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import importPlugin from 'eslint-plugin-import';
+import a11yPlugin from 'eslint-plugin-jsx-a11y';
 
 export default [
   {
@@ -49,12 +51,17 @@ export default [
         Event: 'readonly',
         HTMLDialogElement: 'readonly',
         requestAnimationFrame: 'readonly',
+        localStorage: 'readonly',
+        CustomEvent: 'readonly',
+        matchMedia: 'readonly',
       },
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
+      import: importPlugin,
+      'jsx-a11y': a11yPlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
@@ -67,6 +74,27 @@ export default [
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+
+      // Import ordering
+      'import/order': [
+        'warn',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          pathGroups: [
+            { pattern: '@synapse/**', group: 'internal', position: 'before' },
+          ],
+          'newlines-between': 'never',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+      'import/no-duplicates': 'warn',
+
+      // Accessibility
+      'jsx-a11y/alt-text': 'error',
+      'jsx-a11y/anchor-has-content': 'error',
+      'jsx-a11y/aria-props': 'error',
+      'jsx-a11y/aria-role': 'error',
+      'jsx-a11y/role-has-required-aria-props': 'error',
     },
     settings: {
       react: { version: 'detect' },

@@ -1,6 +1,6 @@
-import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '@synapse/shared-types';
 import type { AppError, User } from '@synapse/shared-types';
+import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { API } from './endpoints';
 
 const shouldUseMsw =
@@ -14,9 +14,11 @@ const apiBaseUrl = shouldUseMsw ? '/' : configuredApiBaseUrl || '/';
  * Shared Axios client instance.
  * All MFEs should use this for API calls.
  */
+const API_TIMEOUT_MS = 15_000;
+
 export const apiClient = axios.create({
   baseURL: apiBaseUrl,
-  timeout: 15_000,
+  timeout: API_TIMEOUT_MS,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
