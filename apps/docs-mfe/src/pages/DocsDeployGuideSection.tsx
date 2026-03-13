@@ -184,6 +184,93 @@ jobs:
             ke <code>http://localhost:4000</code>.
           </InfoBox>
         </section>
+
+        <section>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4 flex items-center gap-2 mt-12">
+            <Cloud className="h-5 w-5" />
+            3. Deploy dengan Docker & Nginx
+          </h3>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+            Jika Anda ingin men-deploy MFE ini ke VPS, Kubernetes, atau lingkungan containerized
+            yang menggunakan Docker, Anda bisa menggunakan Nginx untuk meng-host file statis hasil
+            build.
+          </p>
+
+          <StepList
+            steps={[
+              {
+                title: 'Buat file Dockerfile',
+                content: 'Taruh Dockerfile ini di root proyek.',
+              },
+              {
+                title: 'Build Image',
+                content:
+                  'Jalankan perintah `docker build -t synapse-app --build-arg APP_NAME=shell .` untuk membangun Docker image berisi file statis MFE yang sudah di-compile.',
+              },
+              {
+                title: 'Run Container',
+                content:
+                  'Jalankan aplikasi MFE dengan port yang Anda tentukan: `docker run -d -p 8080:80 synapse-app`',
+              },
+            ]}
+          />
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mt-6 mb-2">
+            Contoh <code>Dockerfile</code> Multi-stage Build (Nginx)
+          </h4>
+          <CodeBlock
+            language="dockerfile"
+            codeString={`# 1. Tahap Build
+FROM node:24-alpine AS builder
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable pnpm
+
+# Salin dependencies
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+# Salin seluruh kode sumber
+COPY . .
+
+# Argument untuk fleksibilitas deploy MFE berbeda menggunakan Dockerfile yang sama
+ARG APP_NAME=shell
+RUN npx nx build \${APP_NAME}
+
+# 2. Tahap Production (Nginx)
+FROM nginx:alpine
+
+# Konfigurasi nginx untuk menangani React Router SPA
+RUN echo "server { \\
+    listen 80; \\
+    location / { \\
+        root /usr/share/nginx/html; \\
+        index index.html index.htm; \\
+        try_files \\$uri \\$uri/ /index.html; \\
+        \\
+        # Menambahkan CORS untuk Module Federation \\
+        add_header 'Access-Control-Allow-Origin' '*'; \\
+    } \\
+}" > /etc/nginx/conf.d/default.conf
+
+ARG APP_NAME=shell
+# Salin hasil build dari tahap builder ke folder nginx
+COPY --from=builder /app/dist/apps/\${APP_NAME} /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]`}
+          />
+
+          <InfoBox variant="blue" title="Penting tentang CORS di Nginx" className="mt-4">
+            Sangat penting untuk menyisipkan{' '}
+            <code>add_header 'Access-Control-Allow-Origin' '*';</code> pada konfigurasi Nginx jika
+            container ini melayani aplikasi MFE Remotes. Karena Module Federation membutuhkan CORS
+            untuk me-load manifest jarak jauh.
+          </InfoBox>
+        </section>
       </CardContent>
     </Card>
   );
