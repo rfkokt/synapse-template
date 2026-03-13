@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -11,6 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@synapse/ui-kit';
+import { useState } from 'react';
+import {
+  LuApple as Apple,
+  LuBanana as Banana,
+  LuCitrus as Citrus,
+  LuGrape as Grape,
+} from 'react-icons/lu';
 import { ExampleTabs, SectionHeader, PreviewCard, PropsTable } from './shared';
 
 const basicExampleCode = `import {
@@ -20,6 +26,7 @@ const basicExampleCode = `import {
   SelectContent,
   SelectItem,
 } from '@synapse/ui-kit';
+import { LuApple as Apple, LuBanana as Banana, LuCitrus as Citrus, LuGrape as Grape } from 'react-icons/lu';
 
 const [value, setValue] = useState('');
 
@@ -28,10 +35,30 @@ const [value, setValue] = useState('');
     <SelectValue placeholder="Pilih buah..." />
   </SelectTrigger>
   <SelectContent>
-    <SelectItem value="apel">🍎 Apel</SelectItem>
-    <SelectItem value="pisang">🍌 Pisang</SelectItem>
-    <SelectItem value="jeruk">🍊 Jeruk</SelectItem>
-    <SelectItem value="mangga">🥭 Mangga</SelectItem>
+    <SelectItem value="apel">
+      <span className="inline-flex items-center gap-2">
+        <Apple className="h-4 w-4" />
+        Apel
+      </span>
+    </SelectItem>
+    <SelectItem value="pisang">
+      <span className="inline-flex items-center gap-2">
+        <Banana className="h-4 w-4" />
+        Pisang
+      </span>
+    </SelectItem>
+    <SelectItem value="jeruk">
+      <span className="inline-flex items-center gap-2">
+        <Citrus className="h-4 w-4" />
+        Jeruk
+      </span>
+    </SelectItem>
+    <SelectItem value="anggur">
+      <span className="inline-flex items-center gap-2">
+        <Grape className="h-4 w-4" />
+        Anggur
+      </span>
+    </SelectItem>
   </SelectContent>
 </Select>;`;
 
@@ -118,10 +145,30 @@ export function SelectSection() {
                       <SelectValue placeholder="Pilih buah..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="apel">🍎 Apel</SelectItem>
-                      <SelectItem value="pisang">🍌 Pisang</SelectItem>
-                      <SelectItem value="jeruk">🍊 Jeruk</SelectItem>
-                      <SelectItem value="mangga">🥭 Mangga</SelectItem>
+                      <SelectItem value="apel">
+                        <span className="inline-flex items-center gap-2">
+                          <Apple className="h-4 w-4" />
+                          Apel
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="pisang">
+                        <span className="inline-flex items-center gap-2">
+                          <Banana className="h-4 w-4" />
+                          Pisang
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="jeruk">
+                        <span className="inline-flex items-center gap-2">
+                          <Citrus className="h-4 w-4" />
+                          Jeruk
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="anggur">
+                        <span className="inline-flex items-center gap-2">
+                          <Grape className="h-4 w-4" />
+                          Anggur
+                        </span>
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   {fruit && <span className="text-sm text-neutral-500">Selected: {fruit}</span>}

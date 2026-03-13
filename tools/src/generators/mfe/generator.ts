@@ -1,3 +1,5 @@
+import { execSync } from 'child_process';
+import path from 'path';
 import {
   formatFiles,
   Tree,
@@ -9,8 +11,6 @@ import {
 } from '@nx/devkit';
 import { applicationGenerator } from '@nx/react';
 import { GeneratorGeneratorSchema } from './schema';
-import { execSync } from 'child_process';
-import path from 'path';
 
 const SECURITY_OVERRIDES: Record<string, string> = {
   'ajv@8.12.0': '8.18.0',
@@ -566,9 +566,9 @@ createRoot(rootElement).render(
     // Nx installPackagesTask sometimes skips if it doesn't detect root package.json changes.
     // We enforce it here so the MFE is ready out-of-the-box:
     try {
-      logger.info('\\n📦 Running pnpm install to fetch new MFE dependencies...\\n');
+      logger.info('\\nRunning pnpm install to fetch new MFE dependencies...\\n');
       execSync('pnpm install', { stdio: 'inherit', cwd: workspaceRoot });
-      logger.info('\\n✅ Success! You can now run the MFE.\\n');
+      logger.info('\\nSuccess! You can now run the MFE.\\n');
     } catch {
       logger.error('Failed to run pnpm install automatically. Please run it manually.');
     }

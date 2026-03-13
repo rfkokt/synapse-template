@@ -1,5 +1,4 @@
 import { Card, CardContent } from '@synapse/ui-kit';
-import { SectionHeader, CodeBlock } from './shared';
 import {
   LuUser as UserIcon,
   LuSettings as SettingsIcon,
@@ -8,7 +7,9 @@ import {
   LuCircleCheck as CheckCircleIcon,
   LuPencil as EditIcon,
   LuTrash2 as TrashIcon,
+  LuPackage as PackageIcon,
 } from 'react-icons/lu';
+import { SectionHeader, CodeBlock } from './shared';
 
 export function IconSection() {
   return (
@@ -21,7 +22,10 @@ export function IconSection() {
 
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-5">
           <h3 className="text-base font-semibold text-blue-800 dark:text-blue-300 mb-1">
-            📦 Paket yang Digunakan
+            <span className="inline-flex items-center gap-2">
+              <PackageIcon className="h-4 w-4" />
+              Paket yang Digunakan
+            </span>
           </h3>
           <p className="text-sm text-blue-700 dark:text-blue-400">
             Project ini menggunakan <code>react-icons</code>, dan menyarankan penggunaan sub-paket{' '}

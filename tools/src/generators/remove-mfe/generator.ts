@@ -1,6 +1,6 @@
+import { execSync } from 'child_process';
 import { formatFiles, Tree, readJson, writeJson, logger, workspaceRoot } from '@nx/devkit';
 import { RemoveMfeGeneratorSchema } from './schema';
-import { execSync } from 'child_process';
 
 export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGeneratorSchema) {
   const mfeName = options.name;
@@ -11,16 +11,16 @@ export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGenerator
   // 1. Delete the MFE folder completely
   if (tree.exists(projectRoot)) {
     tree.delete(projectRoot);
-    logger.info(`🗑️ Deleted MFE folder: ${projectRoot}`);
+    logger.info(`Deleted MFE folder: ${projectRoot}`);
   } else {
-    logger.warn(`⚠️ MFE folder not found at ${projectRoot}, skipping folder deletion.`);
+    logger.warn(`MFE folder not found at ${projectRoot}, skipping folder deletion.`);
   }
 
   // 1.5 Delete the Module Federation temp cache folder if exists
   const mfTempFolder = `.__mf__temp/${safeName}`;
   if (tree.exists(mfTempFolder)) {
     tree.delete(mfTempFolder);
-    logger.info(`🗑️ Deleted Module Federation cache: ${mfTempFolder}`);
+    logger.info(`Deleted Module Federation cache: ${mfTempFolder}`);
   }
 
   // 2. Remove from shell's remotes.json registry
@@ -30,7 +30,7 @@ export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGenerator
     if (registry.remotes && registry.remotes[mfeName]) {
       delete registry.remotes[mfeName];
       writeJson(tree, remotesJsonPath, registry);
-      logger.info(`🗑️ Removed ${mfeName} from remotes.json`);
+      logger.info(`Removed ${mfeName} from remotes.json`);
     }
   }
 
@@ -48,7 +48,7 @@ export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGenerator
     if (remoteRegex.test(shellViteContent)) {
       shellViteContent = shellViteContent.replace(remoteRegex, '');
       tree.write(shellVitePath, shellViteContent);
-      logger.info(`🗑️ Removed ${mfeName} from vite.config.ts`);
+      logger.info(`Removed ${mfeName} from vite.config.ts`);
     }
   }
 
@@ -64,7 +64,7 @@ export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGenerator
     if (declarationRegex.test(envContent)) {
       envContent = envContent.replace(declarationRegex, '');
       tree.write(shellEnvPath, envContent);
-      logger.info(`🗑️ Removed ${mfeName} module declaration from vite-env.d.ts`);
+      logger.info(`Removed ${mfeName} module declaration from vite-env.d.ts`);
     }
   }
 
@@ -94,16 +94,16 @@ export async function removeMfeGenerator(tree: Tree, options: RemoveMfeGenerator
     }
 
     tree.write(routerPath, routerContent);
-    logger.info(`🗑️ Removed ${mfeName} lazy route from router.tsx`);
+    logger.info(`Removed ${mfeName} lazy route from router.tsx`);
   }
 
   await formatFiles(tree);
 
   return () => {
     try {
-      logger.info(`\n📦 Cleaning up pnpm dependencies...\n`);
+      logger.info(`\nCleaning up pnpm dependencies...\n`);
       execSync('pnpm install', { stdio: 'inherit', cwd: workspaceRoot });
-      logger.info(`\n✅ Successfully removed the ${mfeName} Micro Frontend!`);
+      logger.info(`\nSuccessfully removed the ${mfeName} Micro Frontend!`);
     } catch {
       logger.error('Failed to run pnpm install automatically. Please run it manually.');
     }

@@ -4,6 +4,10 @@ import {
   LuTrendingDown as TrendingDown,
   LuUserPlus as UserPlus,
   LuEye as Eye,
+  LuTrophy as Trophy,
+  LuUsers as Users,
+  LuChartLine as ChartLine,
+  LuClock as Clock,
 } from 'react-icons/lu';
 
 /* ─── Stat Card Data ─── */
@@ -14,7 +18,7 @@ const stats = [
     change: '8.5% Meningkat',
     trend: 'up' as const,
     bg: 'bg-orange-100 dark:bg-orange-900/30',
-    icon: '🏆',
+    icon: <Trophy className="h-5 w-5" />,
   },
   {
     label: 'Terdaftar Hari Ini',
@@ -22,7 +26,7 @@ const stats = [
     change: '1.3% Meningkat',
     trend: 'up' as const,
     bg: 'bg-blue-100 dark:bg-blue-900/30',
-    icon: '👥',
+    icon: <Users className="h-5 w-5" />,
   },
   {
     label: 'Terdaftar Minggu Ini',
@@ -30,7 +34,7 @@ const stats = [
     change: '8.5% Menurun',
     trend: 'down' as const,
     bg: 'bg-green-100 dark:bg-green-900/30',
-    icon: '📈',
+    icon: <ChartLine className="h-5 w-5" />,
   },
   {
     label: 'Terdaftar Bulan Ini',
@@ -38,7 +42,7 @@ const stats = [
     change: '1.8% Meningkat',
     trend: 'up' as const,
     bg: 'bg-red-100 dark:bg-red-900/30',
-    icon: '🕐',
+    icon: <Clock className="h-5 w-5" />,
   },
 ];
 

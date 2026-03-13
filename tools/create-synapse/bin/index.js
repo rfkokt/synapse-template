@@ -25,9 +25,9 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-console.log('\x1b[36m%s\x1b[0m', '🚀 Welcome to create-synapse-mfe CLI v1.0.5!');
+console.log('\x1b[36m%s\x1b[0m', 'Welcome to create-synapse-mfe CLI v1.0.5!');
 console.log('Scaffolding a Vite-powered Micro-Frontend Architecture...');
-console.log("\x1b[32m✨ What's new in v1.0.4:\x1b[0m");
+console.log("\x1b[32mWhat's new in v1.0.4:\x1b[0m");
 console.log(
   '  \x1b[34m- Hardened security (removed token from query params & sessionStorage)\x1b[0m'
 );
@@ -57,13 +57,13 @@ const getProjectName = () => {
 
   if (fs.existsSync(projectPath)) {
     console.error(
-      `\n\x1b[31m❌ Error: Folder "${projectName}" sudah ada! Harap pilih nama lain.\x1b[0m`
+      `\n\x1b[31mError: Folder "${projectName}" sudah ada! Harap pilih nama lain.\x1b[0m`
     );
     process.exit(1);
   }
 
   console.log(
-    `\n\x1b[32m📦 Mengkloning blueprint MFE ke dalam \x1b[1m${projectName}\x1b[0m...\x1b[0m`
+    `\n\x1b[32mMengkloning blueprint MFE ke dalam \x1b[1m${projectName}\x1b[0m...\x1b[0m`
   );
 
   const cloneCmd = `git clone --depth 1 ${GIT_REPO} "${projectName}"`;
@@ -71,7 +71,7 @@ const getProjectName = () => {
     process.exit(1);
   }
 
-  console.log(`\n\x1b[32m🧹 Membersihkan jejak git lama (Re-initializing)...\x1b[0m`);
+  console.log(`\n\x1b[32mMembersihkan jejak git lama (Re-initializing)...\x1b[0m`);
   const gitFolder = path.join(projectPath, '.git');
   if (fs.existsSync(gitFolder)) {
     fs.rmSync(gitFolder, { recursive: true, force: true });
@@ -88,16 +88,16 @@ const getProjectName = () => {
     fs.rmSync(npmWorkflow, { force: true });
   }
 
-  console.log(`\x1b[32m🌱 Memulai repositori Git baru...\x1b[0m`);
+  console.log(`\x1b[32mMemulai repositori Git baru...\x1b[0m`);
   runCommand(`git init`, { cwd: projectPath });
 
-  console.log(`\n\x1b[36m✨ Berhasil! Proyek "\x1b[1m${projectName}\x1b[0m\x1b[36m" telah siap.\n`);
+  console.log(`\n\x1b[36mBerhasil! Proyek "\x1b[1m${projectName}\x1b[0m\x1b[36m" telah siap.\n`);
   console.log('Langkah selanjutnya yang harus Anda lakukan:');
   console.log(`\x1b[33m  cd ${projectName}\x1b[0m`);
   console.log('\x1b[33m  pnpm install\x1b[0m');
   console.log('\x1b[33m  pnpm run dev:new\n\x1b[0m');
 
-  console.log('\x1b[36m🔐 Mock credentials (development):\x1b[0m');
+  console.log('\x1b[36mMock credentials (development):\x1b[0m');
   console.log('  \x1b[34m- auth-mfe (/auth/login): admin@Synapse.com / password123\x1b[0m');
   console.log('  \x1b[34m- auth-mfe (/auth/login): user@Synapse.com / password123\x1b[0m');
   console.log('  \x1b[34m- standalone MFE (isolated): dev@synapse.local / password123\x1b[0m');
@@ -105,7 +105,7 @@ const getProjectName = () => {
     '  \x1b[34m- docs: /docs/api-mocking, /docs/api-interceptors, /docs/security\x1b[0m\n'
   );
 
-  console.log('\x1b[35mSelamat Mengoding Micro-Frontend! ⚛️\x1b[0m\n');
+  console.log('\x1b[35mSelamat Mengoding Micro-Frontend!\x1b[0m\n');
 
   rl.close();
   process.exit(0);

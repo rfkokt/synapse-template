@@ -1,4 +1,5 @@
-import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
+import { apiClient, API } from '@synapse/shared-api';
+import type { MenuGroup, MenuItem } from '@synapse/shared-types';
 import {
   useAuthStore,
   useMenuStore,
@@ -9,8 +10,9 @@ import {
   MFE_EVENTS,
   dispatchMfeEvent,
 } from '@synapse/shared-types';
-import type { MenuGroup, MenuItem } from '@synapse/shared-types';
-import { apiClient, API } from '@synapse/shared-api';
+import { ToastContainer, Modal, Button, DropdownMenu } from '@synapse/ui-kit';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   LuLogOut as LogOut,
   LuSun as Sun,
@@ -19,13 +21,13 @@ import {
   LuTriangleAlert as AlertTriangle,
   LuPanelLeft as PanelLeft,
   LuGlobe as Globe,
+  LuBell as Bell,
+  LuHand as Hand,
 } from 'react-icons/lu';
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { getIcon } from '../utils/icon-map';
+import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { MOCK_MENUS } from '../data/mock-menus';
-import { ToastContainer, Modal, Button, DropdownMenu } from '@synapse/ui-kit';
-import { useTranslation } from 'react-i18next';
 import { discoveredComponents } from '../utils/component-discovery';
+import { getIcon } from '../utils/icon-map';
 import { discoveredSharedComponents } from '../utils/shared-component-discovery';
 import { AutoBreadcrumb } from './AutoBreadcrumb';
 
@@ -396,8 +398,9 @@ export function Layout() {
             <p className="text-sm text-neutral-500 dark:text-neutral-400">
               {t('menu.greeting', { defaultValue: 'Selamat Datang,' })}
             </p>
-            <p className="text-lg font-bold leading-tight truncate">
-              {user?.name || 'Ahmad Fahim Hakim'} 👋
+            <p className="text-lg font-bold leading-tight truncate inline-flex items-center gap-2">
+              {user?.name || 'Ahmad Fahim Hakim'}
+              <Hand className="h-4 w-4 text-amber-500" />
             </p>
             <span className="mt-1 inline-flex rounded-md border border-primary-300/50 bg-primary-50 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary-700 dark:border-primary-700/60 dark:bg-primary-900/20 dark:text-primary-300">
               {roleLabel}
@@ -514,7 +517,7 @@ export function Layout() {
               size="icon"
               className="h-9 w-9 px-0 flex items-center justify-center rounded-full text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors bg-transparent"
             >
-              🔔
+              <Bell className="h-5 w-5" />
             </Button>
 
             <div className="flex items-center gap-3 pl-3 ml-1 border-l border-neutral-200 dark:border-neutral-700">

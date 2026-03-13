@@ -1,13 +1,16 @@
+import { CodeBlock, DocsStep } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { DocsStep } from '@synapse/shared-components';
+import { LuShieldCheck as ShieldCheck } from 'react-icons/lu';
 
 export function DocsApiMockingSection() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-          🛡️ API Mocking (MSW)
+          <span className="inline-flex items-center gap-3">
+            <ShieldCheck className="h-7 w-7" />
+            API Mocking (MSW)
+          </span>
         </h1>
         <p className="text-lg text-neutral-500 dark:text-neutral-400">
           Panduan menggunakan Mock Service Worker (MSW) untuk pengembangan mandiri tanpa perlu
@@ -185,7 +188,7 @@ export function DaftarMenu() {
   const [menus, setMenus] = useState([]);
 
   useEffect(() => {
-    // 👇 Request ini akan di-intercept otomatis oleh MSW (jika VITE_ENABLE_MSW=true) 
+    // Request ini akan di-intercept otomatis oleh MSW (jika VITE_ENABLE_MSW=true)
     // atau diteruskan ke backend betulan (jika VITE_ENABLE_MSW=false)
     apiClient.get(API.menu.list())
       .then(res => setMenus(Array.isArray(res.data) ? res.data : res.data?.data ?? []))

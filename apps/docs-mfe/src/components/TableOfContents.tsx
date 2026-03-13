@@ -7,6 +7,14 @@ interface TocItem {
   level: number;
 }
 
+function normalizeTocText(rawText: string) {
+  const collapsed = rawText.replace(/\s+/g, ' ').trim();
+  return collapsed.replace(
+    /^(\d+)(\.)?(?=\p{L})/u,
+    (_match, number, dot) => `${number}${dot ?? ''} `
+  );
+}
+
 /**
  * Sticky right-side Table of Contents.
  * Auto-discovers h2/h3 elements inside the content container
@@ -41,9 +49,10 @@ export function TableOfContents({
               .replace(/(^-|-$)/g, '') || index
           }`;
         }
+        const rawText = heading.textContent || '';
         tocItems.push({
           id: heading.id,
-          text: heading.textContent || '',
+          text: normalizeTocText(rawText),
           level: heading.tagName === 'H2' ? 2 : 3,
         });
       });

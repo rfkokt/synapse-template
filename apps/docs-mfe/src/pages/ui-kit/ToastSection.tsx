@@ -1,5 +1,11 @@
-import { Button, Card, CardContent } from '@synapse/ui-kit';
 import { useNotificationStore } from '@synapse/shared-types';
+import { Button, Card, CardContent } from '@synapse/ui-kit';
+import {
+  LuCircleCheck as CircleCheck,
+  LuCircleX as CircleX,
+  LuTriangleAlert as AlertTriangle,
+  LuInfo as Info,
+} from 'react-icons/lu';
 import { SectionHeader, PreviewCard, ExampleTabs } from './shared';
 
 export function ToastSection() {
@@ -16,25 +22,37 @@ export function ToastSection() {
               variant="outline"
               onClick={() => useNotificationStore.getState().success('Data berhasil disimpan!')}
             >
-              ✅ Success
+              <span className="inline-flex items-center gap-2">
+                <CircleCheck className="h-4 w-4" />
+                Success
+              </span>
             </Button>
             <Button
               variant="outline"
               onClick={() => useNotificationStore.getState().error('Gagal menyimpan data')}
             >
-              ❌ Error
+              <span className="inline-flex items-center gap-2">
+                <CircleX className="h-4 w-4" />
+                Error
+              </span>
             </Button>
             <Button
               variant="outline"
               onClick={() => useNotificationStore.getState().warning('Sesi hampir habis')}
             >
-              ⚠️ Warning
+              <span className="inline-flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4" />
+                Warning
+              </span>
             </Button>
             <Button
               variant="outline"
               onClick={() => useNotificationStore.getState().info('Update tersedia')}
             >
-              ℹ️ Info
+              <span className="inline-flex items-center gap-2">
+                <Info className="h-4 w-4" />
+                Info
+              </span>
             </Button>
             <Button
               variant="outline"
@@ -52,7 +70,10 @@ export function ToastSection() {
                 })
               }
             >
-              ❌ Error (List)
+              <span className="inline-flex items-center gap-2">
+                <CircleX className="h-4 w-4" />
+                Error (List)
+              </span>
             </Button>
           </div>
         </PreviewCard>

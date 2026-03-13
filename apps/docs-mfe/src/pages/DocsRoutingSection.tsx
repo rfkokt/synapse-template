@@ -1,7 +1,7 @@
-import { Card, CardContent } from '@synapse/ui-kit';
-import { SectionTitle, ComparisonTable, InfoBox } from '@synapse/shared-components';
 import type { ComparisonColumn, ComparisonRow } from '@synapse/shared-components';
-import { CodeBlock } from '@synapse/shared-components';
+import { SectionTitle, ComparisonTable, InfoBox, CodeBlock } from '@synapse/shared-components';
+import { Card, CardContent } from '@synapse/ui-kit';
+import { LuMap as Map, LuCircleCheck as CircleCheck } from 'react-icons/lu';
 
 // ── Data: Routing Comparison ──
 const routingColumns: ComparisonColumn[] = [
@@ -42,7 +42,7 @@ export function DocsRoutingSection() {
     <Card>
       <CardContent className="pt-6 space-y-8">
         <SectionTitle
-          icon="🗺️"
+          icon={<Map className="h-5 w-5" />}
           title="4. React Router di Module Federation"
           description="Panduan dan Best Practices dalam mengatur routing (React Router DOM) pada arsitektur Micro Frontend."
         />
@@ -165,7 +165,15 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>
 );`}</CodeBlock>
 
-          <InfoBox variant="emerald" title="✅ Hasil Akhir yang Diinginkan">
+          <InfoBox
+            variant="emerald"
+            title={
+              <span className="inline-flex items-center gap-2">
+                <CircleCheck className="h-4 w-4" />
+                Hasil Akhir yang Diinginkan
+              </span>
+            }
+          >
             - Saat berdiri sendiri (Standalone):{' '}
             <code className="text-xs">
               Browser {'->'} BrowserRouter (main.tsx) {'->'} Routes (App.tsx)

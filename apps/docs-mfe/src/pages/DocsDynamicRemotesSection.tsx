@@ -1,5 +1,13 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { CodeBlock } from '@synapse/shared-components';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
+import {
+  LuGlobe as Globe,
+  LuFolder as Folder,
+  LuSettings as Settings,
+  LuHandshake as Handshake,
+  LuTriangleAlert as AlertTriangle,
+  LuLightbulb as Lightbulb,
+} from 'react-icons/lu';
 
 export function DocsDynamicRemotesSection() {
   return (
@@ -52,11 +60,17 @@ export function DocsDynamicRemotesSection() {
           />
           <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
             <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              🌍 Inject Dynamic URL via .env
+              <span className="inline-flex items-center gap-2">
+                <Globe className="h-4 w-4" />
+                Inject Dynamic URL via .env
+              </span>
             </h4>
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 my-3">
               <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-                📁 Dimana file .env diletakkan?
+                <span className="inline-flex items-center gap-2">
+                  <Folder className="h-3.5 w-3.5" />
+                  Dimana file .env diletakkan?
+                </span>
               </p>
               <p className="text-xs text-blue-700 dark:text-blue-400 mt-1">
                 File <code className="bg-blue-100 dark:bg-blue-900/50 px-1 rounded">.env</code>{' '}
@@ -102,7 +116,10 @@ VITE_DOCS_MFE_URL=https://docs.synapse.com
             </p>
 
             <h5 className="font-medium text-xs text-neutral-500 mb-2 uppercase tracking-wide">
-              ⚙️ Behind the scenes (Bagaimana Shell melakukannya)
+              <span className="inline-flex items-center gap-2">
+                <Settings className="h-3.5 w-3.5" />
+                Behind the scenes (Bagaimana Shell melakukannya)
+              </span>
             </h5>
             <CodeBlock
               language="typescript"
@@ -127,7 +144,10 @@ function loadFederationRemotes(mode: string) {
 
           <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
             <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              🤝 Dipakai oleh Tim Lain
+              <span className="inline-flex items-center gap-2">
+                <Handshake className="h-4 w-4" />
+                Dipakai oleh Tim Lain
+              </span>
             </h4>
             <p className="mb-2">
               Ya! Orang lain atau tim lain sangat bisa menghubungkan aplikasinya ke MFE yang sudah
@@ -158,7 +178,10 @@ function loadFederationRemotes(mode: string) {
             />
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mt-4">
               <p className="text-xs font-semibold text-yellow-700 dark:text-yellow-400">
-                ⚠️ Syarat Agar Bisa Diakses Tim Lain:
+                <span className="inline-flex items-center gap-2">
+                  <AlertTriangle className="h-3.5 w-3.5" />
+                  Syarat Agar Bisa Diakses Tim Lain:
+                </span>
               </p>
               <ul className="text-xs text-yellow-700 dark:text-yellow-400 list-disc ml-4 mt-1 space-y-1">
                 <li>
@@ -226,7 +249,10 @@ const roleAwareMenus = filterMenuGroupsByRole(menus, user.role);`}
           />
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
             <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-              💡 Selalu sediakan mock data sebagai fallback di{' '}
+              <span className="inline-flex items-center gap-2">
+                <Lightbulb className="h-3.5 w-3.5" />
+                Selalu sediakan mock data sebagai fallback di{' '}
+              </span>
               <code className="text-xs bg-blue-100 dark:bg-blue-900/50 px-1 rounded">
                 mock-menus.ts
               </code>

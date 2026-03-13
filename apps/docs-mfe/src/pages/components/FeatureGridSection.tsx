@@ -1,7 +1,17 @@
-import { Card, CardContent } from '@synapse/ui-kit';
 import { ExampleTabs, FeatureGrid } from '@synapse/shared-components';
+import { Card, CardContent } from '@synapse/ui-kit';
+import {
+  LuUsers as Users,
+  LuRocket as Rocket,
+  LuLock as Lock,
+  LuZap as Zap,
+  LuPalette as Palette,
+  LuRefreshCw as RefreshCw,
+  LuPackage as Package,
+} from 'react-icons/lu';
 
 export function FeatureGridSection() {
+  const iconClass = 'h-5 w-5';
   return (
     <Card>
       <CardContent className="pt-6 space-y-6">
@@ -19,10 +29,22 @@ export function FeatureGridSection() {
         </h3>
         <FeatureGrid
           items={[
-            { icon: '👥', title: 'Tim Paralel', desc: 'Beberapa tim bekerja bersamaan' },
-            { icon: '🚀', title: 'Deploy Independen', desc: 'Deploy tanpa rebuild keseluruhan' },
-            { icon: '🔒', title: 'Isolasi', desc: 'Kegagalan satu modul tidak menyebar' },
-            { icon: '⚡', title: 'Performa', desc: 'Build time cepat' },
+            {
+              icon: <Users className={iconClass} />,
+              title: 'Tim Paralel',
+              desc: 'Beberapa tim bekerja bersamaan',
+            },
+            {
+              icon: <Rocket className={iconClass} />,
+              title: 'Deploy Independen',
+              desc: 'Deploy tanpa rebuild keseluruhan',
+            },
+            {
+              icon: <Lock className={iconClass} />,
+              title: 'Isolasi',
+              desc: 'Kegagalan satu modul tidak menyebar',
+            },
+            { icon: <Zap className={iconClass} />, title: 'Performa', desc: 'Build time cepat' },
           ]}
         />
 
@@ -30,9 +52,21 @@ export function FeatureGridSection() {
         <FeatureGrid
           columns={3}
           items={[
-            { icon: '🎨', title: 'Design System', desc: 'Shared UI kit' },
-            { icon: '🔄', title: 'Hot Reload', desc: 'Instant feedback' },
-            { icon: '📦', title: 'Lazy Load', desc: 'Remote on-demand' },
+            {
+              icon: <Palette className={iconClass} />,
+              title: 'Design System',
+              desc: 'Shared UI kit',
+            },
+            {
+              icon: <RefreshCw className={iconClass} />,
+              title: 'Hot Reload',
+              desc: 'Instant feedback',
+            },
+            {
+              icon: <Package className={iconClass} />,
+              title: 'Lazy Load',
+              desc: 'Remote on-demand',
+            },
           ]}
         />
 
@@ -43,19 +77,28 @@ export function FeatureGridSection() {
               <FeatureGrid
                 columns={3}
                 items={[
-                  { icon: '🎨', title: 'Design System', desc: 'Shared UI kit' },
-                  { icon: '🔄', title: 'Hot Reload', desc: 'Instant feedback' },
+                  {
+                    icon: <Palette className={iconClass} />,
+                    title: 'Design System',
+                    desc: 'Shared UI kit',
+                  },
+                  {
+                    icon: <RefreshCw className={iconClass} />,
+                    title: 'Hot Reload',
+                    desc: 'Instant feedback',
+                  },
                 ]}
               />
             </div>
           }
           code={`import { FeatureGrid } from '@synapse/shared-components';
+import { LuPalette as Palette, LuRefreshCw as RefreshCw } from 'react-icons/lu';
 
 <FeatureGrid
   columns={3}  // 2 | 3 | 4
   items={[
-    { icon: '🎨', title: 'Design System', desc: 'Shared UI kit' },
-    { icon: '🔄', title: 'Hot Reload', desc: 'Instant feedback' },
+    { icon: <Palette className="h-5 w-5" />, title: 'Design System', desc: 'Shared UI kit' },
+    { icon: <RefreshCw className="h-5 w-5" />, title: 'Hot Reload', desc: 'Instant feedback' },
   ]}
 />`}
           previewClassName="w-full items-start justify-center"

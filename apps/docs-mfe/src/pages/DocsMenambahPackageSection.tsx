@@ -1,6 +1,6 @@
+import { CodeBlock, DocsStep } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { DocsStep } from '@synapse/shared-components';
+import { LuShieldCheck as ShieldCheck } from 'react-icons/lu';
 
 export function DocsMenambahPackageSection() {
   return (
@@ -124,7 +124,7 @@ export default defineConfig({
 
           <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-lg p-4">
             <h4 className="font-semibold text-rose-800 dark:text-rose-300 flex items-center gap-2">
-              <span>🛡️</span> Zero-Vulnerability Policy
+              <ShieldCheck className="h-4 w-4" /> Zero-Vulnerability Policy
             </h4>
             <p className="text-sm text-rose-700 dark:text-rose-400 mt-1">
               Sesuai PRD Bagian 8.1, kita tidak mentoleransi package dengan celah keamanan level{' '}

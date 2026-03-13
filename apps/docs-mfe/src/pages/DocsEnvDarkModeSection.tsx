@@ -1,5 +1,6 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { CodeBlock } from '@synapse/shared-components';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
+import { LuPin as Pin, LuLightbulb as Lightbulb } from 'react-icons/lu';
 
 export function DocsEnvDarkModeSection() {
   return (
@@ -39,7 +40,10 @@ VITE_API_BASE_URL=https://api.synapse.com`}
 
           <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-3 mt-4">
             <h4 className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 mb-2">
-              📌 Fallback Override remotes.json (Skala Prioritas)
+              <span className="inline-flex items-center gap-2">
+                <Pin className="h-3.5 w-3.5" />
+                Fallback Override remotes.json (Skala Prioritas)
+              </span>
             </h4>
             <ul className="text-xs text-emerald-700 dark:text-emerald-400 list-decimal ml-4 space-y-2">
               <li>
@@ -65,7 +69,10 @@ VITE_API_BASE_URL=https://api.synapse.com`}
               </li>
             </ul>
             <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-3 italic border-t border-emerald-200 dark:border-emerald-800 pt-2">
-              💡 Buka file template{' '}
+              <span className="inline-flex items-center gap-2">
+                <Lightbulb className="h-3.5 w-3.5" />
+                Buka file template{' '}
+              </span>
               <code className="font-mono bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
                 apps/shell/.env.example
               </code>{' '}

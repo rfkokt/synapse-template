@@ -1,5 +1,6 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { CodeBlock, InfoBox, StepList } from '@synapse/shared-components';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
+import { LuPlug as Plug } from 'react-icons/lu';
 
 const currentRepoTree = `synapse/
 ├── apps/
@@ -194,7 +195,8 @@ export function DocsStrukturSection() {
 
         <div className="mt-8 border-t border-neutral-100 dark:border-neutral-800 pt-6">
           <h3 className="font-semibold text-lg text-neutral-900 dark:text-neutral-100 mb-4 flex items-center gap-2">
-            🔌 Bagaimana Shell Mengakses Docs MFE?
+            <Plug className="h-5 w-5" />
+            Bagaimana Shell Mengakses Docs MFE?
           </h3>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
             Untuk membuat Shell bisa mengakses{' '}

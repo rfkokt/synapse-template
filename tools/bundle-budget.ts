@@ -152,7 +152,7 @@ function checkBudgets() {
     .filter((f) => fs.statSync(path.join(appsDir, f)).isDirectory());
   let hasErrors = false;
 
-  console.log('\n📊 Bundle Budget Verification\n');
+  console.log('\nBundle Budget Verification\n');
 
   for (const app of apps) {
     const appDistDir = path.join(appsDir, app, 'dist');
@@ -186,11 +186,11 @@ function checkBudgets() {
     console.log(`  Initial CSS Size: ${cssSizeKb.toFixed(2)} KB (Target: < ${BUDGETS.css} KB)`);
 
     if (jsSizeKb > BUDGETS.js) {
-      console.error(`  ❌ Initial JS budget exceeded for ${app}!`);
+      console.error(`  Initial JS budget exceeded for ${app}!`);
       hasErrors = true;
     }
     if (cssSizeKb > BUDGETS.css) {
-      console.error(`  ❌ Initial CSS budget exceeded for ${app}!`);
+      console.error(`  Initial CSS budget exceeded for ${app}!`);
       hasErrors = true;
     }
 
@@ -202,7 +202,7 @@ function checkBudgets() {
         `  ${remoteEntryName} : ${remoteEntrySizeKb.toFixed(2)} KB (Target: < ${BUDGETS.remoteEntry} KB)`
       );
       if (remoteEntrySizeKb > BUDGETS.remoteEntry) {
-        console.error(`  ❌ remoteEntry budget exceeded for ${app}!`);
+        console.error(`  remoteEntry budget exceeded for ${app}!`);
         hasErrors = true;
       }
     }
@@ -210,10 +210,10 @@ function checkBudgets() {
   }
 
   if (hasErrors) {
-    console.error('💥 Budget verification failed! Bundle size exceeds maximum limits.');
+    console.error('Budget verification failed! Bundle size exceeds maximum limits.');
     process.exit(1);
   } else {
-    console.log('✅ All apps are within the defined performance budgets.');
+    console.log('All apps are within the defined performance budgets.');
   }
 }
 

@@ -207,6 +207,12 @@
             "label": "18. Sidebar RBAC & Roles",
             "icon": "Shield",
             "path": "/docs/sidebar-rbac"
+          },
+          {
+            "id": "docs-markdown",
+            "label": "19. Menulis Docs dengan Markdown",
+            "icon": "FileText",
+            "path": "/docs/markdown-guide"
           }
         ]
       },

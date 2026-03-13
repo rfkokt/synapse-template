@@ -1,4 +1,13 @@
 import { Card, CardContent } from '@synapse/ui-kit';
+import {
+  LuRocket as Rocket,
+  LuFolder as Folder,
+  LuLayoutList as LayoutList,
+  LuFileText as FileText,
+  LuWrench as Wrench,
+  LuTriangleAlert as AlertTriangle,
+  LuFolderTree as FolderTree,
+} from 'react-icons/lu';
 import { SectionHeader, CodeBlock } from './shared';
 
 export function TutorialSection() {
@@ -12,7 +21,10 @@ export function TutorialSection() {
 
         <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5">
           <h3 className="text-base font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
-            🚀 Cara A: Shadcn CLI (Recommended)
+            <span className="inline-flex items-center gap-2">
+              <Rocket className="h-4 w-4" />
+              Cara A: Shadcn CLI (Recommended)
+            </span>
           </h3>
           <p className="text-sm text-emerald-700 dark:text-emerald-400">
             Cukup jalankan 1 command — komponen ter-install, import di-fix, auto-export ke barrel,
@@ -40,21 +52,27 @@ npx shadcn@latest search shadcn`}</CodeBlock>
         </h3>
         <div className="grid sm:grid-cols-3 gap-3">
           <div className="border border-neutral-200 dark:border-neutral-800 rounded-lg p-4 text-center">
-            <p className="text-2xl mb-2">📁</p>
+            <div className="flex justify-center mb-2">
+              <Folder className="h-6 w-6 text-neutral-600" />
+            </div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               File ter-install
             </p>
             <p className="text-xs text-neutral-500 mt-1">di libs/ui-kit/src/components/</p>
           </div>
           <div className="border border-neutral-200 dark:border-neutral-800 rounded-lg p-4 text-center">
-            <p className="text-2xl mb-2">📋</p>
+            <div className="flex justify-center mb-2">
+              <LayoutList className="h-6 w-6 text-neutral-600" />
+            </div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Muncul di sidebar
             </p>
             <p className="text-xs text-neutral-500 mt-1">auto-discovery scan file baru</p>
           </div>
           <div className="border border-neutral-200 dark:border-neutral-800 rounded-lg p-4 text-center">
-            <p className="text-2xl mb-2">📝</p>
+            <div className="flex justify-center mb-2">
+              <FileText className="h-6 w-6 text-neutral-600" />
+            </div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Placeholder docs
             </p>
@@ -108,7 +126,10 @@ const SECTION_MAP = {
 
         <div className="border-t border-neutral-200 dark:border-neutral-800 pt-6">
           <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-            🛠 Cara B: Buat Manual
+            <span className="inline-flex items-center gap-2">
+              <Wrench className="h-4 w-4" />
+              Cara B: Buat Manual
+            </span>
           </h3>
           <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
             Untuk komponen custom yang tidak ada di shadcn registry.
@@ -140,7 +161,10 @@ export type { ChipProps } from './components/Chip';`}</CodeBlock>
 
         <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
           <h3 className="text-base font-semibold text-amber-800 dark:text-amber-300 mb-2">
-            ⚠️ Rules
+            <span className="inline-flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4" />
+              Rules
+            </span>
           </h3>
           <ul className="space-y-1.5 list-disc list-inside text-sm text-amber-700 dark:text-amber-400">
             <li>
@@ -166,7 +190,10 @@ export type { ChipProps } from './components/Chip';`}</CodeBlock>
         </div>
 
         <h3 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-          📁 Struktur Folder
+          <span className="inline-flex items-center gap-2">
+            <FolderTree className="h-4 w-4" />
+            Struktur Folder
+          </span>
         </h3>
         <CodeBlock>{`project-root/
 ├── components.json          ← shadcn CLI config

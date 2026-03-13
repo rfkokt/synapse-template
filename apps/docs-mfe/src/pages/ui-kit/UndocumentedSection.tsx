@@ -1,4 +1,5 @@
 import { Card, CardContent } from '@synapse/ui-kit';
+import { LuFileText as FileText } from 'react-icons/lu';
 import { SectionHeader, CodeBlock } from './shared';
 
 export function UndocumentedSection({ name }: { name: string }) {
@@ -7,7 +8,9 @@ export function UndocumentedSection({ name }: { name: string }) {
       <CardContent className="pt-6 space-y-6">
         <SectionHeader title={name} description="Komponen ini belum memiliki dokumentasi." />
         <div className="border-2 border-dashed border-amber-300 dark:border-amber-700 rounded-xl p-8 text-center">
-          <p className="text-4xl mb-4">📝</p>
+          <div className="flex justify-center mb-4">
+            <FileText className="h-10 w-10 text-amber-500" />
+          </div>
           <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
             Dokumentasi Belum Tersedia
           </h3>

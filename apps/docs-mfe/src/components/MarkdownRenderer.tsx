@@ -1,11 +1,11 @@
 import ReactMarkdown from 'react-markdown';
 import type { Components } from 'react-markdown';
-import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
+import { CodeBlock } from './CodeBlock';
 
 /**
  * Markdown renderer that outputs properly styled documentation.
- * Uses react-markdown with GFM support and syntax highlighting.
+ * Uses react-markdown with GFM support and CodeBlock for fenced code blocks.
  *
  * Usage:
  *   <MarkdownRenderer content={markdownString} />
@@ -77,9 +77,8 @@ const components: Components = {
       {children}
     </a>
   ),
-  code: ({ children, className, ...props }) => {
-    const isInline = !className;
-    if (isInline) {
+  code: ({ inline, children, className, ...props }) => {
+    if (inline) {
       return (
         <code
           className="text-xs bg-neutral-100 dark:bg-neutral-800 text-primary-700 dark:text-primary-300 px-1.5 py-0.5 rounded font-mono"
@@ -89,20 +88,14 @@ const components: Components = {
         </code>
       );
     }
-    return (
-      <code className={`${className} text-sm`} {...props}>
-        {children}
-      </code>
-    );
+
+    const match = /language-([a-z0-9-]+)/i.exec(className ?? '');
+    const language = match?.[1] ?? 'text';
+    const codeString = String(children ?? '').replace(/\n$/, '');
+
+    return <CodeBlock language={language} codeString={codeString} />;
   },
-  pre: ({ children, ...props }) => (
-    <pre
-      className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm mb-4 border border-neutral-800"
-      {...props}
-    >
-      {children}
-    </pre>
-  ),
+  pre: ({ children }) => <>{children}</>,
   blockquote: ({ children, ...props }) => (
     <blockquote
       className="border-l-4 border-primary-300 dark:border-primary-600 bg-primary-50/50 dark:bg-primary-900/20 pl-4 py-3 pr-4 rounded-r-lg mb-4 text-sm text-neutral-700 dark:text-neutral-300"
@@ -158,11 +151,7 @@ const components: Components = {
 export function MarkdownRenderer({ content }: { content: string }) {
   return (
     <div className="docs-markdown-content">
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
-        components={components}
-      >
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {content}
       </ReactMarkdown>
     </div>

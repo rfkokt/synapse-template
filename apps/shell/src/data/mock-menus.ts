@@ -214,6 +214,12 @@ export const MOCK_MENUS: MenuGroup[] = [
             icon: 'Shield',
             path: '/docs/sidebar-rbac',
           },
+          {
+            id: 'docs-markdown',
+            label: '19. Menulis Docs dengan Markdown',
+            icon: 'FileText',
+            path: '/docs/markdown-guide',
+          },
         ],
       },
       {

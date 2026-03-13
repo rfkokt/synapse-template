@@ -1,5 +1,6 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { CodeBlock } from '@synapse/shared-components';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
+import { LuInfo as Info } from 'react-icons/lu';
 
 export function DocsTokenAuthSection() {
   return (
@@ -74,8 +75,11 @@ const { user, isAuthenticated } = useAuthStore();`}
         </div>
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
           <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-            ℹ️ Catatan: “full” HttpOnly flow tetap membutuhkan backend endpoint refresh/profile yang
-            konsisten.
+            <span className="inline-flex items-center gap-2">
+              <Info className="h-3.5 w-3.5" />
+              Catatan: “full” HttpOnly flow tetap membutuhkan backend endpoint refresh/profile yang
+              konsisten.
+            </span>
           </p>
         </div>
       </CardContent>

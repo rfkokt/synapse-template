@@ -1,6 +1,5 @@
-import { Card, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
 import {
+  CodeBlock,
   SectionTitle,
   FeatureGrid,
   ComparisonTable,
@@ -8,6 +7,37 @@ import {
   KeyValueCard,
 } from '@synapse/shared-components';
 import type { ComparisonColumn, ComparisonRow } from '@synapse/shared-components';
+import { Card, CardContent } from '@synapse/ui-kit';
+import {
+  LuCircleCheck as CircleCheck,
+  LuTriangleAlert as AlertTriangle,
+  LuCircleX as CircleX,
+  LuUsers as Users,
+  LuRocket as Rocket,
+  LuLock as Lock,
+  LuZap as Zap,
+  LuConstruction as Construction,
+} from 'react-icons/lu';
+
+const statusIconClass = 'h-4 w-4';
+const ok = (text: string) => (
+  <span className="inline-flex items-center gap-1">
+    <CircleCheck className={`${statusIconClass} text-emerald-500`} />
+    {text}
+  </span>
+);
+const warn = (text: string) => (
+  <span className="inline-flex items-center gap-1">
+    <AlertTriangle className={`${statusIconClass} text-amber-500`} />
+    {text}
+  </span>
+);
+const bad = (text: string) => (
+  <span className="inline-flex items-center gap-1">
+    <CircleX className={`${statusIconClass} text-red-500`} />
+    {text}
+  </span>
+);
 
 /* ═══════════════════════════════════════════════
    Section: Kenapa Module Federation?
@@ -25,62 +55,77 @@ const approachRows: ComparisonRow[] = [
   {
     criteria: 'Shared Dependencies',
     values: [
-      '✅ Singleton, deduplicated',
-      '❌ Duplikat di setiap iframe',
-      '⚠️ Butuh konfigurasi manual',
-      '⚠️ Bertanggung jawab sendiri',
+      ok('Singleton, deduplicated'),
+      bad('Duplikat di setiap iframe'),
+      warn('Butuh konfigurasi manual'),
+      warn('Bertanggung jawab sendiri'),
     ],
   },
   {
     criteria: 'State Sharing',
     values: [
-      '⚠️ Bisa langsung jika store dikontrak sebagai shared singleton',
-      '❌ Hanya via postMessage',
-      '⚠️ Custom event bus',
-      '⚠️ Custom event bus',
+      warn('Bisa langsung jika store dikontrak sebagai shared singleton'),
+      bad('Hanya via postMessage'),
+      warn('Custom event bus'),
+      warn('Custom event bus'),
     ],
   },
   {
     criteria: 'Build Tool',
-    values: ['✅ Vite (fast, native ESM)', '✅ Bebas', '⚠️ Webpack dominan', '✅ Bebas'],
+    values: [ok('Vite (fast, native ESM)'), ok('Bebas'), warn('Webpack dominan'), ok('Bebas')],
   },
   {
     criteria: 'CSS Isolation',
     values: [
-      '✅ Tailwind shared config',
-      '✅ Full isolation',
-      '⚠️ Manual namespace',
-      '⚠️ Manual namespace',
+      ok('Tailwind shared config'),
+      ok('Full isolation'),
+      warn('Manual namespace'),
+      warn('Manual namespace'),
     ],
   },
   {
     criteria: 'Routing',
-    values: ['✅ React Router shared', '❌ URL sync kompleks', '✅ Built-in', '⚠️ Manual'],
+    values: [ok('React Router shared'), bad('URL sync kompleks'), ok('Built-in'), warn('Manual')],
   },
   {
     criteria: 'TypeScript Support',
-    values: ['✅ Full, shared types', '❌ Tidak bisa share types', '⚠️ Partial', '⚠️ Partial'],
+    values: [
+      ok('Full, shared types'),
+      bad('Tidak bisa share types'),
+      warn('Partial'),
+      warn('Partial'),
+    ],
   },
   {
     criteria: 'Performa Runtime',
-    values: ['✅ Lazy load remotes', '❌ Berat, duplikat runtime', '✅ Lazy', '✅ Native lazy'],
+    values: [
+      ok('Lazy load remotes'),
+      bad('Berat, duplikat runtime'),
+      ok('Lazy'),
+      ok('Native lazy'),
+    ],
   },
   {
     criteria: 'DX (Developer Experience)',
-    values: ['✅ Hot reload, manifest', '❌ Debug sulit', '⚠️ Setup kompleks', '⚠️ Setup manual'],
+    values: [
+      ok('Hot reload, manifest'),
+      bad('Debug sulit'),
+      warn('Setup kompleks'),
+      warn('Setup manual'),
+    ],
   },
   {
     criteria: 'Error Isolation',
     values: [
-      '✅ Error Boundary per remote',
-      '✅ Full sandbox',
-      '✅ App-level boundary',
-      '⚠️ Manual',
+      ok('Error Boundary per remote'),
+      ok('Full sandbox'),
+      ok('App-level boundary'),
+      warn('Manual'),
     ],
   },
   {
     criteria: 'Deploy Independen',
-    values: ['✅ Manifest-based discovery', '✅ URL-based', '✅ Import map', '✅ Import map'],
+    values: [ok('Manifest-based discovery'), ok('URL-based'), ok('Import map'), ok('Import map')],
   },
 ];
 
@@ -96,76 +141,81 @@ const implRows: ComparisonRow[] = [
   {
     criteria: 'Bundler',
     values: [
-      '✅ Vite (ESM-first, cepat di dev loop)',
-      '✅ Webpack (paling mature untuk MF)',
-      '✅ Rspack (Rust, fast)',
-      '❌ Belum support MF',
+      ok('Vite (ESM-first, cepat di dev loop)'),
+      ok('Webpack (paling mature untuk MF)'),
+      ok('Rspack (Rust, fast)'),
+      bad('Belum support MF'),
     ],
   },
   {
     criteria: 'Dev Server Speed',
     values: [
-      '✅ Cepat (bergantung ukuran proyek)',
-      '⚠️ Umumnya lebih berat dari Vite/Rspack',
-      '✅ Cepat',
-      '✅ Cepat',
+      ok('Cepat (bergantung ukuran proyek)'),
+      warn('Umumnya lebih berat dari Vite/Rspack'),
+      ok('Cepat'),
+      ok('Cepat'),
     ],
   },
   {
     criteria: 'React 19 Support',
-    values: ['✅ Full support', '✅ Support', '✅ Support', '⚠️ Experimental'],
+    values: [ok('Full support'), ok('Support'), ok('Support'), warn('Experimental')],
   },
   {
     criteria: 'Manifest-based Discovery',
-    values: ['✅ Built-in mf-manifest.json', '⚠️ Manual remoteEntry.js', '✅ Built-in', '❌ N/A'],
+    values: [
+      ok('Built-in mf-manifest.json'),
+      warn('Manual remoteEntry.js'),
+      ok('Built-in'),
+      bad('N/A'),
+    ],
   },
   {
     criteria: 'Shared Deps Singleton',
     values: [
-      '✅ Via konfigurasi shared/singleton',
-      '✅ Via konfigurasi shared/singleton',
-      '✅ Via konfigurasi shared/singleton',
-      '❌ N/A',
+      ok('Via konfigurasi shared/singleton'),
+      ok('Via konfigurasi shared/singleton'),
+      ok('Via konfigurasi shared/singleton'),
+      bad('N/A'),
     ],
   },
   {
     criteria: 'TypeScript DX',
     values: [
-      '⚠️ Dukungan d.ts tersedia, perlu konfigurasi',
-      '⚠️ Umumnya perlu setup tambahan d.ts',
-      '⚠️ Dukungan d.ts tersedia, perlu konfigurasi',
-      '❌ N/A',
+      warn('Dukungan d.ts tersedia, perlu konfigurasi'),
+      warn('Umumnya perlu setup tambahan d.ts'),
+      warn('Dukungan d.ts tersedia, perlu konfigurasi'),
+      bad('N/A'),
     ],
   },
   {
     criteria: 'Nx / Monorepo',
     values: [
-      '⚠️ Bisa dipakai di Nx monorepo, bukan jalur utama docs Nx MF',
-      '✅ Nx generator mature',
-      '✅ Didukung pada ekosistem Nx MF',
-      '⚠️ Turborepo only',
+      warn('Bisa dipakai di Nx monorepo, bukan jalur utama docs Nx MF'),
+      ok('Nx generator mature'),
+      ok('Didukung pada ekosistem Nx MF'),
+      warn('Turborepo only'),
     ],
   },
   {
     criteria: 'Production Maturity',
     values: [
-      '✅ Siap produksi dengan guardrail yang baik',
-      '✅ Paling mature',
-      '⚠️ Adopsi meningkat',
-      '❌ Belum tersedia',
+      ok('Siap produksi dengan guardrail yang baik'),
+      ok('Paling mature'),
+      warn('Adopsi meningkat'),
+      bad('Belum tersedia'),
     ],
   },
   {
     criteria: 'ESM Output',
-    values: ['✅ Native ESM', '❌ CommonJS default', '✅ ESM support', '✅ ESM'],
+    values: [ok('Native ESM'), bad('CommonJS default'), ok('ESM support'), ok('ESM')],
   },
   {
     criteria: 'Community / Ecosystem',
     values: [
-      '✅ Growing, same team as WP MF',
-      '✅ Terbesar',
-      '⚠️ Kecil tapi growing',
-      '❌ Belum ada',
+      ok('Growing, same team as WP MF'),
+      ok('Terbesar'),
+      warn('Kecil tapi growing'),
+      bad('Belum ada'),
     ],
   },
 ];
@@ -182,32 +232,32 @@ const monorepoRows: ComparisonRow[] = [
     criteria: 'Shared Libraries (@synapse/ui-kit)',
     values: [
       '',
-      '✅ Single Source of Truth, instan',
-      '❌ Membutuhkan publish & update manual berkala',
+      ok('Single Source of Truth, instan'),
+      bad('Membutuhkan publish & update manual berkala'),
     ],
   },
   {
     criteria: 'Standarisasi Tooling',
     values: [
       '',
-      '✅ Terpusat via Nx Generators, 100% kongruen',
-      '❌ Rentan deviasi (Webpack vs Vite, versi linting berbeda)',
+      ok('Terpusat via Nx Generators, 100% kongruen'),
+      bad('Rentan deviasi (Webpack vs Vite, versi linting berbeda)'),
     ],
   },
   {
     criteria: 'Kecepatan CI/CD Build',
     values: [
       '',
-      '✅ Diferensial parsial via Affected Graph & Caching',
-      '✅ Terisolasi sepenuhnya antar repositori',
+      ok('Diferensial parsial via Affected Graph & Caching'),
+      ok('Terisolasi sepenuhnya antar repositori'),
     ],
   },
   {
     criteria: 'Visibilitas Lintas Tim',
     values: [
       '',
-      '✅ Transparan, refaktor lintas-MFE dapat dieksekusi secara atomik',
-      '❌ Silo, membutuhkan PR lintas repositori yang kompleks',
+      ok('Transparan, refaktor lintas-MFE dapat dieksekusi secara atomik'),
+      bad('Silo, membutuhkan PR lintas repositori yang kompleks'),
     ],
   },
 ];
@@ -217,7 +267,7 @@ export function DocsWhyMfSection() {
     <Card>
       <CardContent className="pt-6 space-y-8">
         <SectionTitle
-          icon="🏗️"
+          icon={<Construction className="h-5 w-5" />}
           title="Kenapa Module Federation?"
           description="Perbandingan pendekatan Micro Frontend dan alasan memilih Vite Module Federation untuk arsitektur Synapse MFE."
         />
@@ -230,22 +280,22 @@ export function DocsWhyMfSection() {
           <FeatureGrid
             items={[
               {
-                icon: '👥',
+                icon: <Users className="h-5 w-5" />,
                 title: 'Tim Paralel',
                 desc: 'Beberapa tim harus bisa bekerja bersamaan tanpa saling mengganggu',
               },
               {
-                icon: '🚀',
+                icon: <Rocket className="h-5 w-5" />,
                 title: 'Deploy Independen',
                 desc: 'Setiap modul bisa di-deploy tanpa rebuild keseluruhan',
               },
               {
-                icon: '🔒',
+                icon: <Lock className="h-5 w-5" />,
                 title: 'Isolasi Kegagalan',
                 desc: 'Satu modul crash tidak boleh mematikan seluruh aplikasi',
               },
               {
-                icon: '⚡',
+                icon: <Zap className="h-5 w-5" />,
                 title: 'Performa Build',
                 desc: 'Build time harus cepat dan konsisten di berbagai environment development',
               },
@@ -267,18 +317,42 @@ export function DocsWhyMfSection() {
             Kenapa Bukan yang Lain?
           </h3>
           <div className="space-y-3">
-            <InfoBox variant="red" title="❌ iframe">
+            <InfoBox
+              variant="red"
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <CircleX className="h-4 w-4" />
+                  iframe
+                </span>
+              }
+            >
               Setiap iframe me-load seluruh React runtime terpisah — berat untuk mobile, tidak bisa
               share state langsung, dan routing synchronization sangat kompleks. URL bar tidak
               mencerminkan state child app.
             </InfoBox>
-            <InfoBox variant="amber" title="⚠️ Single SPA">
+            <InfoBox
+              variant="amber"
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  Single SPA
+                </span>
+              }
+            >
               Single-spa bersifat bundler-agnostic dan bisa dipakai dengan Vite. Trade-off utamanya
               ada di level orkestrasi: shared dependency policy, runtime contracts, dan integrasi
               antar-app biasanya membutuhkan wiring yang lebih manual dibandingkan Module
               Federation.
             </InfoBox>
-            <InfoBox variant="amber" title="⚠️ Import Map / Native ESM">
+            <InfoBox
+              variant="amber"
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  Import Map / Native ESM
+                </span>
+              }
+            >
               Pendekatan paling "pure" tapi butuh banyak boilerplate untuk state management,
               versioning, dan fallback. Tidak ada built-in support untuk shared singleton — harus
               dikelola manual. Cocok untuk project kecil, tidak untuk enterprise.
@@ -298,17 +372,41 @@ export function DocsWhyMfSection() {
           <ComparisonTable columns={implColumns} rows={implRows} />
 
           <div className="space-y-3 mt-4">
-            <InfoBox variant="amber" title="⚠️ Webpack 5 Module Federation">
+            <InfoBox
+              variant="amber"
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  Webpack 5 Module Federation
+                </span>
+              }
+            >
               Implementasi original dan paling mature. Di proyek ini kami memilih{' '}
               <strong>Vite</strong> untuk dev loop yang lebih ringan serta integrasi ESM-first,
               sambil tetap menggunakan ekosistem Module Federation yang sama.
             </InfoBox>
-            <InfoBox variant="amber" title="⚠️ Rspack Module Federation">
+            <InfoBox
+              variant="amber"
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  Rspack Module Federation
+                </span>
+              }
+            >
               Rspack sangat cepat (Rust-based) dan support MF, tapi masih di tahap{' '}
               <strong>early adoption</strong>. Ecosystem plugin masih berkembang, dan workflow tim
               di proyek ini saat ini lebih matang di stack Vite. Bisa menjadi pilihan di masa depan.
             </InfoBox>
-            <InfoBox variant="red" title="❌ Turbopack">
+            <InfoBox
+              variant="red"
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <CircleX className="h-4 w-4" />
+                  Turbopack
+                </span>
+              }
+            >
               Turbopack (dari Vercel/Next.js) belum mendukung Module Federation sama sekali.
               Fokusnya pada Next.js ecosystem, bukan general-purpose MFE. Eliminasi langsung.
             </InfoBox>
@@ -316,7 +414,12 @@ export function DocsWhyMfSection() {
 
           <InfoBox
             variant="emerald"
-            title="✅ Kesimpulan: @module-federation/vite"
+            title={
+              <span className="inline-flex items-center gap-2">
+                <CircleCheck className="h-4 w-4" />
+                Kesimpulan: @module-federation/vite
+              </span>
+            }
             className="mt-4"
           >
             <ul className="space-y-1.5 list-disc list-inside mt-1">

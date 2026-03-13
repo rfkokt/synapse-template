@@ -1,6 +1,10 @@
+import { CodeBlock, DocsStep } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { DocsStep } from '@synapse/shared-components';
+import {
+  LuTriangleAlert as AlertTriangle,
+  LuCircleCheck as CircleCheck,
+  LuCircle as Circle,
+} from 'react-icons/lu';
 
 export function DocsMembuatMfeSection() {
   return (
@@ -72,7 +76,10 @@ pnpm run dev:new`}
 }`}
             />
             <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3 text-sm">
-              <p className="font-semibold text-amber-800 dark:text-amber-300">⚠️ Penting</p>
+              <p className="font-semibold text-amber-800 dark:text-amber-300 inline-flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4" />
+                Penting
+              </p>
               <p className="text-amber-700 dark:text-amber-400">
                 Di dalam MFE Anda, selalu gunakan komponen{' '}
                 <code className="text-xs bg-amber-100 dark:bg-amber-900/50 px-1 rounded">
@@ -172,64 +179,83 @@ await initMsw();`}
           </DocsStep>
 
           <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
-            <h4 className="font-semibold text-emerald-800 dark:text-emerald-300 mb-2">
-              ✅ Checklist MFE Baru (100% Plug & Play)
+            <h4 className="font-semibold text-emerald-800 dark:text-emerald-300 mb-2 inline-flex items-center gap-2">
+              <CircleCheck className="h-4 w-4" />
+              Checklist MFE Baru (100% Plug & Play)
             </h4>
             <ul className="space-y-1.5 text-sm text-emerald-700 dark:text-emerald-400">
-              <li>
-                ☐ Generate CLI:{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  pnpm nx g @synapse/tools:mfe nama-mfe --port=PORT
-                </code>
+              <li className="flex items-start gap-2">
+                <Circle className="mt-0.5 h-4 w-4 text-emerald-500" />
+                <span>
+                  Generate CLI:{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    pnpm nx g @synapse/tools:mfe nama-mfe --port=PORT
+                  </code>
+                </span>
               </li>
-              <li>
-                ☐ Restart Server via{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  pnpm run dev:new
-                </code>
+              <li className="flex items-start gap-2">
+                <Circle className="mt-0.5 h-4 w-4 text-emerald-500" />
+                <span>
+                  Restart Server via{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    pnpm run dev:new
+                  </code>
+                </span>
               </li>
-              <li>
-                ☐ Route & Remotes{' '}
-                <strong className="font-semibold underline">sudah terdaftar otomatis</strong> oleh
-                generator.
+              <li className="flex items-start gap-2">
+                <Circle className="mt-0.5 h-4 w-4 text-emerald-500" />
+                <span>
+                  Route & Remotes{' '}
+                  <strong className="font-semibold underline">sudah terdaftar otomatis</strong> oleh
+                  generator.
+                </span>
               </li>
-              <li>
-                ☐ Menu entry di{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  mock-menus.ts
-                </code>
+              <li className="flex items-start gap-2">
+                <Circle className="mt-0.5 h-4 w-4 text-emerald-500" />
+                <span>
+                  Menu entry di{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    mock-menus.ts
+                  </code>
+                </span>
               </li>
-              <li>
-                ☐ Icon terdaftar di{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  icon-map.ts
-                </code>
+              <li className="flex items-start gap-2">
+                <Circle className="mt-0.5 h-4 w-4 text-emerald-500" />
+                <span>
+                  Icon terdaftar di{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    icon-map.ts
+                  </code>
+                </span>
               </li>
-              <li>
-                ☐ Gunakan shared libs sesuai kebutuhan:{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  @synapse/ui-kit
-                </code>
-                ,{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  @synapse/shared-components
-                </code>
-                ,{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  @synapse/shared-types
-                </code>
-                ,{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  @synapse/shared-api
-                </code>
-                ,{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  @synapse/shared-monitoring
-                </code>
-                ,{' '}
-                <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
-                  @synapse/mock-api
-                </code>
+              <li className="flex items-start gap-2">
+                <Circle className="mt-0.5 h-4 w-4 text-emerald-500" />
+                <span>
+                  Gunakan shared libs sesuai kebutuhan:{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    @synapse/ui-kit
+                  </code>
+                  ,{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    @synapse/shared-components
+                  </code>
+                  ,{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    @synapse/shared-types
+                  </code>
+                  ,{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    @synapse/shared-api
+                  </code>
+                  ,{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    @synapse/shared-monitoring
+                  </code>
+                  ,{' '}
+                  <code className="text-xs bg-emerald-100 dark:bg-emerald-900/50 px-1 rounded">
+                    @synapse/mock-api
+                  </code>
+                </span>
               </li>
             </ul>
           </div>

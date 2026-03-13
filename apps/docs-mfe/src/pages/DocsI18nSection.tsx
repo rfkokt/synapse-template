@@ -1,13 +1,16 @@
+import { CodeBlock, DocsStep } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
-import { CodeBlock } from '@synapse/shared-components';
-import { DocsStep } from '@synapse/shared-components';
+import { LuGlobe as Globe } from 'react-icons/lu';
 
 export function DocsI18nSection() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-          🌐 Internationalization (i18n)
+          <span className="inline-flex items-center gap-3">
+            <Globe className="h-7 w-7" />
+            Internationalization (i18n)
+          </span>
         </h1>
         <p className="text-lg text-neutral-500 dark:text-neutral-400">
           Panduan penggunaan multi-bahasa (Indonesia, English, Arabic) di aplikasi Synapse MFE.

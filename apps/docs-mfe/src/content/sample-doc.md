@@ -42,23 +42,23 @@ Tambahkan section baru di `App.tsx`:
 'my-new-doc': {
   component: MyNewDocSection,
   title: '19. Judul Dokumen Baru',
-  category: '📚 Panduan Lanjutan',
+  category: 'Panduan Lanjutan',
 },
 ```
 
 ## Fitur yang Didukung
 
-| Fitur                          | Status       |
-| ------------------------------ | ------------ |
-| Headings (h1-h6)               | ✅ Supported |
-| Bold / Italic                  | ✅ Supported |
-| Links                          | ✅ Supported |
-| Code blocks + syntax highlight | ✅ Supported |
-| GFM Tables                     | ✅ Supported |
-| Task lists                     | ✅ Supported |
-| Blockquotes                    | ✅ Supported |
-| Images                         | ✅ Supported |
-| Strikethrough                  | ✅ Supported |
+| Fitur                          | Status    |
+| ------------------------------ | --------- |
+| Headings (h1-h6)               | Supported |
+| Bold / Italic                  | Supported |
+| Links                          | Supported |
+| Code blocks + syntax highlight | Supported |
+| GFM Tables                     | Supported |
+| Task lists                     | Supported |
+| Blockquotes                    | Supported |
+| Images                         | Supported |
+| Strikethrough                  | Supported |
 
 ## Contoh Sintaks
 
@@ -85,4 +85,4 @@ console.log(response.data);
 
 ---
 
-Selamat menulis dokumentasi! 🎉
+Selamat menulis dokumentasi!

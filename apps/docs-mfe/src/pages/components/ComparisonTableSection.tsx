@@ -1,7 +1,32 @@
-import { Card, CardContent } from '@synapse/ui-kit';
 import { ExampleTabs, ComparisonTable } from '@synapse/shared-components';
+import { Card, CardContent } from '@synapse/ui-kit';
+import {
+  LuCircleCheck as CircleCheck,
+  LuTriangleAlert as AlertTriangle,
+  LuCircleX as CircleX,
+} from 'react-icons/lu';
 
 export function ComparisonTableSection() {
+  const iconClass = 'h-4 w-4';
+  const ok = (text: string) => (
+    <span className="inline-flex items-center gap-1">
+      <CircleCheck className={`${iconClass} text-emerald-500`} />
+      {text}
+    </span>
+  );
+  const warn = (text: string) => (
+    <span className="inline-flex items-center gap-1">
+      <AlertTriangle className={`${iconClass} text-amber-500`} />
+      {text}
+    </span>
+  );
+  const bad = (text: string) => (
+    <span className="inline-flex items-center gap-1">
+      <CircleX className={`${iconClass} text-red-500`} />
+      {text}
+    </span>
+  );
+
   return (
     <Card>
       <CardContent className="pt-6 space-y-6">
@@ -22,9 +47,9 @@ export function ComparisonTableSection() {
             { header: 'Jotai' },
           ]}
           rows={[
-            { criteria: 'Bundle Size', values: ['✅ ~1KB', '⚠️ ~7KB', '✅ ~2KB'] },
-            { criteria: 'Boilerplate', values: ['✅ Minimal', '❌ Banyak', '✅ Minimal'] },
-            { criteria: 'DevTools', values: ['✅ Ada', '✅ Superior', '⚠️ Basic'] },
+            { criteria: 'Bundle Size', values: [ok('~1KB'), warn('~7KB'), ok('~2KB')] },
+            { criteria: 'Boilerplate', values: [ok('Minimal'), bad('Banyak'), ok('Minimal')] },
+            { criteria: 'DevTools', values: [ok('Ada'), ok('Superior'), warn('Basic')] },
           ]}
         />
 
@@ -50,13 +75,33 @@ export function ComparisonTableSection() {
                   { header: 'Option C' },
                 ]}
                 rows={[
-                  { criteria: 'Speed', values: ['✅ Fast', '❌ Slow', '⚠️ Medium'] },
-                  { criteria: 'Cost', values: ['✅ Free', '⚠️ Paid', '✅ Free'] },
+                  { criteria: 'Speed', values: [ok('Fast'), bad('Slow'), warn('Medium')] },
+                  { criteria: 'Cost', values: [ok('Free'), warn('Paid'), ok('Free')] },
                 ]}
               />
             </div>
           }
           code={`import { ComparisonTable } from '@synapse/shared-components';
+import { LuCircleCheck as CircleCheck, LuTriangleAlert as AlertTriangle, LuCircleX as CircleX } from 'react-icons/lu';
+
+const ok = (text) => (
+  <span className="inline-flex items-center gap-1">
+    <CircleCheck className="h-4 w-4 text-emerald-500" />
+    {text}
+  </span>
+);
+const warn = (text) => (
+  <span className="inline-flex items-center gap-1">
+    <AlertTriangle className="h-4 w-4 text-amber-500" />
+    {text}
+  </span>
+);
+const bad = (text) => (
+  <span className="inline-flex items-center gap-1">
+    <CircleX className="h-4 w-4 text-red-500" />
+    {text}
+  </span>
+);
 
 <ComparisonTable
   columns={[
@@ -65,8 +110,8 @@ export function ComparisonTableSection() {
     { header: 'Option C' },
   ]}
   rows={[
-    { criteria: 'Speed', values: ['✅ Fast', '❌ Slow', '⚠️ Medium'] },
-    { criteria: 'Cost', values: ['✅ Free', '⚠️ Paid', '✅ Free'] },
+    { criteria: 'Speed', values: [ok('Fast'), bad('Slow'), warn('Medium')] },
+    { criteria: 'Cost', values: [ok('Free'), warn('Paid'), ok('Free')] },
   ]}
 />`}
           previewClassName="w-full items-start justify-center"

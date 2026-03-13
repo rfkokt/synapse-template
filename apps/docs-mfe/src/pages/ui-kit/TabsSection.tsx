@@ -1,4 +1,5 @@
 import { Card, CardContent, Tabs, TabList, Tab, TabPanel } from '@synapse/ui-kit';
+import { LuKeyboard as Keyboard } from 'react-icons/lu';
 import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function TabsSection() {
@@ -126,7 +127,10 @@ const [tab, setTab] = useState('tab1');
 
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
           <h3 className="text-base font-semibold text-blue-800 dark:text-blue-300 mb-2">
-            ⌨️ Keyboard Navigation
+            <span className="inline-flex items-center gap-2">
+              <Keyboard className="h-4 w-4" />
+              Keyboard Navigation
+            </span>
           </h3>
           <ul className="space-y-1 text-sm text-blue-700 dark:text-blue-400">
             <li>

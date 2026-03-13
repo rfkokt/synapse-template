@@ -1,7 +1,9 @@
-import { Card, CardContent } from '@synapse/ui-kit';
 import { ExampleTabs, KeyValueCard, StepList, SectionTitle } from '@synapse/shared-components';
+import { Card, CardContent } from '@synapse/ui-kit';
+import { LuFileText as FileText, LuConstruction as Construction } from 'react-icons/lu';
 
 export function UtilitiesSection() {
+  const iconClass = 'h-5 w-5';
   return (
     <Card>
       <CardContent className="pt-6 space-y-8">
@@ -20,11 +22,11 @@ export function UtilitiesSection() {
             SectionTitle
           </h3>
           <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
-            Header halaman dengan emoji + judul + deskripsi opsional.
+            Header halaman dengan icon + judul + deskripsi opsional.
           </p>
           <div className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800">
             <SectionTitle
-              icon="📄"
+              icon={<FileText className={iconClass} />}
               title="Contoh Judul Halaman"
               description="Ini deskripsi singkat halaman."
             />
@@ -33,16 +35,17 @@ export function UtilitiesSection() {
             preview={
               <div className="w-full max-w-xl rounded-xl border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-800/50">
                 <SectionTitle
-                  icon="🏗️"
+                  icon={<Construction className={iconClass} />}
                   title="Kenapa Module Federation?"
                   description="Penjelasan singkat..."
                 />
               </div>
             }
             code={`import { SectionTitle } from '@synapse/shared-components';
+import { LuConstruction as Construction } from 'react-icons/lu';
 
 <SectionTitle
-  icon="🏗️"
+  icon={<Construction className="h-5 w-5" />}
   title="Kenapa Module Federation?"
   description="Penjelasan singkat..."
 />`}

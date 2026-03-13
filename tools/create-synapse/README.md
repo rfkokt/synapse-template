@@ -1,15 +1,15 @@
-# create-synapse-mfe 🚀
+# create-synapse-mfe
 
 A lightning-fast, zero-dependency CLI scaffolding tool for bootstrapping a modern, scalable **Micro-Frontend (MFE)** architecture using **Vite**, **React**, and **Module Federation**.
 
-## 🌟 Features
+## Features
 
 - **Zero Dependencies**: Built with native Node.js (`child_process`, `fs`) for instant execution.
 - **Vite & Module Federation**: Pre-configured for high-performance React applications.
 - **Enterprise Ready**: Includes a Host (Shell) app, Remote apps, and shared libraries out of the box.
 - **Nx Monorepo Style**: Organized for scalable development.
 
-## 📦 Usage
+## Usage
 
 You do not need to install this package globally. Simply run it directly using `npx`:
 
@@ -25,7 +25,7 @@ The CLI will interactively ask for your project name (default: `synapse-workspac
 npx create-synapse-mfe@latest my-awesome-mfe
 ```
 
-## 🛠️ Next Steps After Scaffolding
+## Next Steps After Scaffolding
 
 Once your project is generated, follow these simple steps to spin up the entire Micro-Frontend ecosystem:
 
@@ -40,7 +40,7 @@ pnpm install
 pnpm run dev:new
 ```
 
-## 🔐 Default Mock Credentials (Development)
+## Default Mock Credentials (Development)
 
 Saat `MSW` aktif di mode development, gunakan akun berikut untuk login cepat:
 
@@ -55,7 +55,7 @@ Catatan:
 - `auth-mfe` menampilkan kredensial mock otomatis di bawah form login (dev + MSW).
 - Dokumentasi detail tersedia di `/docs/api-mocking`, `/docs/api-interceptors`, dan `/docs/security`.
 
-## 🏗️ Architecture Blueprint
+## Architecture Blueprint
 
 The generated workspace pulls from a clean-slate boilerplate that includes:
 
@@ -64,6 +64,6 @@ The generated workspace pulls from a clean-slate boilerplate that includes:
 - `apps/docs-mfe`: A remote documentation micro-frontend.
 - `libs/`: Shared libraries holding UI components, types, and API logic.
 
-## 📄 License
+## License
 
 MIT

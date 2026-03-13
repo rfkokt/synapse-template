@@ -1,4 +1,9 @@
 import { Badge, Card, CardContent } from '@synapse/ui-kit';
+import {
+  LuCircleCheck as CircleCheck,
+  LuClock as Clock,
+  LuCircleX as CircleX,
+} from 'react-icons/lu';
 import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function BadgeSection() {
@@ -18,9 +23,24 @@ export function BadgeSection() {
         </PreviewCard>
         <PreviewCard title="Use Cases">
           <div className="flex flex-wrap gap-3">
-            <Badge variant="success">✓ Aktif</Badge>
-            <Badge variant="warning">⏳ Pending</Badge>
-            <Badge variant="error">✕ Ditolak</Badge>
+            <Badge variant="success">
+              <span className="inline-flex items-center gap-1">
+                <CircleCheck className="h-3 w-3" />
+                Aktif
+              </span>
+            </Badge>
+            <Badge variant="warning">
+              <span className="inline-flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                Pending
+              </span>
+            </Badge>
+            <Badge variant="error">
+              <span className="inline-flex items-center gap-1">
+                <CircleX className="h-3 w-3" />
+                Ditolak
+              </span>
+            </Badge>
             <Badge variant="info">3 Baru</Badge>
           </div>
         </PreviewCard>

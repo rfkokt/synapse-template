@@ -1,4 +1,13 @@
 import { Card, CardContent } from '@synapse/ui-kit';
+import {
+  LuBookOpen as BookOpen,
+  LuTriangleAlert as AlertTriangle,
+  LuListOrdered as ListOrdered,
+  LuRocket as Rocket,
+  LuConstruction as Construction,
+  LuPalette as Palette,
+  LuBook as Book,
+} from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 
 export function DocsOverviewSection({
@@ -7,17 +16,20 @@ export function DocsOverviewSection({
   sectionMap: Record<string, { component: React.FC; title: string; category: string }>;
 }) {
   const categories = [
-    '🚀 Getting Started',
-    '🏗️ Arsitektur',
-    '🎨 UI & Styling',
-    '📚 Panduan Lanjutan',
+    { key: 'Getting Started', label: 'Getting Started', icon: <Rocket className="h-4 w-4" /> },
+    { key: 'Arsitektur', label: 'Arsitektur', icon: <Construction className="h-4 w-4" /> },
+    { key: 'UI & Styling', label: 'UI & Styling', icon: <Palette className="h-4 w-4" /> },
+    { key: 'Panduan Lanjutan', label: 'Panduan Lanjutan', icon: <Book className="h-4 w-4" /> },
   ];
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-          📖 Buku Panduan Platform MFE
+          <span className="inline-flex items-center gap-3">
+            <BookOpen className="h-7 w-7" />
+            Buku Panduan Platform MFE
+          </span>
         </h1>
         <p className="text-lg text-neutral-500 dark:text-neutral-400">
           Dokumentasi dan Standar Arsitektur Micro-Frontend Synapse MFE
@@ -27,7 +39,10 @@ export function DocsOverviewSection({
       <Card>
         <CardContent className="pt-6 space-y-3">
           <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 text-lg">
-            🚨 Update Penting (Wajib Dibaca)
+            <span className="inline-flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4" />
+              Update Penting (Wajib Dibaca)
+            </span>
           </h3>
           <ul className="list-disc ml-5 space-y-1 text-sm text-neutral-600 dark:text-neutral-400">
             <li>Access token sekarang memory-only, tidak lagi disimpan di Web Storage.</li>
@@ -69,15 +84,23 @@ export function DocsOverviewSection({
       <Card>
         <CardContent className="pt-6">
           <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-4 text-lg border-b border-neutral-100 dark:border-neutral-800 pb-2">
-            📑 Daftar Isi
+            <span className="inline-flex items-center gap-2">
+              <ListOrdered className="h-4 w-4" />
+              Daftar Isi
+            </span>
           </h3>
           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 text-sm">
             {categories.map((category) => (
-              <div key={category} className="space-y-2">
-                <p className="font-semibold text-neutral-800 dark:text-neutral-200">{category}</p>
+              <div key={category.key} className="space-y-2">
+                <p className="font-semibold text-neutral-800 dark:text-neutral-200 inline-flex items-center gap-2">
+                  <span className="text-neutral-600 dark:text-neutral-300 [&>svg]:h-4 [&>svg]:w-4">
+                    {category.icon}
+                  </span>
+                  {category.label}
+                </p>
                 <div className="flex flex-col gap-1.5 pl-4 border-l-2 border-neutral-100 dark:border-neutral-800 ml-1">
                   {Object.entries(sectionMap)
-                    .filter(([_, data]) => data.category === category)
+                    .filter(([_, data]) => data.category === category.key)
                     .map(([slug, data]) => (
                       <Link
                         key={slug}

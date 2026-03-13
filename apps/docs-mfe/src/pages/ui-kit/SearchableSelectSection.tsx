@@ -1,15 +1,15 @@
-import { useCallback, useMemo, useState } from 'react';
-import { Card, CardContent, SearchableSelect, type SearchableSelectOption } from '@synapse/ui-kit';
 import { apiClient } from '@synapse/shared-api';
+import { Card, CardContent, SearchableSelect, type SearchableSelectOption } from '@synapse/ui-kit';
+import { useCallback, useMemo, useState } from 'react';
 import { ExampleTabs, SectionHeader, PreviewCard, PropsTable } from './shared';
 
 const fruitOptions: SearchableSelectOption[] = [
-  { value: 'apel', label: '🍎 Apel', keywords: ['apple', 'merah'] },
-  { value: 'pisang', label: '🍌 Pisang', keywords: ['banana', 'kuning'] },
-  { value: 'jeruk', label: '🍊 Jeruk', keywords: ['orange', 'citrus'] },
-  { value: 'mangga', label: '🥭 Mangga', keywords: ['mango', 'tropis'] },
-  { value: 'semangka', label: '🍉 Semangka', keywords: ['watermelon'] },
-  { value: 'anggur', label: '🍇 Anggur', keywords: ['grape', 'ungu'] },
+  { value: 'apel', label: 'Apel', keywords: ['apple', 'merah'] },
+  { value: 'pisang', label: 'Pisang', keywords: ['banana', 'kuning'] },
+  { value: 'jeruk', label: 'Jeruk', keywords: ['orange', 'citrus'] },
+  { value: 'mangga', label: 'Mangga', keywords: ['mango', 'tropis'] },
+  { value: 'semangka', label: 'Semangka', keywords: ['watermelon'] },
+  { value: 'anggur', label: 'Anggur', keywords: ['grape', 'ungu'] },
 ];
 
 const cityApiDataset: SearchableSelectOption[] = [
@@ -34,10 +34,10 @@ const searchLocalExampleCode = `import {
 
 const [value, setValue] = useState('');
 const fruitOptions: SearchableSelectOption[] = [
-  { value: 'apel', label: '🍎 Apel' },
-  { value: 'pisang', label: '🍌 Pisang' },
-  { value: 'jeruk', label: '🍊 Jeruk' },
-  { value: 'mangga', label: '🥭 Mangga' },
+  { value: 'apel', label: 'Apel' },
+  { value: 'pisang', label: 'Pisang' },
+  { value: 'jeruk', label: 'Jeruk' },
+  { value: 'mangga', label: 'Mangga' },
 ];
 
 <SearchableSelect

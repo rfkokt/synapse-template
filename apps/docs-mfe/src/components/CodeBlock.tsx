@@ -1,6 +1,5 @@
-import { useState, ReactNode } from 'react';
 import { Button } from '@synapse/ui-kit';
-
+import { useState, ReactNode } from 'react';
 import { CodeBlockTable } from './CodeBlockTable';
 
 interface CodeBlockProps {
@@ -102,7 +101,7 @@ export function CodeBlock({ codeString, language = 'bash', children }: CodeBlock
           onClick={handleCopy}
           className="text-xs text-neutral-500 hover:text-white transition-colors h-7 px-2 py-1 rounded hover:bg-neutral-800 font-normal bg-transparent"
         >
-          {copied ? '✓ Copied' : 'Copy'}
+          {copied ? 'Copied' : 'Copy'}
         </Button>
       </div>
       <div className="overflow-x-auto">

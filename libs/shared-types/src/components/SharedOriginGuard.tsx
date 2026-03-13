@@ -38,7 +38,7 @@ export function SharedOriginGuard({
 
   if (!isAllowed) {
     console.error(
-      `[SharedOriginGuard] ⚠️ Akses MFE Ditolak. Host origin '${currentOrigin}' tidak terdaftar di allowlist.`
+      `[SharedOriginGuard] Akses MFE Ditolak. Host origin '${currentOrigin}' tidak terdaftar di allowlist.`
     );
   }
 

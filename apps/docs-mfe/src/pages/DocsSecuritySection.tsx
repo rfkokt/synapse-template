@@ -1,5 +1,11 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { CodeBlock } from '@synapse/shared-components';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
+import {
+  LuCircleCheck as CircleCheck,
+  LuCircleX as CircleX,
+  LuShieldCheck as ShieldCheck,
+  LuLightbulb as Lightbulb,
+} from 'react-icons/lu';
 export function DocsSecuritySection() {
   return (
     <Card>
@@ -15,7 +21,10 @@ export function DocsSecuritySection() {
       <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <p className="font-semibold text-emerald-700 dark:text-emerald-400 mb-2">✅ WAJIB</p>
+            <p className="font-semibold text-emerald-700 dark:text-emerald-400 mb-2 inline-flex items-center gap-2">
+              <CircleCheck className="h-4 w-4" />
+              WAJIB
+            </p>
             <ul className="list-disc ml-4 space-y-1">
               <li>Access token HANYA di memory (Zustand)</li>
               <li>Gunakan HttpOnly refresh cookie dari backend (bukan JS-readable cookie)</li>
@@ -53,7 +62,10 @@ export function DocsSecuritySection() {
             </ul>
           </div>
           <div>
-            <p className="font-semibold text-red-700 dark:text-red-400 mb-2">❌ DILARANG</p>
+            <p className="font-semibold text-red-700 dark:text-red-400 mb-2 inline-flex items-center gap-2">
+              <CircleX className="h-4 w-4" />
+              DILARANG
+            </p>
             <ul className="list-disc ml-4 space-y-1">
               <li>Simpan access token di localStorage/sessionStorage/non-HttpOnly cookie</li>
               <li>Buat Axios instance sendiri</li>
@@ -71,7 +83,8 @@ export function DocsSecuritySection() {
         </div>
         <div className="mt-8 border-t border-neutral-100 dark:border-neutral-800 pt-6">
           <h3 className="font-semibold text-lg text-neutral-900 dark:text-neutral-100 mb-4 flex items-center gap-2">
-            🛡️ Mencegah Akses MFE dari Domain Sembarangan
+            <ShieldCheck className="h-5 w-5" />
+            Mencegah Akses MFE dari Domain Sembarangan
           </h3>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
             Karena MFE berupa file JavaScript statis (<code>remoteEntry.js</code>), kita harus
@@ -94,8 +107,9 @@ export function DocsSecuritySection() {
               </p>
               <div className="pl-3 border-l-2 border-transparent">
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
-                  <p className="text-xs font-semibold text-red-700 dark:text-red-400">
-                    ❌ JANGAN PERNAH gunakan wildcard:{' '}
+                  <p className="text-xs font-semibold text-red-700 dark:text-red-400 inline-flex items-center gap-2">
+                    <CircleX className="h-4 w-4" />
+                    JANGAN PERNAH gunakan wildcard:{' '}
                     <code className="font-mono">Access-Control-Allow-Origin: *</code>
                   </p>
                 </div>
@@ -167,8 +181,9 @@ export function App() {
 }`}
                 />
                 <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mt-4">
-                  <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-                    💡 Standalone Mode & Local Isolated Login
+                  <p className="text-xs font-semibold text-blue-700 dark:text-blue-400 inline-flex items-center gap-2">
+                    <Lightbulb className="h-4 w-4" />
+                    Standalone Mode & Local Isolated Login
                   </p>
                   <p className="text-xs text-blue-700 dark:text-blue-400 mt-1 mb-2">
                     Saat mode Standalone (Developer membuka port anak MFE langsung misalnya{' '}

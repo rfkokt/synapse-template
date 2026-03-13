@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import { Tabs, TabList, Tab, TabPanel, ComponentBoundary } from '@synapse/ui-kit';
+import type { ReactNode } from 'react';
 import { CodeBlock } from './CodeBlock';
 
 /* ═══════════════════════════════════════════════════════
@@ -65,7 +65,7 @@ export function InfoBox({
   className = '',
 }: {
   variant?: InfoBoxVariant;
-  title?: string;
+  title?: ReactNode;
   children: ReactNode;
   className?: string;
 }) {
@@ -82,14 +82,14 @@ export function InfoBox({
    Table with optional highlighted column for the chosen option.
    ────────────────────────────────────────────────────── */
 export interface ComparisonColumn {
-  header: string;
+  header: ReactNode;
   /** Mark this column as the "chosen" option (green highlight) */
   highlight?: boolean;
 }
 
 export interface ComparisonRow {
-  criteria: string;
-  values: string[];
+  criteria: ReactNode;
+  values: ReactNode[];
 }
 
 export function ComparisonTable({
@@ -105,7 +105,7 @@ export function ComparisonTable({
     <div
       className={`overflow-x-auto rounded-xl border border-neutral-200 dark:border-neutral-800 ${className}`}
     >
-      <table className="w-full text-sm">
+      <table className="w-full text-sm [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0 [&_svg]:align-middle">
         <thead>
           <tr className="bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-left">
             <th className="px-4 py-3 font-medium">Kriteria</th>
@@ -113,7 +113,7 @@ export function ComparisonTable({
               <th key={i} className="px-4 py-3 font-medium">
                 {col.highlight ? (
                   <span className="inline-flex items-center gap-1">
-                    {col.header} <span className="text-emerald-500 text-xs">(✓ Dipilih)</span>
+                    {col.header} <span className="text-emerald-500 text-xs">(Dipilih)</span>
                   </span>
                 ) : (
                   col.header
@@ -148,7 +148,7 @@ export function ComparisonTable({
    Grid of icon + title + description cards.
    ───────────────────────────────────────────────────── */
 export interface FeatureItem {
-  icon: string;
+  icon: ReactNode;
   title: string;
   desc: string;
 }
@@ -171,7 +171,9 @@ export function FeatureGrid({
           key={item.title}
           className="bg-neutral-50 dark:bg-neutral-800/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800"
         >
-          <span className="text-2xl">{item.icon}</span>
+          <span className="inline-flex items-center justify-center text-2xl text-neutral-700 dark:text-neutral-300 [&>svg]:h-6 [&>svg]:w-6">
+            {item.icon}
+          </span>
           <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mt-2">
             {item.title}
           </h4>
@@ -190,14 +192,18 @@ export function SectionTitle({
   title,
   description,
 }: {
-  icon?: string;
+  icon?: ReactNode;
   title: string;
   description?: string;
 }) {
   return (
     <div>
       <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-        {icon && <>{icon} </>}
+        {icon && (
+          <span className="inline-flex items-center justify-center mr-2 text-neutral-700 dark:text-neutral-300 [&>svg]:h-5 [&>svg]:w-5">
+            {icon}
+          </span>
+        )}
         {title}
       </h2>
       {description && <p className="text-neutral-500 dark:text-neutral-400">{description}</p>}

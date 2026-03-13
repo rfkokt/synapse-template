@@ -1,10 +1,9 @@
-import type React from 'react';
-import { CodeBlock } from '@synapse/shared-components';
-import { ExampleTabs } from '@synapse/shared-components';
+import { CodeBlock, ExampleTabs } from '@synapse/shared-components';
+import type { ReactNode } from 'react';
 
 export { CodeBlock, ExampleTabs };
 
-export function SectionHeader({ title, description }: { title: string; description: string }) {
+export function SectionHeader({ title, description }: { title: ReactNode; description: string }) {
   return (
     <div className="mb-6 pb-4 border-b border-neutral-200 dark:border-neutral-800">
       <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">{title}</h2>
@@ -19,7 +18,7 @@ export function PreviewCard({
   className = '',
 }: {
   title?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
   return (
