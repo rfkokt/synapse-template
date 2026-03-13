@@ -270,6 +270,53 @@ CMD ["nginx", "-g", "daemon off;"]`}
             container ini melayani aplikasi MFE Remotes. Karena Module Federation membutuhkan CORS
             untuk me-load manifest jarak jauh.
           </InfoBox>
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mt-6 mb-2">
+            Pipelining Docker di GitHub Actions
+          </h4>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+            Sangat bisa! Anda bisa menyambungkan tahapan Build Docker di atas ke dalam pipeline
+            GitHub Actions. Anda bisa menambahkan <em>job</em> spesifik untuk build image dan
+            mendorongnya ke registry seperti GitHub Container Registry (GHCR) atau Docker Hub.
+          </p>
+          <CodeBlock
+            language="yaml"
+            codeString={`name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Login ke Docker Hub atau GHCR
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: \${{ github.actor }}
+          password: \${{ secrets.GITHUB_TOKEN }}
+
+      # Build & Push otomatis ke Registry
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/\${{ github.repository }}/synapse-shell:latest
+          build-args: |
+            APP_NAME=shell`}
+          />
         </section>
       </CardContent>
     </Card>
