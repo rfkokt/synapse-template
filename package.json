@@ -65,7 +65,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "husky": "^9.1.7",
     "jiti": "2.4.2",
-    "jsdom": "~22.1.0",
+    "jsdom": "~26.0.0",
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^16.2.7",
     "msw": "^2.12.10",
@@ -111,7 +111,11 @@
       "minimatch@5.1.7": "5.1.8",
       "minimatch@9.0.6": "9.0.7",
       "minimatch@10.2.1": "10.2.4",
-      "minimatch@10.2.2": "10.2.4"
+      "minimatch@10.2.2": "10.2.4",
+      "html-encoding-sniffer": "^4.0.0",
+      "@rollup/plugin-commonjs": "^28.0.2",
+      "test-exclude": "^7.0.0",
+      "glob@10.5.0": "10.4.5"
     }
   }
 }

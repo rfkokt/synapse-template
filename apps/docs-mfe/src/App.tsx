@@ -6,20 +6,18 @@ import { useLocation, Link } from 'react-router-dom';
 import { DocsLayout } from './components/DocsLayout';
 
 // ── Documentation Section imports ──
-import { DocsLibsSection } from './pages/DocsLibsSection';
-import { DocsSidebarRbacSection } from './pages/DocsSidebarRbacSection';
+import CodeBlockSection from './pages/components/CodeBlockSection';
+import CodeBlockTableSection from './pages/components/CodeBlockTableSection';
+import { ComparisonTableSection } from './pages/components/ComparisonTableSection';
+import { ComponentsOverviewSection } from './pages/components/ComponentsOverviewSection';
+import { DocsStepSection } from './pages/components/DocsStepSection';
+import { ExampleTabsSection } from './pages/components/ExampleTabsSection';
+import { FeatureGridSection } from './pages/components/FeatureGridSection';
+import { InfoBoxSection } from './pages/components/InfoBoxSection';
 import { DocsMarkdownGuideSection } from './pages/DocsMarkdownGuideSection';
 
 // ── Reusable Components Section imports ──
-import { InfoBoxSection } from './pages/components/InfoBoxSection';
-import { ComparisonTableSection } from './pages/components/ComparisonTableSection';
-import { FeatureGridSection } from './pages/components/FeatureGridSection';
 import { UtilitiesSection } from './pages/components/UtilitiesSection';
-import { ComponentsOverviewSection } from './pages/components/ComponentsOverviewSection';
-import CodeBlockSection from './pages/components/CodeBlockSection';
-import CodeBlockTableSection from './pages/components/CodeBlockTableSection';
-import { DocsStepSection } from './pages/components/DocsStepSection';
-import { ExampleTabsSection } from './pages/components/ExampleTabsSection';
 import { ReusableComponentGuideSection } from './pages/components/ReusableComponentGuideSection';
 import { UndocumentedSection as SharedComponentsUndocumentedSection } from './pages/components/UndocumentedSection';
 import { DocsApiInterceptorsSection } from './pages/DocsApiInterceptorsSection';
@@ -36,10 +34,13 @@ import { DocsOverviewSection } from './pages/DocsOverviewSection';
 import { DocsRoutingSection } from './pages/DocsRoutingSection';
 import { DocsSecuritySection } from './pages/DocsSecuritySection';
 import { DocsSharedUiKitSection } from './pages/DocsSharedUiKitSection';
+import { DocsSidebarRbacSection } from './pages/DocsSidebarRbacSection';
 import { DocsStrukturSection } from './pages/DocsStrukturSection';
 import { DocsTailwindThemeSection } from './pages/DocsTailwindThemeSection';
 import { DocsTokenAuthSection } from './pages/DocsTokenAuthSection';
 import { DocsWhyMfSection } from './pages/DocsWhyMfSection';
+import { DocsDeployGuideSection } from './pages/DocsDeployGuideSection';
+import { DocsLibsSection } from './pages/DocsLibsSection';
 
 // --- UI Kit Section imports ---
 import { BadgeSection } from './pages/ui-kit/BadgeSection';
@@ -173,6 +174,11 @@ export const DOCS_SECTION_MAP: Record<string, SectionData> = {
   'markdown-guide': {
     component: DocsMarkdownGuideSection,
     title: '19. Menulis Docs dengan Markdown',
+    category: 'Panduan Lanjutan',
+  },
+  'deploy-cicd': {
+    component: DocsDeployGuideSection,
+    title: '20. Deploy & CI/CD (GitHub Actions)',
     category: 'Panduan Lanjutan',
   },
 };

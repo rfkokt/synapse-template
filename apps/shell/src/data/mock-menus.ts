@@ -220,6 +220,12 @@ export const MOCK_MENUS: MenuGroup[] = [
             icon: 'FileText',
             path: '/docs/markdown-guide',
           },
+          {
+            id: 'docs-deploy-cicd',
+            label: '20. Deploy & CI/CD (GitHub Actions)',
+            icon: 'Rocket',
+            path: '/docs/deploy-cicd',
+          },
         ],
       },
       {

@@ -222,7 +222,6 @@ const implRows: ComparisonRow[] = [
 
 // ── Data: Monorepo vs Polyrepo comparison ──
 const monorepoColumns: ComparisonColumn[] = [
-  { header: 'Kriteria' },
   { header: 'Hybrid Monorepo (Nx)', highlight: true },
   { header: 'Polyrepo Tradisional' },
 ];
@@ -231,7 +230,6 @@ const monorepoRows: ComparisonRow[] = [
   {
     criteria: 'Shared Libraries (@synapse/ui-kit)',
     values: [
-      '',
       ok('Single Source of Truth, instan'),
       bad('Membutuhkan publish & update manual berkala'),
     ],
@@ -239,7 +237,6 @@ const monorepoRows: ComparisonRow[] = [
   {
     criteria: 'Standarisasi Tooling',
     values: [
-      '',
       ok('Terpusat via Nx Generators, 100% kongruen'),
       bad('Rentan deviasi (Webpack vs Vite, versi linting berbeda)'),
     ],
@@ -247,7 +244,6 @@ const monorepoRows: ComparisonRow[] = [
   {
     criteria: 'Kecepatan CI/CD Build',
     values: [
-      '',
       ok('Diferensial parsial via Affected Graph & Caching'),
       ok('Terisolasi sepenuhnya antar repositori'),
     ],
@@ -255,9 +251,45 @@ const monorepoRows: ComparisonRow[] = [
   {
     criteria: 'Visibilitas Lintas Tim',
     values: [
-      '',
       ok('Transparan, refaktor lintas-MFE dapat dieksekusi secara atomik'),
       bad('Silo, membutuhkan PR lintas repositori yang kompleks'),
+    ],
+  },
+];
+
+const polyrepoColumns: ComparisonColumn[] = [{ header: 'Multiple Repositories (Polyrepo)' }];
+
+const polyrepoRows: ComparisonRow[] = [
+  {
+    criteria: 'Manajemen Dependensi',
+    values: [
+      bad(
+        'Sulit memastikan versi library (e.g. React/Tailwind) selaras antar repo, yang menyebabkan MFE error di runtime saat digabungkan'
+      ),
+    ],
+  },
+  {
+    criteria: 'Proses Onboarding & Developer Setup',
+    values: [
+      bad(
+        'Developer baru harus nge-clone dan men-setup 5-10 repo berbeda hanya untuk bisa develop fitur secara E2E'
+      ),
+    ],
+  },
+  {
+    criteria: 'Perubahan Lintas-App (Cross-cutting changes)',
+    values: [
+      bad(
+        'Satu perubahan contract API atau Shared UI Component mensyaratkan PR terpisah di banyak repo, dan mengelola urutan deploy menjadi sangat rentan kesalahan'
+      ),
+    ],
+  },
+  {
+    criteria: 'Standarisasi',
+    values: [
+      warn(
+        'Linting, testing, dan pipeline CI seringkali berbeda di tiap repo karena drift seiring berjalannya waktu'
+      ),
     ],
   },
 ];
@@ -561,10 +593,24 @@ function Header() {
             Arsitektur Hybrid Monorepo (Nx)
           </h3>
           <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
-            Proyek ini menggunakan pendekatan <strong>Hybrid Monorepo</strong> yang diorkestrasi
-            oleh <strong>Nx</strong>. Seluruh kode sumber dikelola dalam satu repositori terpusat,
-            namun setiap modul di-<em>deploy</em> secara independen. Keputusan arsitektur ini
-            diambil untuk mendobrak batasan manajerial pada ekosistem Multi-MFE:
+            Secara konsep, setiap Micro Frontend bisa saja ditaruh di repository Git yang
+            berbeda-beda ("Polyrepo" / Multiple Repositories) tergantung MFE-nya. Namun, pendekatan
+            ini sering kali menciptakan <strong>"Dependency Hell" dan inefisiensi tim</strong> yang
+            luar biasa besar:
+          </p>
+
+          <div className="mb-6">
+            <h4 className="font-semibold text-neutral-800 dark:text-neutral-200 mb-2">
+              Mengapa TIDAK dipecah menjadi beberapa repo?
+            </h4>
+            <ComparisonTable columns={polyrepoColumns} rows={polyrepoRows} />
+          </div>
+
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4 mt-8">
+            Karena itulah proyek ini menggunakan pendekatan <strong>Hybrid Monorepo</strong> yang
+            diorkestrasi oleh <strong>Nx</strong>. Seluruh MFE dan Shared Library berada dalam satu
+            repositori terpusat, namun setiap modul di-<em>build</em> dan di-<em>deploy</em> secara
+            independen. Keputusan ini mengatasi semua kerugian Polyrepo di atas:
           </p>
           <ComparisonTable columns={monorepoColumns} rows={monorepoRows} />
 
