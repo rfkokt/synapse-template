@@ -77,8 +77,10 @@ const components: Components = {
       {children}
     </a>
   ),
-  code: ({ inline, children, className, ...props }) => {
-    if (inline) {
+  code: ({ children, className, ...props }) => {
+    const codeString = String(children ?? '').replace(/\n$/, '');
+    const isBlock = Boolean(className) || codeString.includes('\n');
+    if (!isBlock) {
       return (
         <code
           className="text-xs bg-neutral-100 dark:bg-neutral-800 text-primary-700 dark:text-primary-300 px-1.5 py-0.5 rounded font-mono"
@@ -91,8 +93,6 @@ const components: Components = {
 
     const match = /language-([a-z0-9-]+)/i.exec(className ?? '');
     const language = match?.[1] ?? 'text';
-    const codeString = String(children ?? '').replace(/\n$/, '');
-
     return <CodeBlock language={language} codeString={codeString} />;
   },
   pre: ({ children }) => <>{children}</>,
