@@ -307,7 +307,7 @@ jobs:
           username: \${{ github.actor }}
           password: \${{ secrets.GITHUB_TOKEN }}
 
-      # Build & Push otomatis ke Registry
+          # Build & Push otomatis ke Registry
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -315,7 +315,25 @@ jobs:
           push: true
           tags: ghcr.io/\${{ github.repository }}/synapse-shell:latest
           build-args: |
-            APP_NAME=shell`}
+            APP_NAME=shell
+
+      # Opsional: Jika Anda menggunakan VPS, Anda bisa meminta VPS untuk pull image terbaru menggunakan SSH
+      - name: Deploy to VPS Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: \${{ secrets.VPS_HOST }}       # IP Address Server (Misal: 101.202.x.x)
+          username: \${{ secrets.VPS_USERNAME }} # User SSH Server (Misal: root atau ubuntu)
+          key: \${{ secrets.VPS_SSH_KEY }}       # Private Key Server untuk akses SSH
+          script: |
+            docker login ghcr.io -u \${{ github.actor }} -p \${{ secrets.GITHUB_TOKEN }}
+            docker pull ghcr.io/\${{ github.repository }}/synapse-shell:latest
+            
+            # Hentikan container lama jika ada
+            docker stop synapse-shell || true
+            docker rm synapse-shell || true
+            
+            # Jalankan container baru
+            docker run -d -p 8080:80 --name synapse-shell ghcr.io/\${{ github.repository }}/synapse-shell:latest`}
           />
 
           <InfoBox
