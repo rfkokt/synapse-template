@@ -1,6 +1,6 @@
 import { Button } from '@synapse/ui-kit';
-import { useNavigate } from 'react-router-dom';
 import { LuArrowLeft as ArrowLeft } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 
 export function NotFound() {
   const navigate = useNavigate();

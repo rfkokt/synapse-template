@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Input, Card, CardContent } from '@synapse/ui-kit';
+import { useState } from 'react';
 import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function InputSection() {

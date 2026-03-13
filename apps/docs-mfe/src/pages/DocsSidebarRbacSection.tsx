@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { CodeBlock, InfoBox, StepList } from '@synapse/shared-components';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 
 const menuRbacSnippet = `import type { MenuGroup } from '@synapse/shared-types';
 

@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import { API, apiClient } from '@synapse/shared-api';
 import { useAuthStore } from '@synapse/shared-types';
 import type { User } from '@synapse/shared-types';
+import { useEffect } from 'react';
 
 interface RefreshResponse {
   user?: User;

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Button, Card, CardContent } from '@synapse/ui-kit';
 import { ExampleTabs, InfoBox } from '@synapse/shared-components';
+import { Button, Card, CardContent } from '@synapse/ui-kit';
+import { useState } from 'react';
 import { PropsTable } from '../ui-kit/shared';
 
 const basicCode = `import { ExampleTabs } from '@synapse/shared-components';

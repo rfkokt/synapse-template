@@ -1,11 +1,11 @@
 import { Card, CardContent, DropdownMenu, Button } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 import {
   LuSettings as Settings,
   LuLogOut as LogOut,
   LuUser as User,
   LuBell as Bell,
 } from 'react-icons/lu';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 export function DropdownMenuSection() {
   return (

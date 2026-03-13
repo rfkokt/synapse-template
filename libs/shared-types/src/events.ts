@@ -1,4 +1,3 @@
-/* global CustomEvent */
 /**
  * MFE Event Contracts
  * All cross-MFE events use namespaced custom browser events.

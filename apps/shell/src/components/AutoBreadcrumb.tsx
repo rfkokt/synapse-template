@@ -1,6 +1,6 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useMenuStore } from '@synapse/shared-types';
 import { Breadcrumb, type BreadcrumbItem } from '@synapse/ui-kit';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function AutoBreadcrumb() {
   const location = useLocation();

@@ -1,7 +1,7 @@
+import { useAuthStore, useNotificationStore } from '@synapse/shared-types';
 import { StrictMode, useState, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { useAuthStore, useNotificationStore } from '@synapse/shared-types';
 import './index.css';
 import { App } from './App';
 

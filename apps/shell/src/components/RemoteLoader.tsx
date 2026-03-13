@@ -1,5 +1,5 @@
-import { Suspense, type ReactNode } from 'react';
 import { Skeleton } from '@synapse/ui-kit';
+import { Suspense, type ReactNode } from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
 
 interface RemoteLoaderProps {

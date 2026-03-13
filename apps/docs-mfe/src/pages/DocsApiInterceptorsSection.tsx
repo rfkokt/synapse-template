@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { CodeBlock } from '@synapse/shared-components';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 
 export function DocsApiInterceptorsSection() {
   return (

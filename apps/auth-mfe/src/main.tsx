@@ -2,8 +2,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Register from './pages/Register';
 import '@synapse/shared-types'; // Initializes i18n
 import { initMsw } from '@synapse/mock-api';
 import './index.css';

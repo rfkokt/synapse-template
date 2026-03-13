@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Button, Card, CardContent, ComponentBoundary } from '@synapse/ui-kit';
+import { useState } from 'react';
 import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 function RiskyWidget({ shouldCrash }: { shouldCrash: boolean }) {

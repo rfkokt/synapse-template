@@ -1,5 +1,5 @@
-import { Card, CardContent } from '@synapse/ui-kit';
 import { CodeBlock, ExampleTabs } from '@synapse/shared-components';
+import { Card, CardContent } from '@synapse/ui-kit';
 import { SectionHeader, PreviewCard, PropsTable } from '../../pages/ui-kit/shared';
 
 const codeStringExample = `import { CodeBlock } from '@synapse/shared-components';

@@ -1,5 +1,5 @@
-import { Badge, Card, CardContent } from '@synapse/ui-kit';
 import { ExampleTabs, DocsStep } from '@synapse/shared-components';
+import { Badge, Card, CardContent } from '@synapse/ui-kit';
 
 export function DocsStepSection() {
   return (

@@ -1,5 +1,5 @@
-import { Component, type ReactNode, type ErrorInfo } from 'react';
 import { ErrorFallback } from '@synapse/ui-kit';
+import { Component, type ReactNode, type ErrorInfo } from 'react';
 
 interface ErrorBoundaryProps {
   children: ReactNode;

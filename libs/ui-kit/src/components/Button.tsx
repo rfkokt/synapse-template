@@ -1,5 +1,5 @@
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { LuLoader as Loader2 } from 'react-icons/lu';
 import { cn } from '../utils/cn';
 

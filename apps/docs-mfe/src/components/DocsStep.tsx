@@ -1,5 +1,5 @@
-import React from 'react';
 import { cn } from '@synapse/ui-kit';
+import React from 'react';
 
 export type DocsStepColor = 'emerald' | 'indigo' | 'slate';
 

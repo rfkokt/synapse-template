@@ -1,9 +1,8 @@
-import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
-
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { removeMfeGenerator } from './generator';
 import { RemoveMfeGeneratorSchema } from './schema';
-import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('remove-mfe generator', () => {
   let tree: Tree;

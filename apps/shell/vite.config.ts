@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
-import { federation } from '@module-federation/vite';
-import { visualizer } from 'rollup-plugin-visualizer';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import { fileURLToPath } from 'url';
+import { federation } from '@module-federation/vite';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { defineConfig, loadEnv } from 'vite';
 import type { RemoteRegistry } from './src/types/remote-registry';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -15,8 +15,6 @@ type FederationRemoteConfig = {
   name: string;
   entry: string;
 };
-
-import { loadEnv } from 'vite';
 
 function loadFederationRemotes(mode: string): Record<string, FederationRemoteConfig> {
   const registryPath = path.resolve(__dirname, './public/remotes.json');

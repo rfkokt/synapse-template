@@ -1,4 +1,10 @@
-import { type FormEvent, type ChangeEvent, useState, useEffect } from 'react';
+import {
+  useAuthStore,
+  MFE_EVENTS,
+  dispatchMfeEvent,
+  SharedOriginGuard,
+} from '@synapse/shared-types';
+import type { AuthEventPayload } from '@synapse/shared-types';
 import {
   Button,
   Input,
@@ -8,13 +14,8 @@ import {
   CardTitle,
   CardDescription,
 } from '@synapse/ui-kit';
-import {
-  useAuthStore,
-  MFE_EVENTS,
-  dispatchMfeEvent,
-  SharedOriginGuard,
-} from '@synapse/shared-types';
-import type { AuthEventPayload } from '@synapse/shared-types';
+import { type FormEvent, type ChangeEvent, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   LuUser as UserIcon,
   LuSave as Save,
@@ -23,7 +24,6 @@ import {
   LuMail as Mail,
   LuBadgeCheck as BadgeCheck,
 } from 'react-icons/lu';
-import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
   const user = useAuthStore((s) => s.user);

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Button,
   Modal,
@@ -7,6 +6,7 @@ import {
   type ModalPosition,
   type ModalSize,
 } from '@synapse/ui-kit';
+import { useState } from 'react';
 import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 const sizeOptions: Array<{ value: ModalSize; label: string }> = [

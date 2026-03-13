@@ -1,6 +1,6 @@
+import { CodeBlockTable, ExampleTabs } from '@synapse/shared-components';
 import { Card, CardContent } from '@synapse/ui-kit';
 import { SectionHeader, PreviewCard, PropsTable } from '../../pages/ui-kit/shared';
-import { CodeBlockTable, ExampleTabs } from '@synapse/shared-components';
 
 const stringExampleCode = `import { CodeBlockTable } from '@synapse/shared-components';
 

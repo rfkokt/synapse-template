@@ -1,5 +1,5 @@
-import { Card, CardContent } from '@synapse/ui-kit';
 import { CodeBlock, InfoBox, KeyValueCard, StepList } from '@synapse/shared-components';
+import { Card, CardContent } from '@synapse/ui-kit';
 
 const createComponentCode = `// libs/shared-components/src/MyStatusBadge.tsx
 import type { ReactNode } from 'react';

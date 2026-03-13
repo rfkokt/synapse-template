@@ -1,8 +1,8 @@
 import type { JSX } from 'react';
 import { LuTriangleAlert as AlertTriangle, LuRefreshCw as RefreshCw } from 'react-icons/lu';
+import { cn } from '../utils/cn';
 import { Button } from './Button';
 import { Card, CardContent } from './Card';
-import { cn } from '../utils/cn';
 
 export type ErrorFallbackVariant = 'compact' | 'default' | 'full';
 

@@ -1,6 +1,6 @@
-import * as yup from 'yup';
-import { Button, Input, Card, CardContent, FormField, useFormValidation } from '@synapse/ui-kit';
 import { useNotificationStore } from '@synapse/shared-types';
+import { Button, Input, Card, CardContent, FormField, useFormValidation } from '@synapse/ui-kit';
+import * as yup from 'yup';
 import { CodeBlock, SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 const demoSchema = yup.object({

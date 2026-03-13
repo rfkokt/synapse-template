@@ -1,9 +1,9 @@
+import { queryClient } from '@synapse/shared-api';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { queryClient } from '@synapse/shared-api';
-import { AppRouter } from './router';
 import { useAuthEvents } from './hooks/useAuthEvents';
 import { useSessionBootstrap } from './hooks/useSessionBootstrap';
+import { AppRouter } from './router';
 
 function AuthEventListener() {
   useAuthEvents();

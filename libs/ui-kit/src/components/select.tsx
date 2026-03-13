@@ -1,11 +1,10 @@
+import { Select as SelectPrimitive } from 'radix-ui';
 import * as React from 'react';
 import {
   LuCheck as CheckIcon,
   LuChevronDown as ChevronDownIcon,
   LuChevronUp as ChevronUpIcon,
 } from 'react-icons/lu';
-import { Select as SelectPrimitive } from 'radix-ui';
-
 import { cn } from '../utils/cn';
 
 function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {

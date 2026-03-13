@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { LuLoader as LoaderIcon, LuSearch as SearchIcon } from 'react-icons/lu';
-
 import { cn } from '../utils/cn';
 import {
   Select,

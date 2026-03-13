@@ -1,4 +1,4 @@
-import { type FormEvent, type ChangeEvent, useState } from 'react';
+import { SharedOriginGuard } from '@synapse/shared-types';
 import {
   Button,
   Input,
@@ -8,9 +8,9 @@ import {
   CardTitle,
   CardDescription,
 } from '@synapse/ui-kit';
-import { LuUserPlus as UserPlus, LuEye as Eye, LuEyeOff as EyeOff } from 'react-icons/lu';
+import { type FormEvent, type ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SharedOriginGuard } from '@synapse/shared-types';
+import { LuUserPlus as UserPlus, LuEye as Eye, LuEyeOff as EyeOff } from 'react-icons/lu';
 
 export default function Register() {
   const [name, setName] = useState('');

@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
 import { MFE_EVENTS, onMfeEvent, useAuthStore } from '@synapse/shared-types';
-import type { AuthEventPayload } from '@synapse/shared-types';
-import type { User } from '@synapse/shared-types';
+import type { AuthEventPayload, User } from '@synapse/shared-types';
+import { useEffect } from 'react';
 
 /**
  * Hook that listens for MFE auth events and updates the global auth store.

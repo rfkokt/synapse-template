@@ -14,19 +14,21 @@ import { DocsStepSection } from './pages/components/DocsStepSection';
 import { ExampleTabsSection } from './pages/components/ExampleTabsSection';
 import { FeatureGridSection } from './pages/components/FeatureGridSection';
 import { InfoBoxSection } from './pages/components/InfoBoxSection';
-import { DocsMarkdownGuideSection } from './pages/DocsMarkdownGuideSection';
-
-// ── Reusable Components Section imports ──
-import { UtilitiesSection } from './pages/components/UtilitiesSection';
 import { ReusableComponentGuideSection } from './pages/components/ReusableComponentGuideSection';
 import { UndocumentedSection as SharedComponentsUndocumentedSection } from './pages/components/UndocumentedSection';
+import { UtilitiesSection } from './pages/components/UtilitiesSection';
 import { DocsApiInterceptorsSection } from './pages/DocsApiInterceptorsSection';
 import { DocsApiMockingSection } from './pages/DocsApiMockingSection';
+import { DocsDeployGuideSection } from './pages/DocsDeployGuideSection';
 import { DocsDynamicRemotesSection } from './pages/DocsDynamicRemotesSection';
 import { DocsEnvDarkModeSection } from './pages/DocsEnvDarkModeSection';
 import { DocsEventsErrorSection } from './pages/DocsEventsErrorSection';
 import { DocsGitPerfSection } from './pages/DocsGitPerfSection';
 import { DocsI18nSection } from './pages/DocsI18nSection';
+import { DocsLibsSection } from './pages/DocsLibsSection';
+import { DocsMarkdownGuideSection } from './pages/DocsMarkdownGuideSection';
+
+// ── Reusable Components Section imports ──
 import { DocsMembuatMfeSection } from './pages/DocsMembuatMfeSection';
 import { DocsMenambahPackageSection } from './pages/DocsMenambahPackageSection';
 import { DocsMenjalankanSection } from './pages/DocsMenjalankanSection';
@@ -39,8 +41,6 @@ import { DocsStrukturSection } from './pages/DocsStrukturSection';
 import { DocsTailwindThemeSection } from './pages/DocsTailwindThemeSection';
 import { DocsTokenAuthSection } from './pages/DocsTokenAuthSection';
 import { DocsWhyMfSection } from './pages/DocsWhyMfSection';
-import { DocsDeployGuideSection } from './pages/DocsDeployGuideSection';
-import { DocsLibsSection } from './pages/DocsLibsSection';
 
 // --- UI Kit Section imports ---
 import { BadgeSection } from './pages/ui-kit/BadgeSection';

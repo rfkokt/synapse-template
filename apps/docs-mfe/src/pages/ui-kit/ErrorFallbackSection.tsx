@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Button,
   Card,
@@ -6,6 +5,7 @@ import {
   ErrorFallback,
   type ErrorFallbackVariant,
 } from '@synapse/ui-kit';
+import { useState } from 'react';
 import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 const demoError = new Error('GET /api/users gagal (500 Internal Server Error)');

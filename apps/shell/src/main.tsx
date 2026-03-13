@@ -1,9 +1,9 @@
-import { StrictMode } from 'react';
 import { initMsw } from '@synapse/mock-api';
-import { createRoot } from 'react-dom/client';
-import { App } from './App';
 import { initMonitoring, ErrorBoundary } from '@synapse/shared-monitoring';
 import { useAuthStore } from '@synapse/shared-types';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './App';
 import './index.css';
 import { registerRuntimeRemotesFromRegistry } from './utils/runtime-remotes';
 

@@ -1,12 +1,12 @@
 import { Card, CardContent, Button, Table, DropdownMenu } from '@synapse/ui-kit';
 import type { Column } from '@synapse/ui-kit';
-import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 import {
   LuPencil as Pencil,
   LuTrash2 as Trash2,
   LuPlus as Plus,
   LuEye as Eye,
 } from 'react-icons/lu';
+import { SectionHeader, PreviewCard, ExampleTabs, PropsTable } from './shared';
 
 interface Paket {
   id: number;

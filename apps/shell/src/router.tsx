@@ -1,6 +1,6 @@
+import { useAuthStore, getSafeRedirectTarget } from '@synapse/shared-types';
 import { lazy, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuthStore, getSafeRedirectTarget } from '@synapse/shared-types';
 import { Layout } from './components/Layout';
 import { RemoteLoader } from './components/RemoteLoader';
 import { Dashboard } from './pages/Dashboard';
