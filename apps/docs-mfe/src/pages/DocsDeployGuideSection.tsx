@@ -317,6 +317,49 @@ jobs:
           build-args: |
             APP_NAME=shell`}
           />
+
+          <InfoBox
+            variant="emerald"
+            title="Konfigurasi Variabel & Secrets (GitHub Actions)"
+            className="mt-4"
+          >
+            <p className="mb-2">
+              Untuk membuat pipeline Docker di atas berjalan, perhatikan Variabel dan Secrets
+              berikut:
+            </p>
+            <ul className="list-disc list-inside space-y-1">
+              <li>
+                <strong>
+                  <code>{`\${{ github.actor }}`}</code> & <code>{`\${{ github.repository }}`}</code>
+                  :
+                </strong>{' '}
+                Ini adalah variabel bawaan GitHub (default). Anda tidak perlu mensetup apapun.
+              </li>
+              <li>
+                <strong>
+                  <code>{`\${{ secrets.GITHUB_TOKEN }}`}</code>:
+                </strong>{' '}
+                Token rahasia bawaan GitHub untuk autentikasi ke GHCR (GitHub Container Registry).
+                Otomatis tersedia, <strong>tapi</strong> pastikan Anda memberikan akses{' '}
+                <em>Read and write permissions</em> di menu{' '}
+                <strong>Settings &gt; Actions &gt; General &gt; Workflow permissions</strong> pada
+                repositori Anda.
+              </li>
+              <li>
+                <strong>Bagaimana jika menggunakan Docker Hub atau Cloud provider lain?</strong>
+                <br />
+                Ganti <em>registry</em> menjadi server tujuan Anda (misal docker.io). Lalu tambahkan
+                kredensial login (seperti username dan password/token) secara manual ke dalam menu{' '}
+                <strong>
+                  Settings &gt; Secrets and variables &gt; Actions &gt; New repository secret
+                </strong>
+                . Ubah konfigurasi workflow menjadi: <br />
+                <code>username: {`\${{ secrets.DOCKER_USERNAME }}`}</code>
+                <br />
+                <code>password: {`\${{ secrets.DOCKER_PASSWORD }}`}</code>
+              </li>
+            </ul>
+          </InfoBox>
         </section>
       </CardContent>
     </Card>
