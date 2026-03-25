@@ -55,14 +55,11 @@ const getScopeName = () => {
     if (process.argv[3]) {
       resolve(process.argv[3]);
     } else {
-      rl.question(
-        '\n\x1b[33m? Nama NPM scope organisasi Anda:\x1b[0m (@synapse) ',
-        (answer) => {
-          let scope = answer.trim() || '@synapse';
-          if (!scope.startsWith('@')) scope = '@' + scope;
-          resolve(scope);
-        }
-      );
+      rl.question('\n\x1b[33m? Nama NPM scope organisasi Anda:\x1b[0m (@synapse) ', (answer) => {
+        let scope = answer.trim() || '@synapse';
+        if (!scope.startsWith('@')) scope = '@' + scope;
+        resolve(scope);
+      });
     }
   });
 };

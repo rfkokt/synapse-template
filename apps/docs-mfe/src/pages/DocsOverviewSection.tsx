@@ -82,6 +82,37 @@ export function DocsOverviewSection({
       </Card>
 
       <Card>
+        <CardContent className="pt-6 space-y-3">
+          <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 text-lg">
+            <span className="inline-flex items-center gap-2">
+              <Rocket className="h-4 w-4" />
+              Quick Start: Setup Tool & Re-branding
+            </span>
+          </h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            Synapse MFE dilengkapi dengan CLI interaktif untuk mempercepat setup awal boilerplate.
+            Jalankan perintah di bawah ini dari terminal kosong untuk memulai:
+          </p>
+          <div className="bg-neutral-50 dark:bg-neutral-900 rounded-md p-3 text-sm font-mono text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 overflow-x-auto">
+            npx create-synapse-mfe@latest
+          </div>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+            CLI otomatis akan menanyakan nama folder proyek dan{' '}
+            <strong>NPM scope organisasimu</strong> (misal: <code>@telkom</code>). Semua referensi{' '}
+            <code>@synapse/*</code> di repo ini akan langsung terganti (re-branded) dalam sedetik
+            agar siap di-publish ke private registry kantormu!
+          </p>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+            Jika sewaktu-waktu ingin mengubah nama scope secara manual, jalankan script ini di root
+            folder:
+          </p>
+          <div className="bg-neutral-50 dark:bg-neutral-900 rounded-md p-3 text-sm font-mono text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 overflow-x-auto">
+            pnpm run setup:brand @scopebaru
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
         <CardContent className="pt-6">
           <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-4 text-lg border-b border-neutral-100 dark:border-neutral-800 pb-2">
             <span className="inline-flex items-center gap-2">
