@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+import * as fsNative from 'fs';
 import path from 'path';
 import {
   formatFiles,
@@ -73,10 +74,16 @@ export async function generatorGenerator(tree: Tree, options: GeneratorGenerator
   });
 
   // 2. Overwrite vite.config.ts with Module Federation setup
-  const viteConfigContent = `import { defineConfig } from 'vite';
+  const viteConfigContent = `import { existsSync } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { federation } from '@module-federation/vite';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isMonorepo = existsSync(path.resolve(__dirname, '../../libs'));
 
 export default defineConfig({
   server: {
@@ -85,6 +92,18 @@ export default defineConfig({
   },
   preview: {
     port: ${port + 100},
+  },
+  resolve: {
+    alias: isMonorepo
+      ? {
+          '@synapse/shared-types': path.resolve(__dirname, '../../libs/shared-types/src/index.ts'),
+          '@synapse/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
+          '@synapse/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
+          '@synapse/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
+          '@synapse/shared-components': path.resolve(__dirname, '../../libs/shared-components/src/index.ts'),
+          '@synapse/shared-monitoring': path.resolve(__dirname, '../../libs/shared-monitoring/src/index.ts'),
+        }
+      : undefined,
   },
   plugins: [
     react(),
@@ -102,6 +121,8 @@ export default defineConfig({
         'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
         'react/': { singleton: true },
         'react-dom/': { singleton: true },
+        zustand: { singleton: true },
+        '@synapse/shared-types': { singleton: true },
       },
     }),
   ],
@@ -113,6 +134,29 @@ export default defineConfig({
 });
 `;
   tree.write(joinPathFragments(projectRoot, 'vite.config.ts'), viteConfigContent);
+
+  // 2.5 Generate Standalone Infrastructure (Multi-Repo Support)
+  try {
+    const templateTsConfig = fsNative.readFileSync(
+      path.resolve(workspaceRoot, 'apps/shell/tsconfig.standalone.json'),
+      'utf-8'
+    );
+    tree.write(joinPathFragments(projectRoot, 'tsconfig.standalone.json'), templateTsConfig);
+
+    const templateEnv = fsNative.readFileSync(
+      path.resolve(workspaceRoot, 'apps/shell/standalone.env.example'),
+      'utf-8'
+    );
+    tree.write(joinPathFragments(projectRoot, 'standalone.env.example'), templateEnv);
+
+    const templateNpmrc = fsNative.readFileSync(
+      path.resolve(workspaceRoot, '.npmrc.template'),
+      'utf-8'
+    );
+    tree.write(joinPathFragments(projectRoot, '.npmrc.template'), templateNpmrc);
+  } catch (err) {
+    logger.warn('Failed to copy standalone infrastructure templates. Skip.');
+  }
 
   // 3. Setup Tailwind v4 in styles.css
   const indexCssContent = `@import "tailwindcss";
