@@ -1,11 +1,8 @@
-import remotesData from '../../../apps/shell/public/remotes.json';
-
 /**
  * Mendapatkan daftar origin yang diizinkan (whitelist).
  * Sumber whitelist:
  * - VITE_SHELL_URL
  * - VITE_ALLOWED_ORIGINS (comma-separated, optional)
- * - apps/shell/public/remotes.json
  *
  * Catatan keamanan:
  * Jangan pernah otomatis menambahkan window.location.origin ke whitelist,
@@ -30,14 +27,6 @@ export function getDynamicOrigins(): string[] {
       }
     }
   }
-
-  Object.values(remotesData.remotes).forEach((remote: unknown) => {
-    const entry = (remote as { entry?: string }).entry;
-    const origin = normalizeHttpOrigin(entry);
-    if (origin) {
-      dynamicOrigins.add(origin);
-    }
-  });
 
   return [...dynamicOrigins];
 }

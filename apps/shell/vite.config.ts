@@ -10,6 +10,9 @@ import type { RemoteRegistry } from './src/types/remote-registry';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Detect monorepo: if ../../libs exists, use local source; otherwise resolve from node_modules
+const isMonorepo = fs.existsSync(path.resolve(__dirname, '../../libs'));
+
 type FederationRemoteConfig = {
   type: 'module';
   name: string;
@@ -78,16 +81,21 @@ export default defineConfig(({ mode }) => {
       port: 4100,
     },
     resolve: {
-      alias: {
-        '@synapse/shared-types': path.resolve(__dirname, '../../libs/shared-types/src/index.ts'),
-        '@synapse/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
-        '@synapse/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
-        '@synapse/shared-monitoring': path.resolve(
-          __dirname,
-          '../../libs/shared-monitoring/src/index.ts'
-        ),
-        '@synapse/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
-      },
+      alias: isMonorepo
+        ? {
+            '@synapse/shared-types': path.resolve(
+              __dirname,
+              '../../libs/shared-types/src/index.ts'
+            ),
+            '@synapse/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
+            '@synapse/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
+            '@synapse/shared-monitoring': path.resolve(
+              __dirname,
+              '../../libs/shared-monitoring/src/index.ts'
+            ),
+            '@synapse/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
+          }
+        : undefined,
     },
     plugins: [
       react(),
@@ -103,6 +111,8 @@ export default defineConfig(({ mode }) => {
           'react/': { singleton: true },
           'react-dom/': { singleton: true },
           'react-router-dom': { singleton: true, requiredVersion: '^7.0.0' },
+          zustand: { singleton: true },
+          '@synapse/shared-types': { singleton: true },
         },
       }),
       visualizer({

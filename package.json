@@ -20,7 +20,9 @@
     "add:ui": "./scripts/add-ui.sh",
     "remove:ui": "./scripts/remove-ui.sh",
     "review:pre-push": "bash ./scripts/review-before-push.sh",
-    "review:full": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm budget:check"
+    "review:full": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm budget:check",
+    "libs:build": "pnpm -r --filter './libs/*' run build",
+    "libs:publish": "pnpm libs:build && pnpm -r --filter './libs/*' publish --no-git-checks"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -73,6 +75,7 @@
     "prettier": "^3.8.1",
     "rollup-plugin-visualizer": "^7.0.0",
     "tailwindcss": "^4.0.0",
+    "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.56.1",

@@ -32,6 +32,7 @@ import { DocsMarkdownGuideSection } from './pages/DocsMarkdownGuideSection';
 import { DocsMembuatMfeSection } from './pages/DocsMembuatMfeSection';
 import { DocsMenambahPackageSection } from './pages/DocsMenambahPackageSection';
 import { DocsMenjalankanSection } from './pages/DocsMenjalankanSection';
+import { DocsMultiRepoSection } from './pages/DocsMultiRepoSection';
 import { DocsOverviewSection } from './pages/DocsOverviewSection';
 import { DocsRoutingSection } from './pages/DocsRoutingSection';
 import { DocsSecuritySection } from './pages/DocsSecuritySection';
@@ -179,6 +180,11 @@ export const DOCS_SECTION_MAP: Record<string, SectionData> = {
   'deploy-cicd': {
     component: DocsDeployGuideSection,
     title: '20. Deploy & CI/CD (GitHub Actions)',
+    category: 'Panduan Lanjutan',
+  },
+  'multi-repo': {
+    component: DocsMultiRepoSection,
+    title: '21. Multi-Repo Separation',
     category: 'Panduan Lanjutan',
   },
 };

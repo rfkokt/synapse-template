@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { federation } from '@module-federation/vite';
@@ -8,6 +9,9 @@ import { defineConfig } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Detect monorepo: if ../../libs exists, use local source; otherwise resolve from node_modules
+const isMonorepo = existsSync(path.resolve(__dirname, '../../libs'));
+
 export default defineConfig({
   server: {
     port: 4001,
@@ -17,12 +21,14 @@ export default defineConfig({
     port: 4101,
   },
   resolve: {
-    alias: {
-      '@synapse/shared-types': path.resolve(__dirname, '../../libs/shared-types/src/index.ts'),
-      '@synapse/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
-      '@synapse/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
-      '@synapse/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
-    },
+    alias: isMonorepo
+      ? {
+          '@synapse/shared-types': path.resolve(__dirname, '../../libs/shared-types/src/index.ts'),
+          '@synapse/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
+          '@synapse/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
+          '@synapse/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
+        }
+      : undefined,
   },
   plugins: [
     react(),
@@ -42,6 +48,8 @@ export default defineConfig({
         'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
         'react/': { singleton: true },
         'react-dom/': { singleton: true },
+        zustand: { singleton: true },
+        '@synapse/shared-types': { singleton: true },
       },
     }),
     visualizer({

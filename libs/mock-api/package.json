@@ -1,9 +1,27 @@
 {
   "name": "@synapse/mock-api",
   "version": "0.0.1",
-  "private": true,
   "type": "module",
-  "main": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "publishConfig": {
+    "access": "restricted",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+      },
+      "./*": "./dist/*"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --outDir dist"
+  },
   "dependencies": {}
 }
