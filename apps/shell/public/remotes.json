@@ -16,6 +16,14 @@
       "exposes": {
         "./App": "./App"
       }
+    },
+    "external-mfe": {
+      "name": "externalmfe",
+      "entry": "http://localhost:4005/mf-manifest.json",
+      "activeWhenPath": "/external-mfe",
+      "exposes": {
+        "./App": "./App"
+      }
     }
   }
 }

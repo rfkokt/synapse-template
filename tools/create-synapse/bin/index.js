@@ -64,9 +64,22 @@ const getScopeName = () => {
   });
 };
 
+const getExtractExample = () => {
+  return new Promise((resolve) => {
+    rl.question(
+      '\n\x1b[33m? Buat contoh MFE terpisah (Standalone Sandbox) di luar folder proyek?\x1b[0m (Y/n) ',
+      (answer) => {
+        const res = answer.trim().toLowerCase();
+        resolve(res === '' || res === 'y' || res === 'yes');
+      }
+    );
+  });
+};
+
 (async () => {
   const projectName = await getProjectName();
   const scopeName = await getScopeName();
+  const extractExample = await getExtractExample();
   const currentDir = process.cwd();
   const projectPath = path.join(currentDir, projectName);
 
@@ -112,11 +125,51 @@ const getScopeName = () => {
     runCommand(`node scripts/setup-scope.js ${scopeName}`, { cwd: projectPath });
   }
 
-  console.log(`\n\x1b[36mBerhasil! Proyek "\x1b[1m${projectName}\x1b[0m\x1b[36m" telah siap.\n`);
+  if (extractExample) {
+    console.log(
+      `\n\x1b[32mMengekstrak external-mfe ke luar dari proxy monorepo sebagai Standalone Sandbox...\x1b[0m`
+    );
+    const standalonePath = path.join(currentDir, projectName + '-sandbox-mfe');
+    const sourcePath = path.join(projectPath, 'apps', 'external-mfe');
+    if (fs.existsSync(sourcePath)) {
+      fs.renameSync(sourcePath, standalonePath);
+
+      const pkgPath = path.join(standalonePath, 'package.json');
+      if (fs.existsSync(pkgPath)) {
+        let pkgContent = fs.readFileSync(pkgPath, 'utf-8');
+        // Rewrite workspace imports to point statically to the parent project's libs folder
+        const escapedScope = scopeName.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
+        const regex = new RegExp('"' + escapedScope + '/(.*?)"\\\\s*:\\\\s*"workspace:\\\\*"', 'g');
+        pkgContent = pkgContent.replace(
+          regex,
+          '"' + scopeName + '/$1": "file:../' + projectName + '/libs/$1"'
+        );
+        fs.writeFileSync(pkgPath, pkgContent);
+      }
+      console.log(
+        `\\x1b[36mStandalone Sandbox MFE berhasil dibuat berdampingan di:\\x1b[1m ${standalonePath}\\x1b[0m`
+      );
+    }
+  }
+
+  console.log(
+    `\\n\\x1b[36mBerhasil! Proyek "\\x1b[1m${projectName}\\x1b[0m\\x1b[36m" telah siap.\\n`
+  );
   console.log('Langkah selanjutnya yang harus Anda lakukan:');
-  console.log(`\x1b[33m  cd ${projectName}\x1b[0m`);
-  console.log('\x1b[33m  pnpm install\x1b[0m');
-  console.log('\x1b[33m  pnpm run dev:new\n\x1b[0m');
+  console.log(`\\x1b[33m  cd ${projectName}\\x1b[0m`);
+  console.log('\\x1b[33m  pnpm install\\x1b[0m');
+  console.log('\\x1b[33m  pnpm run dev:new\\n\\x1b[0m');
+
+  if (extractExample) {
+    console.log('\\x1b[32m--- UNTUK MENJALANKAN SANDBOX MFE ---\\x1b[0m');
+    console.log(`\\x1b[33m  Buka terminal baru\\x1b[0m`);
+    console.log(`\\x1b[33m  cd ${projectName}-sandbox-mfe\\x1b[0m`);
+    console.log('\\x1b[33m  pnpm install\\x1b[0m');
+    console.log('\\x1b[33m  pnpm run serve\\x1b[0m');
+    console.log(
+      '\\x1b[36m  Aplikasi Sandbox akan berjalan di http://localhost:4005, terhubung ke Shell!\\x1b[0m\\n'
+    );
+  }
 
   console.log('\x1b[36mMock credentials (development):\x1b[0m');
   console.log('  \x1b[34m- auth-mfe (/auth/login): admin@Synapse.com / password123\x1b[0m');
