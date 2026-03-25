@@ -22,7 +22,8 @@
     "review:pre-push": "bash ./scripts/review-before-push.sh",
     "review:full": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm budget:check",
     "libs:build": "pnpm -r --filter './libs/*' run build",
-    "libs:publish": "pnpm libs:build && pnpm -r --filter './libs/*' publish --no-git-checks"
+    "libs:publish": "pnpm libs:build && pnpm -r --filter './libs/*' publish --no-git-checks",
+    "setup:brand": "node scripts/setup-scope.js"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

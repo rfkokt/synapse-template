@@ -50,8 +50,26 @@ const getProjectName = () => {
   });
 };
 
+const getScopeName = () => {
+  return new Promise((resolve) => {
+    if (process.argv[3]) {
+      resolve(process.argv[3]);
+    } else {
+      rl.question(
+        '\n\x1b[33m? Nama NPM scope organisasi Anda:\x1b[0m (@synapse) ',
+        (answer) => {
+          let scope = answer.trim() || '@synapse';
+          if (!scope.startsWith('@')) scope = '@' + scope;
+          resolve(scope);
+        }
+      );
+    }
+  });
+};
+
 (async () => {
   const projectName = await getProjectName();
+  const scopeName = await getScopeName();
   const currentDir = process.cwd();
   const projectPath = path.join(currentDir, projectName);
 
@@ -90,6 +108,12 @@ const getProjectName = () => {
 
   console.log(`\x1b[32mMemulai repositori Git baru...\x1b[0m`);
   runCommand(`git init`, { cwd: projectPath });
+
+  if (scopeName !== '@synapse') {
+    console.log(`\n\x1b[32mMengganti NPM scope menjadi \x1b[1m${scopeName}\x1b[0m...\x1b[0m`);
+    // Memanggil script rebranding otomatis yang sudah ada dalam template
+    runCommand(`node scripts/setup-scope.js ${scopeName}`, { cwd: projectPath });
+  }
 
   console.log(`\n\x1b[36mBerhasil! Proyek "\x1b[1m${projectName}\x1b[0m\x1b[36m" telah siap.\n`);
   console.log('Langkah selanjutnya yang harus Anda lakukan:');
