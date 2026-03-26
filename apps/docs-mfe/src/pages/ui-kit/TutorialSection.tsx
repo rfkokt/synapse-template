@@ -211,6 +211,42 @@ export type { ChipProps } from './components/Chip';`}</CodeBlock>
     │   │   └── cn.ts
     │   └── index.ts         ← WAJIB register
     └── package.json`}</CodeBlock>
+
+        <div className="border-t border-neutral-200 dark:border-neutral-800 pt-6">
+          <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-xl p-4">
+            <h3 className="text-base font-semibold text-teal-800 dark:text-teal-300 mb-2">
+              <span className="inline-flex items-center gap-2">
+                🔄 Multi-Repo? Publish via Verdaccio!
+              </span>
+            </h3>
+            <p className="text-sm text-teal-700 dark:text-teal-400">
+              Setelah menambah atau mengubah komponen di{' '}
+              <code className="text-xs bg-teal-100 dark:bg-teal-900/50 px-1 rounded">
+                @synapse/ui-kit
+              </code>
+              , MFE standalone (multi-repo) perlu mendapatkan versi terbaru:
+            </p>
+            <ol className="list-decimal ml-4 mt-2 space-y-1 text-sm text-teal-700 dark:text-teal-400">
+              <li>
+                Jalankan{' '}
+                <code className="text-xs bg-teal-100 dark:bg-teal-900/50 px-1 rounded">
+                  pnpm run libs:publish:local
+                </code>{' '}
+                dari monorepo
+              </li>
+              <li>
+                Jalankan{' '}
+                <code className="text-xs bg-teal-100 dark:bg-teal-900/50 px-1 rounded">
+                  pnpm install
+                </code>{' '}
+                di MFE standalone
+              </li>
+            </ol>
+            <p className="text-sm text-teal-700 dark:text-teal-400 mt-2">
+              Lihat panduan lengkap di <strong>/docs/verdaccio-registry</strong>.
+            </p>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

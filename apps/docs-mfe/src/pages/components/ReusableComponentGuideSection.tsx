@@ -139,6 +139,13 @@ export function ReusableComponentGuideSection() {
             { label: 'Tujuan', value: 'Satu komponen bisa dipakai di banyak MFE' },
           ]}
         />
+
+        <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+          Setelah menambah komponen baru, MFE standalone perlu mendapatkan versi terbaru
+          shared-components. Jalankan <code>pnpm run libs:publish:local</code> dari monorepo, lalu{' '}
+          <code>pnpm install</code> di MFE standalone. Lihat panduan lengkap di{' '}
+          <strong>/docs/verdaccio-registry</strong>.
+        </InfoBox>
       </CardContent>
     </Card>
   );
