@@ -174,6 +174,15 @@ VITE_SENTRY_DSN=
 
   // 3. Setup Tailwind v4 in styles.css
   const indexCssContent = `@import "tailwindcss";
+
+/* Scan UI Kit for Tailwind classes (Monorepo dev) */
+@source "../../../libs/ui-kit/src";
+@source "../../../libs/shared-components/src";
+
+/* Scan UI Kit for Tailwind classes (Standalone node_modules) */
+@source "../node_modules/@synapse/ui-kit";
+@source "../node_modules/@synapse/shared-components";
+
 @import "./theme.css";
 
 /* MFE-specific styles go here */
