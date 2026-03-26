@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css';
 import { SharedOriginGuard } from '@synapse/shared-types';
 import { ComponentBoundary } from '@synapse/ui-kit';
-import { useLocation, Link } from 'react-router-dom';
+import { Routes, Route, Link, useParams } from 'react-router-dom';
 import { DocsLayout } from './components/DocsLayout';
 
 // ── Documentation Section imports ──
@@ -264,163 +264,180 @@ function toComponentMap(map: Record<string, SectionData>): Record<string, React.
 }
 
 /* ═══════════════════════════════════════════════
+   Undocumented Fallback Components
+   ═══════════════════════════════════════════════ */
+function UndocumentedUIKitRoute() {
+  const { slug } = useParams();
+  if (!slug) return null;
+  const displayName = discoveredComponents.find((c) => c.slug === slug)?.name || slug;
+  return (
+    <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
+      <UIKitUndocumentedSection name={displayName} />
+      <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
+        <Link
+          to="/docs/ui-kit"
+          className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+        >
+          ← Kembali ke UI Kit
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function UndocumentedSharedComponentRoute() {
+  const { slug } = useParams();
+  if (!slug) return null;
+  const displayName = discoveredSharedComponents.find((c) => c.slug === slug)?.name || slug;
+  return (
+    <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
+      <SharedComponentsUndocumentedSection name={displayName} />
+      <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
+        <Link
+          to="/docs/components"
+          className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+        >
+          ← Kembali ke Reusable Components
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
    Main Page — Router for Docs + UI Kit
    ═══════════════════════════════════════════════ */
 export function App() {
-  const location = useLocation();
-  // Extract segment after /docs (e.g., /docs/struktur-proyek -> "struktur-proyek")
-  const segments = location.pathname.split('/');
-  const docsIndex = segments.indexOf('docs');
-  const sectionSlug = docsIndex !== -1 ? segments[docsIndex + 1] : '';
-  const subSlug = docsIndex !== -1 ? segments[docsIndex + 2] : '';
-
-  // ── Reusable Components Routes: /docs/components/* ──
-  if (sectionSlug === 'components') {
-    const componentName = subSlug || '';
-
-    if (componentName && componentName in COMPONENTS_SECTION_MAP) {
-      const Section = COMPONENTS_SECTION_MAP[componentName].component;
-      return (
-        <div className="p-8 mx-auto w-full pb-20">
-          <DocsLayout
-            currentSlug={componentName}
-            sectionMap={COMPONENTS_SECTION_MAP}
-            basePath="/docs/components"
-          >
-            <ComponentBoundary
-              fallbackTitle="Section Komponen Gagal Dimuat"
-              fallbackDescription="Bagian ini error, tetapi halaman docs lain tetap aman."
-            >
-              <Section />
-            </ComponentBoundary>
-          </DocsLayout>
-        </div>
-      );
-    }
-
-    // Undocumented reusable component (auto-discovered)
-    if (componentName && componentName !== '') {
-      const displayName =
-        discoveredSharedComponents.find((c) => c.slug === componentName)?.name || componentName;
-      return (
-        <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-          <SharedComponentsUndocumentedSection name={displayName} />
-          <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
-            <Link
-              to="/docs/components"
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
-            >
-              ← Kembali ke Reusable Components
-            </Link>
-          </div>
-        </div>
-      );
-    }
-
-    // Components overview
-    return (
-      <div className="p-8 mx-auto w-full">
-        <ComponentsOverviewSection
-          sectionMap={toComponentMap(COMPONENTS_SECTION_MAP)}
-          discoveredComponents={discoveredSharedComponents}
-        />
-      </div>
-    );
-  }
-
-  // ── UI Kit Routes: /docs/ui-kit/* ──
-  if (sectionSlug === 'ui-kit') {
-    const componentName = subSlug || '';
-
-    // Documented component
-    if (componentName && componentName in UIKIT_SECTION_MAP) {
-      const Section = UIKIT_SECTION_MAP[componentName].component;
-      return (
-        <div className="p-8 mx-auto w-full pb-20">
-          <DocsLayout
-            currentSlug={componentName}
-            sectionMap={UIKIT_SECTION_MAP}
-            basePath="/docs/ui-kit"
-          >
-            <ComponentBoundary
-              fallbackTitle="Section UI Kit Gagal Dimuat"
-              fallbackDescription="Komponen ini error, tetapi docs dan MFE lain tetap berjalan."
-            >
-              <Section />
-            </ComponentBoundary>
-          </DocsLayout>
-        </div>
-      );
-    }
-
-    // Undocumented component (auto-discovered)
-    if (componentName && componentName !== '') {
-      const displayName =
-        discoveredComponents.find((c) => c.slug === componentName)?.name || componentName;
-      return (
-        <div className="p-8 mx-auto w-full space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-          <UIKitUndocumentedSection name={displayName} />
-          <div className="mt-12 pt-8 border-t border-neutral-100 dark:border-neutral-800 flex justify-start">
-            <Link
-              to="/docs/ui-kit"
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
-            >
-              ← Kembali ke UI Kit
-            </Link>
-          </div>
-        </div>
-      );
-    }
-
-    // UI Kit overview
-    return (
-      <div className="p-8 mx-auto w-full">
-        <UIKitOverviewSection sectionMap={toComponentMap(UIKIT_SECTION_MAP)} />
-      </div>
-    );
-  }
-
-  // ── Docs Routes ──
-
-  // 1. Overview Page
-  if (!sectionSlug) {
-    return (
-      <div className="p-8 mx-auto w-full">
-        <DocsOverviewSection sectionMap={DOCS_SECTION_MAP} />
-      </div>
-    );
-  }
-
-  // 2. Section Page — wrapped in DocsLayout
-  if (sectionSlug in DOCS_SECTION_MAP) {
-    const data = DOCS_SECTION_MAP[sectionSlug];
-    const SectionComponent = data.component;
-
-    return (
-      <div className="p-8 mx-auto w-full pb-20">
-        <DocsLayout currentSlug={sectionSlug} sectionMap={DOCS_SECTION_MAP}>
-          <ComponentBoundary
-            fallbackTitle="Section Dokumentasi Gagal Dimuat"
-            fallbackDescription="Halaman ini error, tetapi navigation docs tetap aman."
-          >
-            <SectionComponent />
-          </ComponentBoundary>
-        </DocsLayout>
-      </div>
-    );
-  }
-
-  // 3. Not Found Fallback
   return (
-    <SharedOriginGuard>
-      <div className="p-8 mx-auto w-full max-w-4xl text-center py-20">
-        <h2 className="text-2xl font-bold mb-4">Halaman Tidak Ditemukan</h2>
-        <p className="text-neutral-500 mb-6">Bagian dokumentasi yang Anda cari tidak ada.</p>
-        <Link to="/docs" className="text-primary-600 hover:underline">
-          Kembali ke Panduan Utama
-        </Link>
-      </div>
-    </SharedOriginGuard>
+    <Routes>
+      {/* ── Overview Route ── */}
+      <Route
+        path="/"
+        element={
+          <div className="p-8 mx-auto w-full">
+            <DocsOverviewSection sectionMap={DOCS_SECTION_MAP} />
+          </div>
+        }
+      />
+
+      {/* ── Docs Routes ── */}
+      {Object.entries(DOCS_SECTION_MAP).map(([slug, data]) => {
+        const SectionComponent = data.component;
+        return (
+          <Route
+            key={slug}
+            path={slug}
+            element={
+              <div className="p-8 mx-auto w-full pb-20">
+                <DocsLayout currentSlug={slug} sectionMap={DOCS_SECTION_MAP}>
+                  <ComponentBoundary
+                    fallbackTitle="Section Dokumentasi Gagal Dimuat"
+                    fallbackDescription="Halaman ini error, tetapi navigation docs tetap aman."
+                  >
+                    <SectionComponent />
+                  </ComponentBoundary>
+                </DocsLayout>
+              </div>
+            }
+          />
+        );
+      })}
+
+      {/* ── UI Kit Routes ── */}
+      <Route path="ui-kit">
+        <Route
+          index
+          element={
+            <div className="p-8 mx-auto w-full">
+              <UIKitOverviewSection sectionMap={toComponentMap(UIKIT_SECTION_MAP)} />
+            </div>
+          }
+        />
+        {Object.entries(UIKIT_SECTION_MAP).map(([slug, data]) => {
+          const SectionComponent = data.component;
+          return (
+            <Route
+              key={slug}
+              path={slug}
+              element={
+                <div className="p-8 mx-auto w-full pb-20">
+                  <DocsLayout
+                    currentSlug={slug}
+                    sectionMap={UIKIT_SECTION_MAP}
+                    basePath="/docs/ui-kit"
+                  >
+                    <ComponentBoundary
+                      fallbackTitle="Section UI Kit Gagal Dimuat"
+                      fallbackDescription="Komponen ini error, tetapi docs dan MFE lain tetap berjalan."
+                    >
+                      <SectionComponent />
+                    </ComponentBoundary>
+                  </DocsLayout>
+                </div>
+              }
+            />
+          );
+        })}
+        <Route path=":slug" element={<UndocumentedUIKitRoute />} />
+      </Route>
+
+      {/* ── Reusable Components Routes ── */}
+      <Route path="components">
+        <Route
+          index
+          element={
+            <div className="p-8 mx-auto w-full">
+              <ComponentsOverviewSection
+                sectionMap={toComponentMap(COMPONENTS_SECTION_MAP)}
+                discoveredComponents={discoveredSharedComponents}
+              />
+            </div>
+          }
+        />
+        {Object.entries(COMPONENTS_SECTION_MAP).map(([slug, data]) => {
+          const SectionComponent = data.component;
+          return (
+            <Route
+              key={slug}
+              path={slug}
+              element={
+                <div className="p-8 mx-auto w-full pb-20">
+                  <DocsLayout
+                    currentSlug={slug}
+                    sectionMap={COMPONENTS_SECTION_MAP}
+                    basePath="/docs/components"
+                  >
+                    <ComponentBoundary
+                      fallbackTitle="Section Komponen Gagal Dimuat"
+                      fallbackDescription="Bagian ini error, tetapi halaman docs lain tetap aman."
+                    >
+                      <SectionComponent />
+                    </ComponentBoundary>
+                  </DocsLayout>
+                </div>
+              }
+            />
+          );
+        })}
+        <Route path=":slug" element={<UndocumentedSharedComponentRoute />} />
+      </Route>
+
+      {/* ── Not Found Fallback ── */}
+      <Route
+        path="*"
+        element={
+          <SharedOriginGuard>
+            <div className="p-8 mx-auto w-full max-w-4xl text-center py-20">
+              <h2 className="text-2xl font-bold mb-4">Halaman Tidak Ditemukan</h2>
+              <p className="text-neutral-500 mb-6">Bagian dokumentasi yang Anda cari tidak ada.</p>
+              <Link to="/docs" className="text-primary-600 hover:underline">
+                Kembali ke Panduan Utama
+              </Link>
+            </div>
+          </SharedOriginGuard>
+        }
+      />
+    </Routes>
   );
 }
 

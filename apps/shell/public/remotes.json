@@ -16,6 +16,14 @@
       "exposes": {
         "./App": "./App"
       }
+    },
+    "reporting-mfe": {
+      "name": "reportingmfe",
+      "entry": "http://localhost:4006/mf-manifest.json",
+      "activeWhenPath": "/reporting-mfe",
+      "exposes": {
+        "./App": "./App"
+      }
     }
   }
 }
