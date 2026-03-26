@@ -16,7 +16,7 @@
  *   1. Generates MFE inside monorepo via Nx generator (temporary)
  *   2. Copies the generated MFE to standalone location (../<name>)
  *   3. Creates .npmrc pointing to Verdaccio
- *   4. Replaces workspace:* → ^0.1.0 in package.json
+ *   4. Replaces workspace:* → * in package.json (latest from Verdaccio)
  *   5. Uses standalone tsconfig if available
  *   6. Removes temporary monorepo copy (apps/<name>)
  *
@@ -133,13 +133,13 @@ strict-peer-dependencies=false
 fs.writeFileSync(path.join(targetDir, '.npmrc'), npmrcContent);
 console.log('   ✅ .npmrc created.');
 
-// ── Step 4: Replace workspace:* → ^0.1.0 ────────
-console.log('\n🔧 Step 4/7: Replacing workspace:* with ^0.1.0...');
+// ── Step 4: Replace workspace:* → * (latest from Verdaccio) ────────
+console.log('\n🔧 Step 4/7: Replacing workspace:* with * (latest from Verdaccio)...');
 const pkgJsonPath = path.join(targetDir, 'package.json');
 let pkgContent = fs.readFileSync(pkgJsonPath, 'utf-8');
-pkgContent = pkgContent.replace(/"workspace:\*"/g, '"^0.1.0"');
+pkgContent = pkgContent.replace(/"workspace:\*"/g, '"*"');
 fs.writeFileSync(pkgJsonPath, pkgContent);
-console.log('   ✅ Dependencies updated.');
+console.log('   ✅ Dependencies updated (will use latest from Verdaccio).');
 
 // ── Step 5: Use standalone tsconfig ───────────────
 console.log('\n⚙️  Step 5/7: Setting up tsconfig...');
