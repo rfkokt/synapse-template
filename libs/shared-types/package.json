@@ -1,6 +1,6 @@
 {
   "name": "@synapse/shared-types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
@@ -21,7 +21,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --outDir dist --external react"
+    "build": "tsup src/index.ts --format esm --dts --outDir dist --external react --external zustand"
   },
   "dependencies": {
     "zustand": "^5.0.0"
