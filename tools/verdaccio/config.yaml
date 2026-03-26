@@ -1,0 +1,22 @@
+# Verdaccio Local Config for Synapse MFE
+storage: ./storage
+web:
+  title: "Synapse MFE Local Registry"
+auth:
+  htpasswd:
+    file: ./htpasswd
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  # Izinkan publish dan install tanpa login (anonymous) untuk mempermudah lokal testing
+  '**':
+    access: $all
+    publish: $all
+    unpublish: $all
+    proxy: npmjs
+
+logs:
+  - { type: stdout, format: pretty, level: http }

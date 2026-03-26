@@ -317,9 +317,31 @@ export default defineConfig({
             />
           </div>
 
+          {/* — Verdaccio — */}
+          <div className="space-y-3 pt-3 border-t border-neutral-100 dark:border-neutral-800">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+              Opsi 3: Verdaccio (Local Development — Tanpa Token!)
+            </h4>
+            <p>
+              Ideal untuk testing multi-repo secara lokal tanpa harus publish ke cloud registry.
+              Tidak butuh token, VPN, atau internet.
+            </p>
+            <CodeBlock
+              language="bash"
+              codeString={`# .npmrc — Verdaccio (lokal)
+@synapse:registry=http://localhost:4873/
+//localhost:4873/:_authToken="anonymous"`}
+            />
+            <InfoBox variant="emerald" title="Zero Config!">
+              Verdaccio sudah terbundel di template ini. Cukup jalankan{' '}
+              <code>pnpm run verdaccio:start</code> dan publish dengan{' '}
+              <code>pnpm run libs:publish:local</code>. Tidak perlu login atau buat akun!
+            </InfoBox>
+          </div>
+
           <CodeBlock
             language="bash"
-            codeString={`# Tambahkan di kedua opsi:
+            codeString={`# Tambahkan di semua opsi:
 auto-install-peers=true
 strict-peer-dependencies=false`}
           />
@@ -457,81 +479,117 @@ VITE_SHELL_URL=https://app.synapse.com`}
           </div>
         </CardContent>
       </Card>
-      {/* ══ 7. Cara Test Lokal ══ */}
+      {/* ══ 7. Cara Test Lokal (Verdaccio) ══ */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Terminal className="h-5 w-5 text-teal-600" />
-            7. Simulasi Test Lokal (Tanpa Publish)
+            7. Test Multi-Repo Lokal (Verdaccio)
           </CardTitle>
           <CardDescription>
-            Cara menguji ekstraksi MFE di komputer lokal tanpa harus mem-publish ke GitLab/GitHub
+            Cara menguji pemisahan MFE di komputer lokal tanpa internet, VPN, atau token
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
           <p>
-            Jika kamu ingin mengetes pemisahan MFE sekarang juga{' '}
-            <strong>tanpa mengotori private registry</strong>, kamu bisa menggunakan fitur{' '}
-            <code>pnpm pack</code> untuk membuat file <em>tarball</em> lokal.
+            <strong>Verdaccio</strong> adalah NPM registry lokal yang berjalan di komputer kamu.
+            Publish shared libs ke sana, lalu MFE standalone bisa <code>pnpm install</code> tanpa
+            koneksi ke GitLab/GitHub.
           </p>
+          <InfoBox variant="blue" title="Sudah Terbundel!">
+            Config Verdaccio sudah ada di <code>tools/verdaccio/config.yaml</code>. Anonymous
+            publish diizinkan — tidak perlu login atau buat akun.
+          </InfoBox>
           <StepList
             steps={[
               {
-                title: 'Build semua libs',
-                content: <CodeBlock language="bash" codeString="pnpm libs:build" />,
-              },
-              {
-                title: 'Pack tiap library menjadi file .tgz',
+                title: 'Jalankan Verdaccio (Terminal Tab 1)',
                 content: (
                   <CodeBlock
                     language="bash"
-                    codeString={`cd libs/ui-kit && pnpm pack
-cd ../shared-types && pnpm pack
-# (Lakukan untuk semua 6 libs)
-# Ini akan membuat file seperti: synapse-ui-kit-0.1.0.tgz`}
+                    codeString={`# Install Verdaccio secara global (sekali saja)
+npx verdaccio
+
+# Atau gunakan script bawaan template:
+pnpm run verdaccio:start
+# Registry berjalan di http://localhost:4873`}
+                  />
+                ),
+              },
+              {
+                title: 'Build & Publish libs ke Verdaccio (Terminal Tab 2)',
+                content: (
+                  <CodeBlock
+                    language="bash"
+                    codeString={`# Dari root monorepo:
+pnpm run libs:publish:local
+
+# Ini akan build semua 6 libs lalu publish ke localhost:4873
+# Cek hasilnya di browser: http://localhost:4873`}
                   />
                 ),
               },
               {
                 title: 'Copy MFE ke luar monorepo',
                 content: (
-                  <CodeBlock language="bash" codeString="cp -r apps/docs-mfe ../test-docs-mfe" />
+                  <CodeBlock language="bash" codeString={`cp -r apps/docs-mfe ../test-docs-mfe`} />
                 ),
               },
               {
-                title: 'Ubah dependensi package.json MFE',
+                title: 'Setup .npmrc di folder MFE baru',
                 content: (
                   <div className="space-y-2 mt-2">
                     <p>
-                      Buka <code>../test-docs-mfe/package.json</code> dan arahkan ke file local:
+                      Buat file <code>.npmrc</code> di <code>../test-docs-mfe/</code>:
+                    </p>
+                    <CodeBlock
+                      language="bash"
+                      codeString={`@synapse:registry=http://localhost:4873/
+//localhost:4873/:_authToken="anonymous"
+auto-install-peers=true
+strict-peer-dependencies=false`}
+                    />
+                  </div>
+                ),
+              },
+              {
+                title: 'Ganti workspace:* → semver',
+                content: (
+                  <div className="space-y-2 mt-2">
+                    <p>
+                      Di <code>package.json</code>, ganti semua <code>{`"workspace:*"`}</code>{' '}
+                      menjadi <code>{`"^0.1.0"`}</code>.
                     </p>
                     <CodeBlock
                       language="json"
                       codeString={`"dependencies": {
-  "@synapse/ui-kit": "file:../synapse-template/libs/ui-kit/synapse-ui-kit-0.1.0.tgz",
-  "@synapse/shared-types": "file:../synapse-template/libs/shared-types/synapse-shared-types-0.1.0.tgz"
-  // ...ubah sisanya ke file masing-masing
+  "@synapse/ui-kit": "^0.1.0",
+  "@synapse/shared-types": "^0.1.0",
+  "@synapse/shared-api": "^0.1.0"
+  // ...dst
 }`}
                     />
                   </div>
                 ),
               },
               {
-                title: 'Rename TS Config di folder baru',
+                title: 'Rename tsconfig & Install',
                 content: (
                   <CodeBlock
                     language="bash"
                     codeString={`cd ../test-docs-mfe
-mv tsconfig.standalone.json tsconfig.json`}
+mv tsconfig.standalone.json tsconfig.json
+pnpm install && pnpm run serve`}
                   />
                 ),
               },
-              {
-                title: 'Install & Jalankan',
-                content: <CodeBlock language="bash" codeString="pnpm install && pnpm run serve" />,
-              },
             ]}
           />
+          <InfoBox variant="emerald" title="Otomatis via CLI!">
+            Saat menjalankan <code>npx create-synapse-mfe@latest</code>, CLI akan menawarkan opsi
+            untuk membuat <strong>Standalone Sandbox MFE</strong> secara otomatis. Semua langkah di
+            atas (copy, setup .npmrc, ganti workspace:*) sudah dilakukan oleh CLI!
+          </InfoBox>
         </CardContent>
       </Card>
     </div>

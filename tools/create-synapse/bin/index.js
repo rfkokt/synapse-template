@@ -25,15 +25,12 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-console.log('\x1b[36m%s\x1b[0m', 'Welcome to create-synapse-mfe CLI v1.0.5!');
+console.log('\x1b[36m%s\x1b[0m', 'Welcome to create-synapse-mfe CLI v1.1.0!');
 console.log('Scaffolding a Vite-powered Micro-Frontend Architecture...');
-console.log("\x1b[32mWhat's new in v1.0.4:\x1b[0m");
-console.log(
-  '  \x1b[34m- Hardened security (removed token from query params & sessionStorage)\x1b[0m'
-);
-console.log('  \x1b[34m- Dynamic Redirect Whitelist matching remotes.json\x1b[0m');
-console.log('  \x1b[34m- Basic Vitest Mock API integrations\x1b[0m');
-console.log('  \x1b[34m- Updated Vite and React Router dependency versions\x1b[0m');
+console.log("\x1b[32mWhat's new in v1.1.0:\x1b[0m");
+console.log('  \x1b[34m- Auto Re-Branding: ganti NPM scope saat setup\x1b[0m');
+console.log('  \x1b[34m- Standalone Sandbox MFE: contoh MFE terpisah via Verdaccio\x1b[0m');
+console.log('  \x1b[34m- Multi-Repo Support: Vite auto-detect monorepo vs standalone\x1b[0m');
 
 const getProjectName = () => {
   return new Promise((resolve) => {
@@ -67,7 +64,7 @@ const getScopeName = () => {
 const getExtractExample = () => {
   return new Promise((resolve) => {
     rl.question(
-      '\n\x1b[33m? Buat contoh MFE terpisah (Standalone Sandbox) di luar folder proyek?\x1b[0m (Y/n) ',
+      '\n\x1b[33m? Buat contoh MFE terpisah (Standalone Sandbox via Verdaccio)?\x1b[0m (Y/n) ',
       (answer) => {
         const res = answer.trim().toLowerCase();
         resolve(res === '' || res === 'y' || res === 'yes');
@@ -121,54 +118,57 @@ const getExtractExample = () => {
 
   if (scopeName !== '@synapse') {
     console.log(`\n\x1b[32mMengganti NPM scope menjadi \x1b[1m${scopeName}\x1b[0m...\x1b[0m`);
-    // Memanggil script rebranding otomatis yang sudah ada dalam template
     runCommand(`node scripts/setup-scope.js ${scopeName}`, { cwd: projectPath });
   }
 
   if (extractExample) {
-    console.log(
-      `\n\x1b[32mMengekstrak external-mfe ke luar dari proxy monorepo sebagai Standalone Sandbox...\x1b[0m`
-    );
+    console.log(`\n\x1b[32mMengekstrak external-mfe sebagai Standalone Sandbox...\x1b[0m`);
     const standalonePath = path.join(currentDir, projectName + '-sandbox-mfe');
     const sourcePath = path.join(projectPath, 'apps', 'external-mfe');
     if (fs.existsSync(sourcePath)) {
       fs.renameSync(sourcePath, standalonePath);
 
+      // Rewrite package.json: workspace:* → ^0.1.0 (semver for Verdaccio)
       const pkgPath = path.join(standalonePath, 'package.json');
       if (fs.existsSync(pkgPath)) {
         let pkgContent = fs.readFileSync(pkgPath, 'utf-8');
-        // Rewrite workspace imports to point statically to the parent project's libs folder
-        const escapedScope = scopeName.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
-        const regex = new RegExp('"' + escapedScope + '/(.*?)"\\\\s*:\\\\s*"workspace:\\\\*"', 'g');
-        pkgContent = pkgContent.replace(
-          regex,
-          '"' + scopeName + '/$1": "file:../' + projectName + '/libs/$1"'
-        );
+        pkgContent = pkgContent.replace(/"workspace:\*"/g, '"^0.1.0"');
         fs.writeFileSync(pkgPath, pkgContent);
       }
-      console.log(
-        `\\x1b[36mStandalone Sandbox MFE berhasil dibuat berdampingan di:\\x1b[1m ${standalonePath}\\x1b[0m`
-      );
+
+      // Generate .npmrc pointing to local Verdaccio
+      const npmrcContent =
+        scopeName +
+        ':registry=http://localhost:4873/\n' +
+        '//localhost:4873/:_authToken="anonymous"\n' +
+        'auto-install-peers=true\n' +
+        'strict-peer-dependencies=false\n';
+      fs.writeFileSync(path.join(standalonePath, '.npmrc'), npmrcContent);
+
+      console.log(`\x1b[36mSandbox MFE berhasil dibuat di: \x1b[1m${standalonePath}\x1b[0m`);
     }
   }
 
   console.log(
-    `\\n\\x1b[36mBerhasil! Proyek "\\x1b[1m${projectName}\\x1b[0m\\x1b[36m" telah siap.\\n`
+    `\n\x1b[36mBerhasil! Proyek "\x1b[1m${projectName}\x1b[0m\x1b[36m" telah siap.\n\x1b[0m`
   );
   console.log('Langkah selanjutnya yang harus Anda lakukan:');
-  console.log(`\\x1b[33m  cd ${projectName}\\x1b[0m`);
-  console.log('\\x1b[33m  pnpm install\\x1b[0m');
-  console.log('\\x1b[33m  pnpm run dev:new\\n\\x1b[0m');
+  console.log(`\x1b[33m  cd ${projectName}\x1b[0m`);
+  console.log('\x1b[33m  pnpm install\x1b[0m');
+  console.log('\x1b[33m  pnpm run dev:new\x1b[0m\n');
 
   if (extractExample) {
-    console.log('\\x1b[32m--- UNTUK MENJALANKAN SANDBOX MFE ---\\x1b[0m');
-    console.log(`\\x1b[33m  Buka terminal baru\\x1b[0m`);
-    console.log(`\\x1b[33m  cd ${projectName}-sandbox-mfe\\x1b[0m`);
-    console.log('\\x1b[33m  pnpm install\\x1b[0m');
-    console.log('\\x1b[33m  pnpm run serve\\x1b[0m');
-    console.log(
-      '\\x1b[36m  Aplikasi Sandbox akan berjalan di http://localhost:4005, terhubung ke Shell!\\x1b[0m\\n'
-    );
+    console.log('\x1b[32m┌─────────────────────────────────────────────────┐\x1b[0m');
+    console.log('\x1b[32m│  CARA MENJALANKAN SANDBOX MFE (via Verdaccio)   │\x1b[0m');
+    console.log('\x1b[32m└─────────────────────────────────────────────────┘\x1b[0m');
+    console.log('\x1b[33m  1. Start Verdaccio (Terminal Tab 1):\x1b[0m');
+    console.log(`\x1b[36m     cd ${projectName} && pnpm run verdaccio:start\x1b[0m`);
+    console.log('\x1b[33m  2. Publish libs ke Verdaccio (Terminal Tab 2):\x1b[0m');
+    console.log(`\x1b[36m     cd ${projectName} && pnpm run libs:publish:local\x1b[0m`);
+    console.log('\x1b[33m  3. Jalankan Sandbox MFE (Terminal Tab 3):\x1b[0m');
+    console.log(`\x1b[36m     cd ${projectName}-sandbox-mfe\x1b[0m`);
+    console.log('\x1b[36m     pnpm install && pnpm run serve\x1b[0m');
+    console.log('\x1b[36m     → http://localhost:4005 (terhubung ke Shell!)\x1b[0m\n');
   }
 
   console.log('\x1b[36mMock credentials (development):\x1b[0m');

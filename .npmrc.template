@@ -1,18 +1,23 @@
 # ═══════════════════════════════════════════════
 # .npmrc — Private NPM Registry untuk @synapse/*
 # Copy file ini ke .npmrc di setiap repo standalone
-# Pilih SATU opsi registry di bawah (GitHub ATAU GitLab)
+# Pilih SATU opsi registry di bawah
 # ═══════════════════════════════════════════════
 
 # ── Opsi 1: GitLab Package Registry (Private) ──
 # Ganti <PROJECT_ID> dengan ID proyek GitLab kamu
-@synapse:registry=https://gitlab.com/api/v4/projects/<PROJECT_ID>/packages/npm/
-//gitlab.com/api/v4/projects/<PROJECT_ID>/packages/npm/:_authToken=${GITLAB_TOKEN}
+# @synapse:registry=https://gitlab.com/api/v4/projects/<PROJECT_ID>/packages/npm/
+# //gitlab.com/api/v4/projects/<PROJECT_ID>/packages/npm/:_authToken=${GITLAB_TOKEN}
 
 # ── Opsi 2: GitHub Packages (Private) ──
-# Uncomment baris di bawah jika pakai GitHub, comment baris GitLab di atas
 # @synapse:registry=https://npm.pkg.github.com
 # //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+
+# ── Opsi 3: Verdaccio (Local Development — Tanpa Token!) ──
+# Ideal untuk testing multi-repo secara lokal tanpa perlu cloud registry
+# Jalankan Verdaccio: pnpm run verdaccio:start
+# @synapse:registry=http://localhost:4873/
+# //localhost:4873/:_authToken="anonymous"
 
 # ── Recommended settings ──
 auto-install-peers=true

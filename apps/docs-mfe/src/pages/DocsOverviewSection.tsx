@@ -97,14 +97,14 @@ export function DocsOverviewSection({
             npx create-synapse-mfe@latest
           </div>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
-            CLI otomatis akan menanyakan nama folder proyek dan{' '}
-            <strong>NPM scope organisasimu</strong> (misal: <code>@telkom</code>). Semua referensi{' '}
-            <code>@synapse/*</code> di repo ini akan langsung terganti (re-branded) dalam sedetik
-            agar siap di-publish ke private registry kantormu!
+            CLI otomatis akan menanyakan nama folder proyek, <strong>NPM scope organisasimu</strong>{' '}
+            (misal: <code>@telkom</code>), dan apakah kamu ingin membuat{' '}
+            <strong>Standalone Sandbox MFE</strong> di luar monorepo. Sandbox MFE menggunakan{' '}
+            <strong>Verdaccio</strong> (registry lokal) agar kamu bisa langsung test multi-repo
+            tanpa token atau internet!
           </p>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
-            Jika sewaktu-waktu ingin mengubah nama scope secara manual, jalankan script ini di root
-            folder:
+            Untuk mengubah nama scope secara manual kapan saja:
           </p>
           <div className="bg-neutral-50 dark:bg-neutral-900 rounded-md p-3 text-sm font-mono text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-800 overflow-x-auto">
             pnpm run setup:brand @scopebaru
