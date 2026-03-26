@@ -4,7 +4,7 @@ import { LuPin as Pin, LuLightbulb as Lightbulb } from 'react-icons/lu';
 
 export function DocsEnvDarkModeSection() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-8">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

@@ -1,4 +1,4 @@
-import { CodeBlock } from '@synapse/shared-components';
+import { CodeBlock, InfoBox } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { LuInfo as Info } from 'react-icons/lu';
 
@@ -82,6 +82,11 @@ const { user, isAuthenticated } = useAuthStore();`}
             </span>
           </p>
         </div>
+        <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+          Perubahan di <code>@synapse/shared-types</code> (auth store, events) perlu di-publish
+          ulang ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan lengkap di{' '}
+          <strong>/docs/verdaccio-registry</strong>.
+        </InfoBox>{' '}
       </CardContent>
     </Card>
   );

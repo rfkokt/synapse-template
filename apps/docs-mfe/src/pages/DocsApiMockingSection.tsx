@@ -1,4 +1,4 @@
-import { CodeBlock, DocsStep } from '@synapse/shared-components';
+import { CodeBlock, DocsStep, InfoBox } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { LuShieldCheck as ShieldCheck } from 'react-icons/lu';
 
@@ -79,7 +79,6 @@ export function DocsApiMockingSection() {
               </p>
             </div>
           </DocsStep>
-
           <DocsStep title="2. Menambahkan Endpoint Mock Baru (Handler)" color="emerald">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Seluruh konfigurasi intercept API terpusat di dalam library{' '}
@@ -123,7 +122,6 @@ export const worker = setupWorker(
 );`}
             />
           </DocsStep>
-
           <DocsStep title="3. Menyimpan Response Tebal (Fixtures/Database Palsu)" color="slate">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Jika respons API membutuhkan data yang tebal, sangat direkomendasikan untuk melempar
@@ -135,7 +133,6 @@ export const worker = setupWorker(
               menuh-menuhin baris kode fungsi.
             </p>
           </DocsStep>
-
           <DocsStep title="4. Contoh Endpoint Sidebar Menu (RBAC)" color="emerald">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Untuk kasus Shell, endpoint menu juga dimock agar alur RBAC bisa dites tanpa backend
@@ -163,7 +160,6 @@ import { menuHandlers } from './handlers/menus';
 export const worker = setupWorker(...authHandlers, ...menuHandlers);`}
             />
           </DocsStep>
-
           <DocsStep title="5. Contoh Penggunaan di Komponen Sehari-hari" color="indigo">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Bagian terbaik dari MSW adalah Anda{' '}
@@ -199,7 +195,6 @@ export function DaftarMenu() {
 }`}
             />
           </DocsStep>
-
           <DocsStep title="6. Catatan CORS Saat Development" color="slate">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Saat MSW aktif dan client menggunakan{' '}
@@ -226,6 +221,11 @@ VITE_API_BASE_URL=/`}
               ke backend sungguhan yang sudah dikonfigurasi CORS + credentials.
             </p>
           </DocsStep>
+          <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+            Perubahan di <code>@synapse/mock-api</code> (handler baru, fixture baru) perlu
+            di-publish ulang ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan
+            lengkap di <strong>/docs/verdaccio-registry</strong>.
+          </InfoBox>{' '}
         </CardContent>
       </Card>
     </div>

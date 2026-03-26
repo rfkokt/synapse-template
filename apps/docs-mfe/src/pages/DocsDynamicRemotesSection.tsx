@@ -11,7 +11,7 @@ import {
 
 export function DocsDynamicRemotesSection() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-8">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

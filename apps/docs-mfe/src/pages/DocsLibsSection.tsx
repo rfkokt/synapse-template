@@ -158,6 +158,12 @@ import { ProfileCard } from '@synapse/shared-foo';
           Di level Shell, setiap remote MFE juga sudah dibungkus <code>RemoteLoader</code> + error
           boundary, jadi crash di satu remote tidak otomatis merusak remote lain.
         </p>
+
+        <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+          Jika ada perubahan di shared libs dan kamu menggunakan MFE standalone (multi-repo), jangan
+          lupa re-publish ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan
+          lengkap di halaman <strong>/docs/verdaccio-registry</strong>.
+        </InfoBox>
       </CardContent>
     </Card>
   );

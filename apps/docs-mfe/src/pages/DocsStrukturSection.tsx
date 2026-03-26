@@ -6,7 +6,8 @@ const currentRepoTree = `synapse/
 ├── apps/
 │   ├── shell/          ← Host (Port 4000)
 │   ├── auth-mfe/       ← Login & Auth (Port 4001)
-│   └── docs-mfe/       ← Halaman ini (Port 4003)
+│   ├── docs-mfe/       ← Halaman ini (Port 4003)
+│   └── sandbox-mfe/    ← Sandbox testing (Port 4004)
 ├── libs/
 │   ├── ui-kit/         ← Design System (@synapse/ui-kit)
 │   ├── shared-types/   ← TypeScript contracts (@synapse/shared-types)
@@ -14,7 +15,9 @@ const currentRepoTree = `synapse/
 │   ├── shared-components/ ← Reusable docs primitives (@synapse/shared-components)
 │   ├── shared-monitoring/ ← Monitoring helpers (@synapse/shared-monitoring)
 │   └── mock-api/       ← MSW mocks (@synapse/mock-api)
-├── tools/              ← Generator & scripts
+├── tools/
+│   ├── src/generators/  ← MFE generator (pnpm generate:mfe)
+│   └── verdaccio/       ← Private registry config & storage
 ├── components.json     ← Shadcn CLI config
 └── package.json`;
 
@@ -86,6 +89,12 @@ export function DocsStrukturSection() {
                 docs-mfe
               </code>{' '}
               — Modul dokumentasi ini (Port 4003).
+            </li>
+            <li>
+              <code className="text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/50 px-1 rounded">
+                sandbox-mfe
+              </code>{' '}
+              — Sandbox untuk testing komponen (Port 4004).
             </li>
           </ul>
         </div>
@@ -295,6 +304,33 @@ const RemoteDocs = lazy(() => import('docsmfe/App'));
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-8 border-t border-neutral-100 dark:border-neutral-800 pt-6 space-y-4">
+          <h3 className="font-semibold text-lg text-neutral-900 dark:text-neutral-100">
+            Multi-Repo / Standalone MFE
+          </h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            MFE juga bisa dijalankan di <strong>repo terpisah</strong> (standalone). Shared libs
+            di-install via Verdaccio (local private registry) atau registry server tim.
+          </p>
+          <CodeBlock
+            language="bash"
+            codeString={`# Contoh folder standalone di luar monorepo:
+parent-folder/
+├── synapse/              ← Monorepo (sumber shared libs)
+├── reporting-mfe/        ← MFE standalone (repo terpisah)
+│   ├── src/
+│   ├── .npmrc            ← Arahkan @synapse/* ke Verdaccio
+│   ├── package.json      ← "@synapse/ui-kit": "^0.1.0"
+│   └── rsbuild.config.ts
+└── hr-mfe/               ← MFE standalone lain
+    └── ...`}
+          />
+          <InfoBox variant="emerald" title="Panduan Lengkap">
+            Lihat <strong>/docs/membuat-mfe-baru</strong> untuk cara membuat MFE standalone dan
+            <strong> /docs/verdaccio-registry</strong> untuk workflow publish shared libs.
+          </InfoBox>
         </div>
       </CardContent>
     </Card>

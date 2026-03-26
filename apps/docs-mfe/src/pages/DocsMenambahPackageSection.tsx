@@ -1,4 +1,4 @@
-import { CodeBlock, DocsStep } from '@synapse/shared-components';
+import { CodeBlock, DocsStep, InfoBox } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { LuShieldCheck as ShieldCheck } from 'react-icons/lu';
 
@@ -138,6 +138,12 @@ export default defineConfig({
           </div>
         </CardContent>
       </Card>
+
+      <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+        Jika kamu menambah package ke shared libs dan ada MFE standalone (multi-repo), jangan lupa
+        re-publish ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan lengkap di
+        halaman <strong>/docs/verdaccio-registry</strong>.
+      </InfoBox>
     </div>
   );
 }

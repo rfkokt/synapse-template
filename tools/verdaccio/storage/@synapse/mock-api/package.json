@@ -1,64 +1,64 @@
 {
-  "name": "@synapse/mock-api",
-  "versions": {
-    "0.0.1": {
-      "name": "@synapse/mock-api",
-      "version": "0.0.1",
-      "type": "module",
-      "main": "./dist/index.js",
-      "types": "./dist/index.d.ts",
-      "publishConfig": {
-        "access": "restricted"
-      },
-      "files": [
-        "dist",
-        "src"
-      ],
-      "dependencies": {},
-      "scripts": {
-        "build": "tsup src/index.ts --format esm --dts --outDir dist"
-      },
-      "exports": {
-        ".": {
-          "import": "./dist/index.js",
-          "types": "./dist/index.d.ts"
-        },
-        "./*": "./dist/*"
-      },
-      "readmeFilename": "README.md",
-      "_id": "@synapse/mock-api@0.0.1",
-      "description": "This library was generated with [Nx](https://nx.dev).",
-      "_integrity": "sha512-RqljNBpGJnmzBUuZ2lzkBPENhOb6MKntibZFFE/KBntXBZ8mRGzB97wrpj3zFC7T6pE/M1n/K9QbccUYj8fQIQ==",
-      "_resolved": "/private/var/folders/8k/6wxvyg_j16x3j5xqjz39_pvc0000gn/T/0566982f60d41c8746a49b45bc9feb26/synapse-mock-api-0.0.1.tgz",
-      "_from": "file:synapse-mock-api-0.0.1.tgz",
-      "_nodeVersion": "24.11.1",
-      "_npmVersion": "11.6.2",
-      "dist": {
-        "integrity": "sha512-RqljNBpGJnmzBUuZ2lzkBPENhOb6MKntibZFFE/KBntXBZ8mRGzB97wrpj3zFC7T6pE/M1n/K9QbccUYj8fQIQ==",
-        "shasum": "410598b9d6f1d687aac215d340e3c3e0e13db777",
-        "tarball": "http://localhost:4873/@synapse/mock-api/-/@synapse/mock-api-0.0.1.tgz"
-      },
-      "contributors": []
-    }
-  },
-  "time": {
-    "modified": "2026-03-26T03:44:11.411Z",
-    "created": "2026-03-26T03:44:11.411Z",
-    "0.0.1": "2026-03-26T03:44:11.411Z"
-  },
-  "users": {},
-  "dist-tags": {
-    "latest": "0.0.1"
-  },
-  "_uplinks": {},
-  "_distfiles": {},
-  "_attachments": {
-    "mock-api-0.0.1.tgz": {
-      "shasum": "410598b9d6f1d687aac215d340e3c3e0e13db777",
-      "version": "0.0.1"
-    }
-  },
-  "_rev": "3-e269702b4fa95ce5",
-  "_id": "@synapse/mock-api",
-  "readme": "# mock-api\n\nThis library was generated with [Nx](https://nx.dev).\n\n## Building\n\nRun `nx build mock-api` to build the library.\n\n## Running unit tests\n\nRun `nx test mock-api` to execute the unit tests via [Vitest](https://vitest.dev/).\n"
+	"name": "@synapse/mock-api",
+	"versions": {
+		"0.0.1": {
+			"name": "@synapse/mock-api",
+			"version": "0.0.1",
+			"type": "module",
+			"main": "./dist/index.js",
+			"types": "./dist/index.d.ts",
+			"publishConfig": {
+				"access": "restricted"
+			},
+			"files": [
+				"dist",
+				"src"
+			],
+			"dependencies": {},
+			"scripts": {
+				"build": "tsup src/index.ts --format esm --dts --outDir dist"
+			},
+			"exports": {
+				".": {
+					"import": "./dist/index.js",
+					"types": "./dist/index.d.ts"
+				},
+				"./*": "./dist/*"
+			},
+			"readmeFilename": "README.md",
+			"_id": "@synapse/mock-api@0.0.1",
+			"description": "This library was generated with [Nx](https://nx.dev).",
+			"_integrity": "sha512-RqljNBpGJnmzBUuZ2lzkBPENhOb6MKntibZFFE/KBntXBZ8mRGzB97wrpj3zFC7T6pE/M1n/K9QbccUYj8fQIQ==",
+			"_resolved": "/private/var/folders/8k/6wxvyg_j16x3j5xqjz39_pvc0000gn/T/0566982f60d41c8746a49b45bc9feb26/synapse-mock-api-0.0.1.tgz",
+			"_from": "file:synapse-mock-api-0.0.1.tgz",
+			"_nodeVersion": "24.11.1",
+			"_npmVersion": "11.6.2",
+			"dist": {
+				"integrity": "sha512-RqljNBpGJnmzBUuZ2lzkBPENhOb6MKntibZFFE/KBntXBZ8mRGzB97wrpj3zFC7T6pE/M1n/K9QbccUYj8fQIQ==",
+				"shasum": "410598b9d6f1d687aac215d340e3c3e0e13db777",
+				"tarball": "http://localhost:4873/@synapse/mock-api/-/@synapse/mock-api-0.0.1.tgz"
+			},
+			"contributors": []
+		}
+	},
+	"time": {
+		"modified": "2026-03-26T03:44:11.411Z",
+		"created": "2026-03-26T03:44:11.411Z",
+		"0.0.1": "2026-03-26T03:44:11.411Z"
+	},
+	"users": {},
+	"dist-tags": {
+		"latest": "0.0.1"
+	},
+	"_uplinks": {},
+	"_distfiles": {},
+	"_attachments": {
+		"mock-api-0.0.1.tgz": {
+			"shasum": "410598b9d6f1d687aac215d340e3c3e0e13db777",
+			"version": "0.0.1"
+		}
+	},
+	"_rev": "4-795d2e48f304237f",
+	"_id": "@synapse/mock-api",
+	"readme": "# mock-api\n\nThis library was generated with [Nx](https://nx.dev).\n\n## Building\n\nRun `nx build mock-api` to build the library.\n\n## Running unit tests\n\nRun `nx test mock-api` to execute the unit tests via [Vitest](https://vitest.dev/)."
 }

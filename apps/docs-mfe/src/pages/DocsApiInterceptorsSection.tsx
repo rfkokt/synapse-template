@@ -1,4 +1,4 @@
-import { CodeBlock } from '@synapse/shared-components';
+import { CodeBlock, InfoBox } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 
 export function DocsApiInterceptorsSection() {
@@ -54,7 +54,6 @@ const res = await apiClient.get('/api/v1/user/profile');`}
             request credentials tidak kena CORS lintas port.
           </li>
         </ul>
-
         <p>
           <strong>Error Format Standar:</strong>
         </p>
@@ -74,6 +73,11 @@ try {
   toast.error(appError.message);
 }`}
         />
+        <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+          Perubahan di <code>@synapse/shared-api</code> perlu di-publish ulang ke Verdaccio agar MFE
+          standalone mendapat versi terbaru: <code>pnpm run libs:publish:local</code>. Lihat panduan
+          lengkap di <strong>/docs/verdaccio-registry</strong>.
+        </InfoBox>{' '}
       </CardContent>
     </Card>
   );

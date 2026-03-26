@@ -7,6 +7,8 @@ import {
   LuShieldCheck as Shield,
   LuRefreshCw as RefreshCw,
   LuBookOpen as BookOpen,
+  LuCloud as Cloud,
+  LuRocket as Rocket,
 } from 'react-icons/lu';
 
 export function DocsVerdaccioSection() {
@@ -388,6 +390,254 @@ pnpm run serve # Test perubahan`}
         </CardContent>
       </Card>
 
+      {/* ══ Deploy Verdaccio ke Server ══ */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Cloud className="h-5 w-5 text-sky-600" />
+            Deploy Verdaccio ke Server
+          </CardTitle>
+          <CardDescription>
+            Agar seluruh tim bisa publish dan install shared libs tanpa harus menjalankan Verdaccio
+            di masing-masing komputer.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6 text-sm text-neutral-600 dark:text-neutral-400">
+          <InfoBox variant="blue" title="Kenapa Deploy Verdaccio?">
+            Di lokal, setiap developer harus menjalankan Verdaccio sendiri. Dengan men-deploy
+            Verdaccio ke server (VPS/Kubernetes), seluruh tim cukup arahkan <code>.npmrc</code> ke
+            URL server Verdaccio — publish sekali, semua orang bisa <code>pnpm install</code>.
+          </InfoBox>
+
+          {/* Docker Compose */}
+          <div className="space-y-3">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
+              <Rocket className="h-4 w-4 text-purple-600" />
+              1. Docker Compose (Recommended)
+            </h4>
+            <p>
+              Cara termudah deploy Verdaccio ke server — buat file{' '}
+              <code>docker-compose.verdaccio.yml</code> di root monorepo:
+            </p>
+            <CodeBlock
+              language="yaml"
+              codeString={`# docker-compose.verdaccio.yml
+services:
+  verdaccio:
+    image: verdaccio/verdaccio:6
+    container_name: verdaccio
+    restart: always
+    ports:
+      - "4873:4873"
+    volumes:
+      - ./tools/verdaccio/config.yaml:/verdaccio/conf/config.yaml
+      - verdaccio-storage:/verdaccio/storage
+      - verdaccio-plugins:/verdaccio/plugins
+    environment:
+      - VERDACCIO_PORT=4873
+
+volumes:
+  verdaccio-storage:
+    driver: local
+  verdaccio-plugins:
+    driver: local`}
+            />
+            <CodeBlock
+              language="bash"
+              codeString={`# Deploy ke server
+docker compose -f docker-compose.verdaccio.yml up -d
+
+# Cek status
+docker compose -f docker-compose.verdaccio.yml logs -f verdaccio`}
+            />
+          </div>
+
+          {/* Konfigurasi Aman */}
+          <div className="space-y-3 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
+              <Shield className="h-4 w-4 text-amber-600" />
+              2. Konfigurasi Aman untuk Server
+            </h4>
+            <p>
+              Konfigurasi lokal menggunakan <code>$all</code> (tanpa auth). Untuk server yang
+              diakses tim, <strong>wajib</strong> tambahkan autentikasi:
+            </p>
+            <CodeBlock
+              language="yaml"
+              codeString={`# tools/verdaccio/config-server.yaml
+storage: /verdaccio/storage
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+auth:
+  htpasswd:
+    file: /verdaccio/conf/htpasswd
+    max_users: 100         # Set -1 untuk block registrasi baru
+
+packages:
+  '@synapse/*':
+    access: $authenticated  # Hanya user login bisa lihat
+    publish: $authenticated # Hanya user login bisa publish
+    unpublish: $authenticated
+  '**':
+    access: $all
+    proxy: npmjs
+
+listen: 0.0.0.0:4873
+
+# Rate limiting (opsional)
+max_body_size: 50mb`}
+            />
+            <CodeBlock
+              language="bash"
+              codeString={`# Buat user di server Verdaccio:
+npm adduser --registry http://<SERVER_IP>:4873
+
+# Atau tambahkan user langsung via htpasswd:
+# htpasswd -b /path/to/htpasswd username password`}
+            />
+          </div>
+
+          {/* Nginx Reverse Proxy */}
+          <div className="space-y-3 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
+              <Server className="h-4 w-4 text-blue-600" />
+              3. Nginx Reverse Proxy + HTTPS (Opsional)
+            </h4>
+            <p>Untuk akses via domain dan HTTPS, tambahkan Nginx sebagai reverse proxy:</p>
+            <CodeBlock
+              language="nginx"
+              codeString={`# /etc/nginx/sites-available/verdaccio
+server {
+    listen 443 ssl;
+    server_name registry.synapse.internal;
+
+    ssl_certificate     /etc/ssl/certs/registry.pem;
+    ssl_certificate_key /etc/ssl/private/registry.key;
+
+    location / {
+        proxy_pass http://localhost:4873;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Untuk upload package besar
+        client_max_body_size 50M;
+    }
+}`}
+            />
+            <InfoBox variant="amber" title="Akses Internal Saja!">
+              Verdaccio sebaiknya hanya diakses dari <strong>jaringan internal</strong>{' '}
+              (VPN/intranet). Jangan expose ke internet publik kecuali sudah di-setup autentikasi
+              dan HTTPS yang ketat.
+            </InfoBox>
+          </div>
+
+          {/* .npmrc Tim */}
+          <div className="space-y-3 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
+              <Terminal className="h-4 w-4 text-emerald-600" />
+              4. .npmrc untuk Tim
+            </h4>
+            <p>
+              Setelah Verdaccio ter-deploy, setiap developer dan MFE standalone cukup ganti{' '}
+              <code>.npmrc</code>:
+            </p>
+            <CodeBlock
+              language="bash"
+              codeString={`# .npmrc — arahkan ke server Verdaccio tim
+@synapse:registry=http://<SERVER_IP>:4873/
+//<SERVER_IP>:4873/:_authToken="<TOKEN_DARI_NPM_ADDUSER>"
+auto-install-peers=true
+strict-peer-dependencies=false
+
+# Jika pakai Nginx + HTTPS:
+# @synapse:registry=https://registry.synapse.internal/
+# //registry.synapse.internal/:_authToken="<TOKEN>"`}
+            />
+          </div>
+
+          {/* CI/CD Publish */}
+          <div className="space-y-3 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+            <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 flex items-center gap-2">
+              <Rocket className="h-4 w-4 text-indigo-600" />
+              5. CI/CD: Auto-Publish Libs ke Server Verdaccio
+            </h4>
+            <p>
+              Otomatis publish shared libs ke server Verdaccio tim saat ada push ke branch{' '}
+              <code>main</code>:
+            </p>
+            <CodeBlock
+              language="yaml"
+              codeString={`# .github/workflows/publish-libs.yml
+name: Publish Shared Libs to Verdaccio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'libs/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+
+      # Setup .npmrc untuk publish ke server Verdaccio
+      - run: |
+          echo "@synapse:registry=http://\${{ vars.VERDACCIO_URL }}:4873/" > .npmrc
+          echo "//\${{ vars.VERDACCIO_URL }}:4873/:_authToken=\${{ secrets.VERDACCIO_TOKEN }}" >> .npmrc
+
+      - run: pnpm run libs:publish`}
+            />
+            <InfoBox variant="emerald" title="Setup Secrets di GitHub/GitLab">
+              Tambahkan di <strong>Settings → Secrets</strong>:
+              <ul className="list-disc ml-4 mt-1">
+                <li>
+                  <code>VERDACCIO_TOKEN</code> — auth token dari <code>npm adduser</code>
+                </li>
+              </ul>
+              Dan di <strong>Settings → Variables</strong>:
+              <ul className="list-disc ml-4 mt-1">
+                <li>
+                  <code>VERDACCIO_URL</code> — IP/domain server Verdaccio (misal:{' '}
+                  <code>10.0.1.50</code> atau <code>registry.synapse.internal</code>)
+                </li>
+              </ul>
+            </InfoBox>
+          </div>
+
+          {/* Diagram */}
+          <div className="bg-neutral-50 dark:bg-neutral-900 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800 font-mono text-xs leading-relaxed">
+            <p className="font-semibold text-neutral-700 dark:text-neutral-300 mb-2 font-sans text-sm">
+              Alur Lengkap: Lokal → Server
+            </p>
+            <pre className="whitespace-pre-wrap">{`LOCAL DEVELOPMENT:
+┌────────────┐  libs:publish:local  ┌──────────────┐  pnpm install  ┌──────────────┐
+│  Monorepo  │─────────────────────►│  Verdaccio   │◄──────────────│  MFE Local   │
+│  (laptop)  │                      │  (localhost)  │               │  (laptop)    │
+└────────────┘                      └──────────────┘               └──────────────┘
+
+SERVER DEPLOYMENT:
+┌────────────┐  CI/CD: libs:publish ┌──────────────┐  pnpm install  ┌──────────────┐
+│  Monorepo  │─────────────────────►│  Verdaccio   │◄──────────────│  MFE Server  │
+│  (GitHub)  │    (auto on push)    │  (VPS/K8s)   │  (CI/CD)      │  (prod)      │
+└────────────┘                      └──────────────┘               └──────────────┘`}</pre>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* ══ Troubleshooting ══ */}
       <Card>
         <CardHeader>
@@ -435,6 +685,39 @@ pnpm run serve # Test perubahan`}
               <p className="text-xs text-red-700 dark:text-red-400">
                 Pastikan file <code>.npmrc</code> ada di folder MFE dan Verdaccio sudah berjalan di
                 port 4873. Cek dengan membuka <code>http://localhost:4873</code> di browser.
+              </p>
+            </div>
+
+            <div className="bg-red-50 dark:bg-red-900/10 border-l-4 border-red-400 p-3 rounded-r-lg">
+              <p className="font-semibold text-red-800 dark:text-red-300 text-xs mb-1">
+                403 Forbidden: MFE Access Denied
+              </p>
+              <p className="text-xs text-red-700 dark:text-red-400">
+                Error ini muncul karena <code>SharedOriginGuard</code> mendeteksi MFE diakses dari
+                origin yang tidak diizinkan (misal buka langsung <code>http://localhost:4001</code>{' '}
+                di browser).
+              </p>
+              <p className="text-xs text-red-700 dark:text-red-400 mt-2">
+                <strong>Solusi:</strong>
+              </p>
+              <ul className="text-xs text-red-700 dark:text-red-400 list-disc ml-4 mt-1 space-y-1">
+                <li>
+                  <strong>Akses MFE lewat Shell</strong> di <code>http://localhost:4000</code>{' '}
+                  (bukan port MFE langsung)
+                </li>
+                <li>
+                  <strong>Tambah origin</strong> di file <code>.env</code> MFE:{' '}
+                  <code>VITE_ALLOWED_ORIGINS=http://localhost:4001</code>
+                </li>
+                <li>
+                  <strong>Ganti Shell URL</strong> di production:{' '}
+                  <code>VITE_SHELL_URL=https://app.synapse.com</code>
+                </li>
+              </ul>
+              <p className="text-xs text-red-700 dark:text-red-400 mt-2">
+                File konfigurasi: <code>libs/shared-types/src/origin.ts</code>. Default whitelist:{' '}
+                <code>http://localhost:4000</code>. Lihat panduan lengkap di{' '}
+                <strong>/docs/security</strong>.
               </p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { CodeBlock, DocsStep } from '@synapse/shared-components';
+import { CodeBlock, DocsStep, InfoBox } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 import { LuGlobe as Globe } from 'react-icons/lu';
 
@@ -48,7 +48,6 @@ export function DocsI18nSection() {
     └── auth.json`}
             />
           </DocsStep>
-
           <DocsStep title="2. Menggunakan Translasi di Komponen (React)" color="emerald">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Gunakan *hook*{' '}
@@ -79,7 +78,6 @@ export function ComponentContoh() {
 }`}
             />
           </DocsStep>
-
           <DocsStep
             title="3. Menggunakan Translasi di Luar Komponen (Zustand / Axios)"
             color="slate"
@@ -100,7 +98,6 @@ export const actionLuarReact = () => {
 };`}
             />
           </DocsStep>
-
           <DocsStep title="4. Mengganti Bahasa Dinamis (Language Switcher)" color="indigo">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Untuk mengganti bahasa secara *real-time* di seluruh aplikasi (semua MFE akan ikut
@@ -133,6 +130,11 @@ export function LanguageSwitcher() {
 }`}
             />
           </DocsStep>
+          <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+            Perubahan di <code>@synapse/shared-types</code> (file translasi, konfigurasi i18n) perlu
+            di-publish ulang ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan
+            lengkap di <strong>/docs/verdaccio-registry</strong>.
+          </InfoBox>{' '}
         </CardContent>
       </Card>
     </div>

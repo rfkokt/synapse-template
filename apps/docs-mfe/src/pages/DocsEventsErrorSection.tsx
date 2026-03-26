@@ -1,9 +1,9 @@
-import { CodeBlock } from '@synapse/shared-components';
+import { CodeBlock, InfoBox } from '@synapse/shared-components';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@synapse/ui-kit';
 
 export function DocsEventsErrorSection() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-8">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -95,6 +95,12 @@ dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, {
           </ul>
         </CardContent>
       </Card>
+
+      <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
+        Perubahan di <code>@synapse/shared-types</code> (events, auth store) perlu di-publish ulang
+        ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan lengkap di{' '}
+        <strong>/docs/verdaccio-registry</strong>.
+      </InfoBox>
     </div>
   );
 }
