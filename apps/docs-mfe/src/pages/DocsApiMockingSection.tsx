@@ -195,7 +195,7 @@ export function DaftarMenu() {
 }`}
             />
           </DocsStep>
-          <DocsStep title="6. Update Menu Data (Sidebar Navigation)" color="amber">
+          <DocsStep title="6. Update Menu Data (Sidebar Navigation)" color="emerald">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Menu sidebar di-shell di-load dari <code>/api/v1/menus</code>. Saat development, data
               ini diambil dari{' '}
@@ -262,7 +262,7 @@ VITE_API_BASE_URL=/`}
               ke backend sungguhan yang sudah dikonfigurasi CORS + credentials.
             </p>
           </DocsStep>
-          <DocsStep title="8. Menambah Mock API Handler Baru" color="violet">
+          <DocsStep title="8. Menambah Mock API Handler Baru" color="indigo">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Untuk menambah endpoint mock baru, buat handler di{' '}
               <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">

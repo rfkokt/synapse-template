@@ -399,10 +399,10 @@ pnpm install && pnpm run serve`}
       </Card>
 
       {/* ══ Multi-Repo: Export MFE yang Sudah Ada ══ */}
-      <Card className="border-purple-200 dark:border-purple-900/50">
+      <Card className="border-indigo-200 dark:border-indigo-900/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-400 text-sm font-bold">
+          <CardTitle className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 text-sm font-bold">
               ↗
             </span>
             Export MFE yang Sudah Ada ke Standalone
@@ -413,11 +413,11 @@ pnpm install && pnpm run serve`}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3 text-sm">
-            <p className="font-semibold text-purple-800 dark:text-purple-300 mb-1">
+          <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-lg p-3 text-sm">
+            <p className="font-semibold text-indigo-800 dark:text-indigo-300 mb-1">
               Bedanya apa dengan <code>create:standalone</code>?
             </p>
-            <p className="text-purple-700 dark:text-purple-400">
+            <p className="text-indigo-700 dark:text-indigo-400">
               <code>create:standalone</code> = <strong>Buat MFE baru</strong> di monorepo lalu
               export.
               <br />
@@ -425,7 +425,7 @@ pnpm install && pnpm run serve`}
             </p>
           </div>
 
-          <DocsStep title="Export MFE yang Sudah Ada" color="purple">
+          <DocsStep title="Export MFE yang Sudah Ada" color="indigo">
             <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
               Script ini akan meng-copy MFE dari <code>apps/&lt;nama&gt;</code>, mengganti{' '}
               <code>workspace:*</code> dengan versi sebenarnya, membuat <code>.npmrc</code>, dan
@@ -449,7 +449,7 @@ pnpm run export:mfe docs-mfe --force`}
             </p>
           </DocsStep>
 
-          <DocsStep title="Setelah Export: Install & Jalankan" color="purple">
+          <DocsStep title="Setelah Export: Install & Jalankan" color="indigo">
             <CodeBlock
               language="bash"
               codeString={`# 1. Start Verdaccio (di monorepo - Terminal Tab 1)
