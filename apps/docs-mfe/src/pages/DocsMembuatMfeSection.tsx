@@ -319,56 +319,64 @@ pnpm nx g @synapse/tools:remove-mfe reporting-mfe`}
             </p>
             <p className="text-indigo-700 dark:text-indigo-400">
               Ketika tim berbeda ingin develop MFE di repo mereka sendiri, tanpa akses ke monorepo
-              utama. MFE akan mengkonsumsi shared libs via <strong>Verdaccio</strong> (lokal) atau{' '}
-              <strong>GitLab/GitHub Packages</strong> (production).
+              utama. MFE akan mengkonsumsi shared libs via <strong>Verdaccio Server</strong>{' '}
+              (default) atau <strong>Verdaccio Lokal</strong> (jika membuat komponen baru).
             </p>
           </div>
 
-          <DocsStep title="Step 1: Generate MFE di Monorepo Dulu" color="indigo">
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Buat MFE terlebih dahulu di dalam monorepo menggunakan generator, agar semua
-              konfigurasi (Module Federation, Tailwind, tsconfig) otomatis ter-scaffold.
+          <DocsStep title="Cara Otomatis (Recommended)" color="indigo">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
+              Satu command untuk generate MFE di monorepo, copy ke luar, setup <code>.npmrc</code>,
+              dan ganti <code>workspace:*</code> → <code>^0.1.0</code> secara otomatis:
             </p>
             <CodeBlock
               language="bash"
-              codeString={`pnpm nx g @synapse/tools:mfe my-standalone-mfe --port=4006`}
+              codeString={`# Format: pnpm run create:standalone <nama-mfe> --port=<port>
+pnpm run create:standalone reporting-mfe --port=4006
+
+# Atau custom target folder:
+pnpm run create:standalone reporting-mfe --port=4006 --target=../../projects`}
             />
+            <p className="text-xs text-neutral-500 mt-2">
+              Script ini menjalankan Nx generator → copy ke folder parent → buat .npmrc → ganti deps
+              → setup tsconfig standalone. Shell <code>remotes.json</code> &amp; router otomatis
+              terdaftar.
+            </p>
           </DocsStep>
 
-          <DocsStep title="Step 2: Publish Shared Libs ke Verdaccio" color="indigo">
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Pastikan Verdaccio berjalan dan semua shared libs sudah ter-publish.
-            </p>
+          <DocsStep title="Setelah Generate: Install & Jalankan" color="indigo">
             <CodeBlock
               language="bash"
-              codeString={`# Terminal 1: Start Verdaccio
+              codeString={`# Jika pakai Verdaccio Server (default — libs sudah ada di server):
+cd ../reporting-mfe
+pnpm install && pnpm run serve  # → http://localhost:4006
+
+# Jika MEMBUAT komponen baru (butuh Verdaccio Lokal):
+# 1. Start Verdaccio lokal
 pnpm run verdaccio:start
-
-# Terminal 2: Build & Publish
-pnpm run libs:publish:local`}
+# 2. Publish libs ke Verdaccio lokal
+pnpm run libs:publish:local
+# 3. Install dari Verdaccio lokal
+cd ../reporting-mfe && pnpm install && pnpm run serve`}
             />
           </DocsStep>
 
-          <DocsStep title="Step 3: Pindahkan MFE ke Luar Monorepo" color="indigo">
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Copy folder MFE ke lokasi di luar monorepo. Ini akan menjadi repo independen.
-            </p>
-            <CodeBlock
-              language="bash"
-              codeString={`# Copy ke luar parent folder
+          <details className="group border border-neutral-200 dark:border-neutral-800 rounded-lg">
+            <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 rounded-lg select-none">
+              📋 Langkah Manual (jika tidak pakai script)
+            </summary>
+            <div className="px-4 pb-4 space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
+              <p>Jika karena suatu alasan kamu tidak bisa pakai script otomatis:</p>
+              <CodeBlock
+                language="bash"
+                codeString={`# 1. Generate MFE di monorepo dulu
+pnpm nx g @synapse/tools:mfe my-standalone-mfe --port=4006
+
+# 2. Copy ke luar monorepo
 cp -r apps/my-standalone-mfe ../../my-standalone-mfe
+cd ../../my-standalone-mfe
 
-cd ../../my-standalone-mfe`}
-            />
-          </DocsStep>
-
-          <DocsStep title="Step 4: Setup .npmrc + Ubah Dependencies" color="indigo">
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Buat file <code>.npmrc</code> dan ubah <code>workspace:*</code> menjadi semver.
-            </p>
-            <CodeBlock
-              language="bash"
-              codeString={`# Buat .npmrc
+# 3. Buat .npmrc
 cat > .npmrc << 'EOF'
 @synapse:registry=http://localhost:4873/
 //localhost:4873/:_authToken="anonymous"
@@ -376,65 +384,17 @@ auto-install-peers=true
 strict-peer-dependencies=false
 EOF
 
-# Ganti workspace:* → ^0.1.0
+# 4. Ganti workspace:* → ^0.1.0
 sed -i '' 's/"workspace:\\*"/"^0.1.0"/g' package.json
 
-# Gunakan tsconfig standalone
-mv tsconfig.standalone.json tsconfig.json`}
-            />
-          </DocsStep>
+# 5. Gunakan tsconfig standalone
+mv tsconfig.standalone.json tsconfig.json
 
-          <DocsStep title="Step 5: Install & Jalankan" color="indigo">
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Install dependencies dari Verdaccio dan jalankan MFE secara standalone.
-            </p>
-            <CodeBlock
-              language="bash"
-              codeString={`pnpm install && pnpm run serve
-# → http://localhost:4006
-# MFE berjalan standalone dan terhubung ke Shell!`}
-            />
-          </DocsStep>
-
-          <DocsStep title="Step 6: Daftarkan di Shell" color="indigo">
-            <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Agar Shell memuat MFE standalone ini, tambahkan entry ke <code>remotes.json</code> di
-              monorepo:
-            </p>
-            <CodeBlock
-              language="json"
-              codeString={`// apps/shell/public/remotes.json
-{
-  "remotes": {
-    // ...existing remotes...
-    "my-standalone-mfe": {
-      "name": "mystandalonemfe",
-      "entry": "http://localhost:4006/mf-manifest.json",
-      "activeWhenPath": "/my-standalone-mfe",
-      "exposes": {
-        "./App": "./App"
-      }
-    }
-  }
-}`}
-            />
-            <p className="text-sm text-neutral-500 mt-2">
-              <strong>Catatan:</strong> Router dan type declaration di Shell sudah otomatis
-              terdaftar saat Step 1 (generator). Anda hanya perlu memastikan URL <code>entry</code>{' '}
-              sesuai port MFE standalone.
-            </p>
-          </DocsStep>
-
-          <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-3 text-sm">
-            <p className="font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
-              💡 Otomatis via CLI!
-            </p>
-            <p className="text-emerald-700 dark:text-emerald-400">
-              Saat menjalankan <code>npx create-synapse-mfe@latest</code>, CLI akan menawarkan opsi
-              untuk membuatkan <strong>Standalone Sandbox MFE</strong> secara otomatis. Semua
-              langkah di atas (copy, setup .npmrc, ganti workspace:*) sudah dilakukan oleh CLI!
-            </p>
-          </div>
+# 6. Install & jalankan
+pnpm install && pnpm run serve`}
+              />
+            </div>
+          </details>
         </CardContent>
       </Card>
 
@@ -453,36 +413,48 @@ mv tsconfig.standalone.json tsconfig.json`}
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-neutral-600 dark:text-neutral-400">
-            Jika MFE standalone sudah tidak diperlukan atau ingin di-sunset, hapus referensinya dari
-            3 file di monorepo:
+            Jika MFE standalone sudah tidak diperlukan atau ingin di-sunset:
           </p>
+
           <CodeBlock
             language="bash"
-            codeString={`# 1) Hapus entry dari remotes.json
+            codeString={`# Cara Otomatis (Recommended):
+pnpm run remove:standalone my-standalone-mfe
+
+# Dengan hapus folder standalone juga:
+pnpm run remove:standalone my-standalone-mfe --standalone-dir=../../my-standalone-mfe
+
+# Skip konfirmasi:
+pnpm run remove:standalone my-standalone-mfe --yes`}
+          />
+
+          <p className="text-xs text-neutral-500">
+            Script ini otomatis menghapus referensi dari <code>remotes.json</code>,{' '}
+            <code>router.tsx</code>, <code>vite-env.d.ts</code>, <code>vite.config.ts</code>, dan
+            folder di <code>apps/</code>.
+          </p>
+
+          <details className="group border border-neutral-200 dark:border-neutral-800 rounded-lg">
+            <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 rounded-lg select-none">
+              📋 Langkah Manual (jika tidak pakai script)
+            </summary>
+            <div className="px-4 pb-4 space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
+              <CodeBlock
+                language="bash"
+                codeString={`# 1) Hapus entry dari remotes.json
 #    apps/shell/public/remotes.json → hapus block "my-standalone-mfe"
 
 # 2) Hapus lazy import dari router.tsx
-#    apps/shell/src/router.tsx → hapus baris:
-#    const RemoteMystandalonemfe = lazy(() => import('mystandalonemfe/App'));
-#    Dan hapus <Route path="my-standalone-mfe/*" .../>
+#    apps/shell/src/router.tsx → hapus baris import & Route
 
 # 3) Hapus type declaration dari vite-env.d.ts
-#    apps/shell/src/vite-env.d.ts → hapus block:
-#    declare module 'mystandalonemfe/App' { ... }
+#    apps/shell/src/vite-env.d.ts → hapus declare module block
 
 # 4) Restart Shell
 pnpm run dev:new`}
-          />
-          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3 text-sm">
-            <p className="font-semibold text-orange-800 dark:text-orange-300 mb-1">
-              Alternatif: Gunakan Remove Generator
-            </p>
-            <p className="text-orange-700 dark:text-orange-400">
-              Jika MFE masih ada di monorepo (belum dihapus folder-nya), Anda bisa menggunakan{' '}
-              <code>pnpm nx g @synapse/tools:remove-mfe my-standalone-mfe</code> untuk membersihkan
-              semua referensi secara otomatis.
-            </p>
-          </div>
+              />
+            </div>
+          </details>
         </CardContent>
       </Card>
     </div>

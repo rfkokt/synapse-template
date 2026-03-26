@@ -51,6 +51,39 @@ export function DocsVerdaccioSection() {
             Konfigurasi Verdaccio sudah tersedia di <code>tools/verdaccio/config.yaml</code>.
             Anonymous publish diizinkan — tidak perlu login, buat akun, atau setup token.
           </InfoBox>
+
+          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4 space-y-3">
+            <h4 className="font-semibold text-purple-800 dark:text-purple-300 text-sm">
+              🔀 Kapan Pakai Verdaccio Lokal vs Server?
+            </h4>
+            <div className="grid sm:grid-cols-2 gap-3 text-sm">
+              <div className="bg-white dark:bg-neutral-900 rounded-lg p-3 border border-purple-100 dark:border-purple-900">
+                <p className="font-semibold text-purple-700 dark:text-purple-400 mb-1">
+                  🌐 Pakai Registry Server (Default)
+                </p>
+                <p className="text-purple-600 dark:text-purple-400 text-xs">
+                  Untuk kebanyakan developer. Shared libs sudah di-publish ke server oleh admin.
+                  Cukup arahkan{' '}
+                  <code className="bg-purple-100 dark:bg-purple-900/50 px-1 rounded">.npmrc</code>{' '}
+                  ke URL server dan jalankan{' '}
+                  <code className="bg-purple-100 dark:bg-purple-900/50 px-1 rounded">
+                    pnpm install
+                  </code>
+                  .
+                </p>
+              </div>
+              <div className="bg-white dark:bg-neutral-900 rounded-lg p-3 border border-purple-100 dark:border-purple-900">
+                <p className="font-semibold text-purple-700 dark:text-purple-400 mb-1">
+                  💻 Pakai Verdaccio Lokal
+                </p>
+                <p className="text-purple-600 dark:text-purple-400 text-xs">
+                  Hanya jika kamu <strong>membuat/memodifikasi komponen baru</strong> di shared libs
+                  dan ingin test di MFE standalone <strong>sebelum push ke server</strong>. Jalankan
+                  Verdaccio lokal → publish → test → lalu push ke server registry.
+                </p>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
