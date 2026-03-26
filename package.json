@@ -7,7 +7,7 @@
     "pnpm": ">=10.0.0"
   },
   "scripts": {
-    "dev": "nx run-many --target=serve --all --parallel=4",
+    "dev": "nx run-many --target=serve --all --exclude=external-mfe --parallel=4",
     "dev:new": "rm -rf .__mf__temp && nx reset && pnpm run dev",
     "dev:shell": "nx serve shell",
     "dev:auth": "nx serve auth-mfe",

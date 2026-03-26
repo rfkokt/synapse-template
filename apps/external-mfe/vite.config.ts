@@ -50,8 +50,6 @@ export default defineConfig({
         'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
         'react/': { singleton: true },
         'react-dom/': { singleton: true },
-        zustand: { singleton: true },
-        '@synapse/shared-types': { singleton: true },
       },
     }),
   ],
