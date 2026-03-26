@@ -22,7 +22,7 @@
     "review:pre-push": "bash ./scripts/review-before-push.sh",
     "review:full": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm budget:check",
     "setup:brand": "node scripts/setup-scope.js",
-    "verdaccio:start": "verdaccio --config ./tools/verdaccio/config.yaml",
+    "verdaccio:start": "npx verdaccio --config ./tools/verdaccio/config.yaml",
     "libs:build": "nx run-many --target=build --projects=@synapse/ui-kit,@synapse/shared-types,@synapse/shared-api,@synapse/shared-components,@synapse/shared-monitoring,@synapse/mock-api",
     "libs:publish": "pnpm libs:build && pnpm -r --filter './libs/*' publish --no-git-checks",
     "libs:publish:local": "pnpm libs:build && pnpm -r --filter './libs/*' publish --registry http://localhost:4873 --no-git-checks"
