@@ -23,9 +23,25 @@ const offlineHandlingPlugin: () => ModuleFederationRuntimePlugin = () => ({
         id: id,
         name: id,
         metaData: {
-          publicPath: '/',
-          types: {},
+          name: id,
+          type: 'app',
+          buildInfo: {
+            buildVersion: '1.0.0',
+          },
+          remoteEntry: {
+            name: 'remoteEntry.js',
+            path: '',
+            type: 'module',
+          },
+          types: {
+            path: '',
+            name: '',
+            zip: '',
+            api: '',
+          },
           globalName: id,
+          pluginVersion: '0.1.0',
+          publicPath: '/',
         },
         remotes: [],
         shared: [],
