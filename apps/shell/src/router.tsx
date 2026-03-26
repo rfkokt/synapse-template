@@ -13,7 +13,6 @@ const RemoteRegister = lazy(() => import('authMfe/RegisterPage'));
 const RemoteProfile = lazy(() => import('authMfe/ProfilePage'));
 
 const RemoteDocs = lazy(() => import('docsmfe/App'));
-const RemoteReportingmfe = lazy(() => import('reportingmfe/App'));
 
 function getSafeRedirectFromQuery(): string | null {
   if (typeof window === 'undefined') {
@@ -123,14 +122,6 @@ export function AppRouter() {
           element={
             <RemoteLoader>
               <RemoteDocs />
-            </RemoteLoader>
-          }
-        />
-        <Route
-          path="reporting-mfe/*"
-          element={
-            <RemoteLoader>
-              <RemoteReportingmfe />
             </RemoteLoader>
           }
         />
