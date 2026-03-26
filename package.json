@@ -27,7 +27,8 @@
     "libs:publish": "pnpm libs:build && pnpm -r --filter './libs/*' publish --no-git-checks",
     "libs:publish:local": "pnpm libs:build && pnpm -r --filter './libs/*' publish --registry http://localhost:4873 --no-git-checks",
     "create:standalone": "node tools/scripts/create-standalone-mfe.mjs",
-    "remove:standalone": "node tools/scripts/remove-standalone-mfe.mjs"
+    "remove:standalone": "node tools/scripts/remove-standalone-mfe.mjs",
+    "export:mfe": "node tools/scripts/export-mfe.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

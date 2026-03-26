@@ -226,6 +226,18 @@ export const MOCK_MENUS: MenuGroup[] = [
             icon: 'Rocket',
             path: '/docs/deploy-cicd',
           },
+          {
+            id: 'docs-multi-repo',
+            label: '21. Multi-Repo Separation',
+            icon: 'GitBranch',
+            path: '/docs/multi-repo',
+          },
+          {
+            id: 'docs-verdaccio',
+            label: '22. Shared Libs via Verdaccio',
+            icon: 'Package',
+            path: '/docs/verdaccio-registry',
+          },
         ],
       },
       {

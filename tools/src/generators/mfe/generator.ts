@@ -13,6 +13,18 @@ import {
 import { applicationGenerator } from '@nx/react';
 import { GeneratorGeneratorSchema } from './schema';
 
+// ── Read dynamic scope from tools/package.json ──
+function getWorkspaceScope(): string {
+  try {
+    const toolsPkgPath = path.resolve(workspaceRoot, 'tools/package.json');
+    const toolsPkg = JSON.parse(fsNative.readFileSync(toolsPkgPath, 'utf-8')) as { name: string };
+    const scopeMatch = toolsPkg.name.match(/^@[^/]+/);
+    return scopeMatch ? scopeMatch[0] : '@synapse';
+  } catch {
+    return '@synapse'; // fallback
+  }
+}
+
 const SECURITY_OVERRIDES: Record<string, string> = {
   'ajv@8.12.0': '8.18.0',
   'ajv@8.13.0': '8.18.0',
@@ -47,12 +59,15 @@ function ensureWorkspaceSecurityOverrides(tree: Tree) {
 }
 
 export async function generatorGenerator(tree: Tree, options: GeneratorGeneratorSchema) {
+  // Get the actual workspace scope (e.g., @synapse, @mycompany, etc.)
+  const SCOPE = getWorkspaceScope();
+
   // eslint-disable-next-line no-undef
   const cwd = path.resolve(process.cwd());
   const root = path.resolve(workspaceRoot);
   if (cwd !== root) {
     throw new Error(
-      `Generator ini wajib dijalankan dari workspace root.\nCurrent: ${cwd}\nExpected: ${root}\n\nGunakan:\n  cd ${root}\n  pnpm nx g @synapse/tools:mfe ${options.name} --port=${options.port}`
+      `Generator ini wajib dijalankan dari workspace root.\nCurrent: ${cwd}\nExpected: ${root}\n\nGunakan:\n  cd ${root}\n  pnpm nx g ${SCOPE}/tools:mfe ${options.name} --port=${options.port}`
     );
   }
 
@@ -96,12 +111,12 @@ export default defineConfig({
   resolve: {
     alias: isMonorepo
       ? {
-          '@synapse/shared-types': path.resolve(__dirname, '../../libs/shared-types/src/index.ts'),
-          '@synapse/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
-          '@synapse/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
-          '@synapse/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
-          '@synapse/shared-components': path.resolve(__dirname, '../../libs/shared-components/src/index.ts'),
-          '@synapse/shared-monitoring': path.resolve(__dirname, '../../libs/shared-monitoring/src/index.ts'),
+          '${SCOPE}/shared-types': path.resolve(__dirname, '../../libs/shared-types/src/index.ts'),
+          '${SCOPE}/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
+          '${SCOPE}/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
+          '${SCOPE}/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
+          '${SCOPE}/shared-components': path.resolve(__dirname, '../../libs/shared-components/src/index.ts'),
+          '${SCOPE}/shared-monitoring': path.resolve(__dirname, '../../libs/shared-monitoring/src/index.ts'),
         }
       : undefined,
   },
@@ -122,7 +137,7 @@ export default defineConfig({
         'react/': { singleton: true },
         'react-dom/': { singleton: true },
         zustand: { singleton: true },
-        '@synapse/shared-types': { singleton: true },
+        '${SCOPE}/shared-types': { singleton: true },
       },
     }),
   ],
@@ -187,8 +202,8 @@ VITE_SENTRY_DSN=
 @source "../../../libs/shared-components/src";
 
 /* Scan UI Kit for Tailwind classes (Standalone node_modules) */
-@source "../node_modules/@synapse/ui-kit";
-@source "../node_modules/@synapse/shared-components";
+@source "../node_modules/${SCOPE}/ui-kit";
+@source "../node_modules/${SCOPE}/shared-components";
 
 @import "./theme.css";
 
@@ -282,11 +297,11 @@ body {
   // 4. Overwrite App.tsx with Nested Routing Best Practices
   const appTsxContent = `import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { Card, CardContent, Button } from '@synapse/ui-kit';
-import { SharedOriginGuard, useAuthStore } from '@synapse/shared-types';
-import { InfoBox } from '@synapse/shared-components';
-import { apiClient, API } from '@synapse/shared-api';
-import { ErrorBoundary } from '@synapse/shared-monitoring';
+import { Card, CardContent, Button } from '${SCOPE}/ui-kit';
+import { SharedOriginGuard, useAuthStore } from '${SCOPE}/shared-types';
+import { InfoBox } from '${SCOPE}/shared-components';
+import { apiClient, API } from '${SCOPE}/shared-api';
+import { ErrorBoundary } from '${SCOPE}/shared-monitoring';
 
 function CrashTest({ shouldCrash }: { shouldCrash: boolean }) {
   if (shouldCrash) throw new Error('Test Sentry Error from ErrorBoundary');
@@ -432,9 +447,9 @@ export default App;
   const mainTsxContent = `import { StrictMode, useState, useEffect, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { useAuthStore } from '@synapse/shared-types';
-import { initMsw } from '@synapse/mock-api';
-import { initMonitoring } from '@synapse/shared-monitoring';
+import { useAuthStore } from '${SCOPE}/shared-types';
+import { initMsw } from '${SCOPE}/mock-api';
+import { initMonitoring } from '${SCOPE}/shared-monitoring';
 import './styles.css';
 import { App } from './App';
 
@@ -633,12 +648,12 @@ void bootstrap();
       lint: 'eslint .',
     },
     dependencies: {
-      '@synapse/mock-api': 'workspace:*',
-      '@synapse/ui-kit': 'workspace:*',
-      '@synapse/shared-components': 'workspace:*',
-      '@synapse/shared-monitoring': 'workspace:*',
-      '@synapse/shared-types': 'workspace:*',
-      '@synapse/shared-api': 'workspace:*',
+      '${SCOPE}/mock-api': 'workspace:*',
+      '${SCOPE}/ui-kit': 'workspace:*',
+      '${SCOPE}/shared-components': 'workspace:*',
+      '${SCOPE}/shared-monitoring': 'workspace:*',
+      '${SCOPE}/shared-types': 'workspace:*',
+      '${SCOPE}/shared-api': 'workspace:*',
       react: '^19.0.0',
       'react-dom': '^19.0.0',
       'react-router-dom': '^7.13.0',

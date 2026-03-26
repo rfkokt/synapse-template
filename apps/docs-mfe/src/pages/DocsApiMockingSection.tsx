@@ -195,7 +195,48 @@ export function DaftarMenu() {
 }`}
             />
           </DocsStep>
-          <DocsStep title="6. Catatan CORS Saat Development" color="slate">
+          <DocsStep title="6. Update Menu Data (Sidebar Navigation)" color="amber">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Menu sidebar di-shell di-load dari <code>/api/v1/menus</code>. Saat development, data
+              ini diambil dari{' '}
+              <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                libs/mock-api/src/fixtures/menus.json
+              </code>
+              .
+            </p>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Untuk menambah menu baru (misalnya dokumentasi baru):
+            </p>
+            <CodeBlock
+              language="bash"
+              codeString={`# 1. Update fixture JSON
+# Edit: libs/mock-api/src/fixtures/menus.json
+
+# 2. Update mock-menus.ts (fallback jika API gagal)
+# Edit: apps/shell/src/data/mock-menus.ts
+
+# 3. Restart server
+pnpm run dev:new`}
+            />
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300">
+              <p className="font-semibold mb-1">⚠️ Penting: Sinkronisasi Dua Lokasi</p>
+              <p className="mb-2">
+                Menu data ada di <strong>2 lokasi</strong> yang harus sinkron:
+              </p>
+              <ul className="list-disc list-inside space-y-1 ml-2">
+                <li>
+                  <code>libs/mock-api/src/fixtures/menus.json</code> — MSW mock data
+                </li>
+                <li>
+                  <code>apps/shell/src/data/mock-menus.ts</code> — Fallback jika MSW gagal
+                </li>
+              </ul>
+              <p className="mt-2">
+                Pastikan struktur <code>children</code> array sama di kedua file!
+              </p>
+            </div>
+          </DocsStep>
+          <DocsStep title="7. Catatan CORS Saat Development" color="slate">
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
               Saat MSW aktif dan client menggunakan{' '}
               <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
@@ -220,6 +261,57 @@ VITE_API_BASE_URL=/`}
               </code>{' '}
               ke backend sungguhan yang sudah dikonfigurasi CORS + credentials.
             </p>
+          </DocsStep>
+          <DocsStep title="8. Menambah Mock API Handler Baru" color="violet">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Untuk menambah endpoint mock baru, buat handler di{' '}
+              <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                libs/mock-api/src/handlers/
+              </code>
+              :
+            </p>
+            <CodeBlock
+              language="tsx"
+              codeString={`// libs/mock-api/src/handlers/reports.ts
+import { http, HttpResponse, delay } from 'msw';
+
+export const reportHandlers = [
+  http.get('/api/v1/reports', async () => {
+    await delay(300); // simulasi network latency
+    return HttpResponse.json({
+      data: [
+        { id: 1, name: 'Sales Report', status: 'completed' },
+        { id: 2, name: 'Inventory Report', status: 'pending' },
+      ],
+    });
+  }),
+  http.post('/api/v1/reports', async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json(
+      { id: Date.now(), ...body, status: 'created' },
+      { status: 201 }
+    );
+  }),
+];`}
+            />
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
+              Lalu daftarkan di{' '}
+              <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">browser.ts</code>:
+            </p>
+            <CodeBlock
+              language="tsx"
+              codeString={`// libs/mock-api/src/browser.ts
+import { setupWorker } from 'msw/browser';
+import { authHandlers } from './handlers/auth';
+import { menuHandlers } from './handlers/menus';
+import { reportHandlers } from './handlers/reports'; // <-- import
+
+export const worker = setupWorker(
+  ...authHandlers,
+  ...menuHandlers,
+  ...reportHandlers // <-- tambahkan di sini
+);`}
+            />
           </DocsStep>
           <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
             Perubahan di <code>@synapse/mock-api</code> (handler baru, fixture baru) perlu

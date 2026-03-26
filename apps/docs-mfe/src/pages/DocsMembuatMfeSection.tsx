@@ -398,6 +398,118 @@ pnpm install && pnpm run serve`}
         </CardContent>
       </Card>
 
+      {/* ══ Multi-Repo: Export MFE yang Sudah Ada ══ */}
+      <Card className="border-purple-200 dark:border-purple-900/50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-400 text-sm font-bold">
+              ↗
+            </span>
+            Export MFE yang Sudah Ada ke Standalone
+          </CardTitle>
+          <CardDescription>
+            Untuk MFE yang <strong>sudah ada</strong> di monorepo dan ingin dipindah ke repo
+            independen
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-3 text-sm">
+            <p className="font-semibold text-purple-800 dark:text-purple-300 mb-1">
+              Bedanya apa dengan <code>create:standalone</code>?
+            </p>
+            <p className="text-purple-700 dark:text-purple-400">
+              <code>create:standalone</code> = <strong>Buat MFE baru</strong> di monorepo lalu
+              export.
+              <br />
+              <code>export:mfe</code> = <strong>Export MFE yang sudah ada</strong> ke standalone.
+            </p>
+          </div>
+
+          <DocsStep title="Export MFE yang Sudah Ada" color="purple">
+            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
+              Script ini akan meng-copy MFE dari <code>apps/&lt;nama&gt;</code>, mengganti{' '}
+              <code>workspace:*</code> dengan versi sebenarnya, membuat <code>.npmrc</code>, dan
+              menghapus folder dari monorepo.
+            </p>
+            <CodeBlock
+              language="bash"
+              codeString={`# Format: pnpm run export:mfe <nama-mfe> [--target=<path>] [--force]
+pnpm run export:mfe auth-mfe
+
+# Custom target folder:
+pnpm run export:mfe docs-mfe --target=../../projects
+
+# Force overwrite jika target sudah ada:
+pnpm run export:mfe docs-mfe --force`}
+            />
+            <p className="text-xs text-neutral-500 mt-2">
+              Script ini otomatis baca versi dari <code>libs/*/package.json</code> untuk mengganti{' '}
+              <code>workspace:*</code> → <code>^0.1.0</code>. Shell <code>remotes.json</code> tetap
+              utuh (tidak berubah).
+            </p>
+          </DocsStep>
+
+          <DocsStep title="Setelah Export: Install & Jalankan" color="purple">
+            <CodeBlock
+              language="bash"
+              codeString={`# 1. Start Verdaccio (di monorepo - Terminal Tab 1)
+cd /path/to/monorepo
+pnpm run verdaccio:start
+
+# 2. Publish libs ke Verdaccio (Terminal Tab 2)
+pnpm run libs:publish:local
+
+# 3. Install & jalankan MFE standalone (Terminal Tab 3)
+cd ../auth-mfe  # atau folder target
+pnpm install && pnpm run serve`}
+            />
+            <p className="text-xs text-neutral-500 mt-2">
+              <code>.npmrc</code> sudah auto-generated untuk mengarah ke Verdaccio lokal di{' '}
+              <code>http://localhost:4873</code>.
+            </p>
+          </DocsStep>
+
+          <details className="group border border-neutral-200 dark:border-neutral-800 rounded-lg">
+            <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 rounded-lg select-none">
+              📋 Apa yang Dilakukan Script export:mfe?
+            </summary>
+            <div className="px-4 pb-4 space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
+              <ol className="list-decimal list-inside space-y-1">
+                <li>
+                  Copy <code>apps/&lt;nama&gt;</code> ke target folder (default:{' '}
+                  <code>../&lt;nama&gt;</code>)
+                </li>
+                <li>
+                  Baca versi dari <code>libs/*/package.json</code> dan ganti{' '}
+                  <code>workspace:*</code> → <code>^&lt;version&gt;</code>
+                </li>
+                <li>
+                  Swap <code>tsconfig.standalone.json</code> → <code>tsconfig.json</code>
+                </li>
+                <li>
+                  Buat <code>.npmrc</code> untuk Verdaccio registry
+                </li>
+                <li>
+                  Buat <code>.env.local</code> dari <code>standalone.env.example</code>
+                </li>
+                <li>
+                  Buat <code>.gitignore</code> khusus standalone
+                </li>
+                <li>Init git repo dengan commit awal</li>
+                <li>
+                  Hapus <code>apps/&lt;nama&gt;</code> dari monorepo
+                </li>
+              </ol>
+              <p className="text-xs text-neutral-500">
+                Shell references (<code>remotes.json</code>, <code>router.tsx</code>,{' '}
+                <code>vite-env.d.ts</code>) <strong>tidak diubah</strong> — MFE standalone tetap
+                bisa di-load oleh Shell.
+              </p>
+            </div>
+          </details>
+        </CardContent>
+      </Card>
+
       {/* ══ Multi-Repo: Menghapus MFE Standalone ══ */}
       <Card className="border-orange-200 dark:border-orange-900/50">
         <CardHeader>
