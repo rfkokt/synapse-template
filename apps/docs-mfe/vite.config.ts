@@ -56,6 +56,7 @@ export default defineConfig({
         'react-dom/': { singleton: true },
         'react-router-dom': { singleton: true, requiredVersion: '^7.0.0' },
         zustand: { singleton: true },
+        'use-sync-external-store': { singleton: true, requiredVersion: '^1.0.0' },
         '@synapse/shared-types': { singleton: true },
       },
     }),
