@@ -16,6 +16,24 @@ const offlineHandlingPlugin: () => ModuleFederationRuntimePlugin = () => ({
     const { id, error } = args;
     console.warn(`[Federation Runtime] Failed to load remote ${id}:`, error);
 
+    // Scenario 1: Manifest initialization failed (Remote is offline at startup)
+    // The runtime expects a valid JSON manifest object, NOT a React component.
+    if (id.includes('mf-manifest.json') || id.includes('remoteEntry.js')) {
+      return {
+        id: id,
+        name: id,
+        metaData: {
+          publicPath: '/',
+          types: {},
+          globalName: id,
+        },
+        remotes: [],
+        shared: [],
+        exposes: [], // Mock empty exposes so the runtime doesn't crash
+      };
+    }
+
+    // Scenario 2: Module loading failed (e.g., specific chunk or component offline)
     // Return a mock/fallback module so the federation runtime doesn't crash completely.
     // We throw an explicit Error here so that React Suspense/ErrorBoundary
     // can catch it and display a generic ErrorFallback UI for this specific MFE.
