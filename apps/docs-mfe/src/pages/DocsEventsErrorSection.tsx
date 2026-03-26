@@ -17,7 +17,7 @@ export function DocsEventsErrorSection() {
         <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
           <p>
             Untuk source of truth state sinkron (session/user), prioritaskan store dari{' '}
-            <code>@synapse/shared-types</code>. Browser Events tetap dipakai sebagai kontrak
+            <code>@nashta-hajj/shared-types</code>. Browser Events tetap dipakai sebagai kontrak
             integrasi host-remote untuk sinyal auth (login/logout/refresh) dan event lintas app yang
             one-off.
           </p>
@@ -143,9 +143,114 @@ if (id.includes('mf-manifest.json') || id.includes('remoteEntry.js')) {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-400 text-sm font-bold">
+              10d
+            </span>
+            CSS Module Federation — Tidak Ter-load via Shell
+          </CardTitle>
+          <CardDescription>
+            Masalah & solusi CSS tidak ter-apply saat MFE di-load oleh Shell
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
+          <p>
+            <strong className="text-error-600 dark:text-error-400">Masalah Umum:</strong> CSS yang
+            normal di standalone mode (
+            <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">:4003</code>)
+            tidak ter-apply saat diakses via Shell (
+            <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+              :4000/docs
+            </code>
+            ).
+          </p>
+          <p>
+            <strong>Penyebab:</strong> CSS di-import di <code>main.tsx</code>, tapi Module
+            Federation hanya men-expose <code>App.tsx</code>. Ketika Shell load remote{' '}
+            <code>App</code>, CSS-nya tidak ikut ter-bundle.
+          </p>
+          <CodeBlock
+            language="typescript"
+            codeString={`// ❌ SALAH - CSS tidak ikut ter-load via MF
+// main.tsx
+import './styles.css';
+import { App } from './App';
+
+// vite.config.ts
+federation({
+  exposes: {
+    './App': './src/App.tsx',  // Hanya ini yang ter-expose
+  },
+})`}
+          />
+          <p>
+            <strong>Solusi 1: Expose CSS di Module Federation</strong>
+          </p>
+          <CodeBlock
+            language="typescript"
+            codeString={`// vite.config.ts
+federation({
+  name: 'docsmfe',
+  exposes: {
+    './App': './src/App.tsx',
+    './styles': './src/styles.css',  // ← Expose CSS
+    './theme': './src/theme.css',    // ← Expose theme
+  },
+})`}
+          />
+          <p>
+            <strong>Solusi 2: Import CSS langsung di App.tsx</strong> (lebih direkomendasikan)
+          </p>
+          <CodeBlock
+            language="tsx"
+            codeString={`// App.tsx
+import React from 'react';
+import './styles.css';  // ← Import di App component
+import './theme.css';  // ← Jadi ter-bundle bersama App
+
+export function App() {
+  return (
+    <div className="docs-layout">
+      {/* ... */}
+    </div>
+  );
+}`}
+          />
+          <p>
+            <strong>Kenapa Solusi 2 lebih direkomendasikan?</strong>
+          </p>
+          <ul className="list-disc ml-4 space-y-1">
+            <li>CSS otomatis ter-include saat component di-load</li>
+            <li>Tidak perlu expose file CSS terpisah di config</li>
+            <li>CSS ter-bundle langsung dengan component yang memakainya</li>
+            <li>Lebih sesuai dengan prinsip "co-located" styles</li>
+          </ul>
+          <InfoBox variant="amber" title="Quick Checklist untuk Debugging CSS MF">
+            <ul className="list-disc ml-4 space-y-1 text-xs">
+              <li>
+                <strong>Standalone mode works?</strong> → Cek{' '}
+                <code className="bg-neutral-100 dark:bg-neutral-800 px-1 rounded">:PORT</code>{' '}
+                langsung
+              </li>
+              <li>
+                <strong>Via Shell broken?</strong> → CSS tidak ter-expose/ter-import di component
+              </li>
+              <li>
+                <strong>Fix:</strong> Import CSS di exposed component (bukan di main.tsx saja)
+              </li>
+              <li>
+                <strong>Restart required:</strong> Setelahubah config, restart dev server
+              </li>
+            </ul>
+          </InfoBox>
+        </CardContent>
+      </Card>
+
       <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
-        Perubahan di <code>@synapse/shared-types</code> (events, auth store) perlu di-publish ulang
-        ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan lengkap di{' '}
+        Perubahan di <code>@nashta-hajj/shared-types</code> (events, auth store) perlu di-publish
+        ulang ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan lengkap di{' '}
         <strong>/docs/verdaccio-registry</strong>.
       </InfoBox>
     </div>

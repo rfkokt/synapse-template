@@ -136,6 +136,7 @@ export default defineConfig({
         'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
         'react/': { singleton: true },
         'react-dom/': { singleton: true },
+        'react-router-dom': { singleton: true, requiredVersion: '^7.0.0' },
         zustand: { singleton: true },
         'use-sync-external-store': { singleton: true, requiredVersion: '^1.0.0' },
         '${SCOPE}/shared-types': { singleton: true },
@@ -659,6 +660,7 @@ void bootstrap();
       'react-dom': '^19.0.0',
       'react-router-dom': '^7.13.0',
       'react-icons': '^5.5.0',
+      'use-sync-external-store': '^1.6.0',
       zustand: '^5.0.0',
     },
     devDependencies: {
