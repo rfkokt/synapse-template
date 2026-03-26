@@ -358,7 +358,7 @@ jobs:
                   <code>{`\${{ secrets.GITHUB_TOKEN }}`}</code>:
                 </strong>{' '}
                 Token rahasia bawaan GitHub untuk autentikasi ke GHCR (GitHub Container Registry).
-                Otomatis tersedia, <strong>tapi</strong> pastikan Anda memberikan akses{' '}
+                Otomatis tersedia, <strong>tetapi</strong> pastikan Anda memberikan akses{' '}
                 <em>Read and write permissions</em> di menu{' '}
                 <strong>Settings &gt; Actions &gt; General &gt; Workflow permissions</strong> pada
                 repositori Anda.
@@ -377,6 +377,240 @@ jobs:
                 <code>password: {`\${{ secrets.DOCKER_PASSWORD }}`}</code>
               </li>
             </ul>
+          </InfoBox>
+        </section>
+
+        {/* ══════════════════════════════════════════════════════════════════
+            4. Multi-Repo: Publish Shared Libs ke Verdaccio Server
+        ══════════════════════════════════════════════════════════════════ */}
+        <section>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4 flex items-center gap-2 mt-12">
+            <Cloud className="h-5 w-5" />
+            4. Multi-Repo: Publish Shared Libs ke Verdaccio Server
+          </h3>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+            Pada arsitektur multi-repo, setiap MFE standalone mengkonsumsi shared libs (
+            <code>@synapse/ui-kit</code>, <code>@synapse/shared-types</code>, dll.) dari{' '}
+            <strong>Verdaccio Server</strong> — bukan <code>workspace:*</code>. Oleh karena itu,
+            setiap kali ada perubahan di shared libs, libs harus di-publish ke server registry.
+          </p>
+
+          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4 mb-4 space-y-2">
+            <h4 className="font-semibold text-purple-800 dark:text-purple-300 text-sm">
+              🔀 Kapan Publish ke Verdaccio Server?
+            </h4>
+            <div className="grid sm:grid-cols-2 gap-3 text-sm">
+              <div className="bg-white dark:bg-neutral-900 rounded-lg p-3 border border-purple-100 dark:border-purple-900">
+                <p className="font-semibold text-purple-700 dark:text-purple-400 mb-1">
+                  🔄 Otomatis (CI/CD)
+                </p>
+                <p className="text-purple-600 dark:text-purple-400 text-xs">
+                  Setiap merge ke{' '}
+                  <code className="bg-purple-100 dark:bg-purple-900/50 px-1 rounded">main</code>{' '}
+                  yang mengubah folder{' '}
+                  <code className="bg-purple-100 dark:bg-purple-900/50 px-1 rounded">libs/</code>,
+                  pipeline otomatis build & publish ke Verdaccio Server.
+                </p>
+              </div>
+              <div className="bg-white dark:bg-neutral-900 rounded-lg p-3 border border-purple-100 dark:border-purple-900">
+                <p className="font-semibold text-purple-700 dark:text-purple-400 mb-1">
+                  💻 Manual (Lokal)
+                </p>
+                <p className="text-purple-600 dark:text-purple-400 text-xs">
+                  Hanya saat develop komponen baru & test di MFE standalone{' '}
+                  <strong>sebelum merge</strong>. Pakai Verdaccio lokal:{' '}
+                  <code className="bg-purple-100 dark:bg-purple-900/50 px-1 rounded">
+                    pnpm run libs:publish:local
+                  </code>
+                  .
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <DocsStep title="Pipeline: Auto-Publish Shared Libs ke Verdaccio Server">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+              Workflow ini hanya berjalan jika ada perubahan di folder <code>libs/</code>. Publish
+              ke self-hosted Verdaccio server agar semua MFE standalone mendapatkan versi terbaru.
+            </p>
+            <CodeBlock
+              language="yaml"
+              codeString={`name: Publish Shared Libs to Verdaccio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'libs/**'
+
+jobs:
+  publish-libs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Setup .npmrc untuk publish ke Verdaccio Server
+      - name: Configure Verdaccio registry
+        run: |
+          echo "@synapse:registry=\${{ secrets.VERDACCIO_URL }}" >> .npmrc
+          echo "//\${{ secrets.VERDACCIO_HOST }}/:_authToken=\${{ secrets.VERDACCIO_TOKEN }}" >> .npmrc
+
+      # Build & Publish semua shared libs
+      - name: Build & Publish libs
+        run: |
+          pnpm run libs:build
+          pnpm -r --filter './libs/*' publish --no-git-checks`}
+            />
+          </DocsStep>
+
+          <InfoBox variant="amber" title="Secrets yang Diperlukan" className="mt-4">
+            <ul className="list-disc list-inside space-y-1 mt-1 text-sm">
+              <li>
+                <code>VERDACCIO_URL</code> — URL registry server, contoh:{' '}
+                <code>https://registry.synapse.id</code>
+              </li>
+              <li>
+                <code>VERDACCIO_HOST</code> — Hostname saja (tanpa protocol), contoh:{' '}
+                <code>registry.synapse.id</code>
+              </li>
+              <li>
+                <code>VERDACCIO_TOKEN</code> — Token autentikasi dari{' '}
+                <code>npm adduser --registry=URL</code>
+              </li>
+            </ul>
+          </InfoBox>
+        </section>
+
+        {/* ══════════════════════════════════════════════════════════════════
+            5. Multi-Repo: CI/CD untuk MFE Standalone
+        ══════════════════════════════════════════════════════════════════ */}
+        <section>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4 flex items-center gap-2 mt-12">
+            <Rocket className="h-5 w-5" />
+            5. Multi-Repo: CI/CD untuk MFE Standalone
+          </h3>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+            MFE standalone di-maintain di repo terpisah oleh tim independen. Pipeline CI/CD di repo
+            ini hanya perlu: install libs dari Verdaccio Server → build → deploy.
+          </p>
+
+          <DocsStep title="Pipeline: Build & Deploy MFE Standalone">
+            <CodeBlock
+              language="yaml"
+              codeString={`name: Build & Deploy Standalone MFE
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      # Setup .npmrc — arahkan ke Verdaccio Server
+      - name: Configure registry
+        run: |
+          echo "@synapse:registry=\${{ secrets.VERDACCIO_URL }}" >> .npmrc
+          echo "//\${{ secrets.VERDACCIO_HOST }}/:_authToken=\${{ secrets.VERDACCIO_TOKEN }}" >> .npmrc
+          echo "auto-install-peers=true" >> .npmrc
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build MFE
+        run: pnpm run build
+
+      # Deploy ke hosting (contoh: S3/CloudFront)
+      - name: Deploy to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --delete
+        env:
+          AWS_S3_BUCKET: \${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: \${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: \${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: dist`}
+            />
+          </DocsStep>
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100 mt-6 mb-2">
+            Dockerfile untuk MFE Standalone
+          </h4>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+            Berbeda dari monorepo, MFE standalone tidak memerlukan Nx. Dockerfile lebih sederhana:
+          </p>
+          <CodeBlock
+            language="dockerfile"
+            codeString={`FROM node:24-alpine AS builder
+WORKDIR /app
+RUN corepack enable pnpm
+
+# .npmrc harus sudah berisi registry Verdaccio
+COPY .npmrc package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+RUN pnpm run build
+
+# Production — Nginx
+FROM nginx:alpine
+RUN echo "server { \\\\
+    listen 80; \\\\
+    location / { \\\\
+        root /usr/share/nginx/html; \\\\
+        index index.html; \\\\
+        try_files \\\\$uri \\\\$uri/ /index.html; \\\\
+        add_header 'Access-Control-Allow-Origin' '*'; \\\\
+    } \\\\
+}" > /etc/nginx/conf.d/default.conf
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]`}
+          />
+
+          <InfoBox variant="emerald" title="Alur Lengkap Multi-Repo" className="mt-4">
+            <ol className="list-decimal list-inside space-y-1 mt-1 text-sm">
+              <li>
+                <strong>Monorepo CI:</strong> Merge ke main → auto-publish libs ke Verdaccio Server
+              </li>
+              <li>
+                <strong>MFE Repo CI:</strong> Merge ke main → install libs dari Verdaccio Server →
+                build → deploy
+              </li>
+              <li>
+                <strong>Shell:</strong> Update <code>remotes.json</code> entry ke URL production MFE
+                → deploy Shell
+              </li>
+            </ol>
+          </InfoBox>
+
+          <InfoBox variant="blue" title="Multi-Repo? Publish via Verdaccio!" className="mt-4">
+            Lihat panduan detail setup registry dan access control di{' '}
+            <strong>/docs/verdaccio-registry</strong>.
           </InfoBox>
         </section>
       </CardContent>
