@@ -36,6 +36,9 @@ vitest.config.*.timestamp*
 *.__mf__temp/
 *.__mf__temp/*
 
+# Verdaccio Local Registry (generated data)
+tools/verdaccio/storage/
+tools/verdaccio/htpasswd
+
 # Documentation
 PRD.md
-ARCHITECTURE.md
