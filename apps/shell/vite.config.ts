@@ -98,6 +98,19 @@ export default defineConfig(({ mode }) => {
         : undefined,
     },
     plugins: [
+      {
+        name: 'watch-remotes',
+        configureServer(server) {
+          const remotesPath = path.resolve(__dirname, 'public/remotes.json');
+          server.watcher.add(remotesPath);
+          server.watcher.on('change', (file) => {
+            if (file === remotesPath) {
+              console.log('🔄 remotes.json changed, restarting server to load new remotes...');
+              server.restart();
+            }
+          });
+        },
+      },
       react(),
       tailwindcss(),
       federation({
