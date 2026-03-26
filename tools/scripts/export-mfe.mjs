@@ -133,16 +133,20 @@ for (const depType of depsToUpdate) {
         const libFolderName = depName.replace(`${SCOPE}/`, '');
         const libPkgPath = path.join(MONOREPO_ROOT, 'libs', libFolderName, 'package.json');
 
-        // Fallback version
-        let actualVersion = '^0.1.0';
+        // Use '*' to always get latest version from Verdaccio/npm
+        let actualVersion = '*';
 
+        // Optional: read version from lib for logging/debugging
         if (fs.existsSync(libPkgPath)) {
           const libPkgData = JSON.parse(fs.readFileSync(libPkgPath, 'utf-8'));
-          actualVersion = `^${libPkgData.version}`;
+          console.log(
+            `   🔄 ${depName}: workspace:* -> * (latest, currently ${libPkgData.version} in monorepo)`
+          );
+        } else {
+          console.log(`   🔄 ${depName}: workspace:* -> * (latest from registry)`);
         }
 
         pkgData[depType][depName] = actualVersion;
-        console.log(`   🔄 ${depName}: workspace:* -> ${actualVersion}`);
       }
     }
   }
