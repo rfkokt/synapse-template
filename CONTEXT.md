@@ -89,6 +89,14 @@ MFE standalone butuh `.npmrc`:
 //localhost:4873/:_authToken="anonymous"
 ```
 
+## Fault-Tolerant Module Federation (Offline Resilience)
+
+Aplikasi memiliki mekanisme **Graceful Offline Initialization** di `apps/shell/src/mf-error-handler.ts`.
+
+- **Masalah Asli:** Jika Shell memuat `remotes.json` yang berisi URL MFE mati/offline, Shell akan gagal inisialisasi (_blank screen_ putih) karena Vite MF melempar `Failed to fetch mf-manifest.json` lalu _crash_ saat _destructuring_ data.
+- **Solusi Terapkan:** Plugin `errorLoadRemote` mencegat kegagalan ini dan mereturn **Mock Manifest Object** (berisi `metaData.remoteEntry` dan `exposes` dummy).
+- **Hasil:** Shell dan MFE lain yang hidup **akan tetap menyala normal**. Route MFE yang mati hanya akan merender _ErrorFallback UI_ (dari `<RemoteLoader>`) tanpa mematikan seluruh ekosistem.
+
 ## Dokumentasi (apps/docs-mfe)
 
 24 halaman docs di `apps/docs-mfe/src/pages/`. Routing ada di `App.tsx` object `DOCS_SECTION_MAP`.
@@ -99,6 +107,7 @@ Halaman yang baru ditambah/diubah:
 - `DocsMembuatMfeSection.tsx` — Tambah MFE baru (monorepo & multi-repo)
 - `DocsSharedUiKitSection.tsx` — UI Kit + share ke standalone via Verdaccio
 - `DocsSecuritySection.tsx` — Security + 403 troubleshooting
+- `DocsEventsErrorSection.tsx` — Custom Events & Offline MFE Resilience
 
 7 halaman docs sudah ditambahi **InfoBox "Multi-Repo? Publish via Verdaccio!"** yang merujuk ke `/docs/verdaccio-registry`.
 
@@ -108,15 +117,13 @@ Halaman yang baru ditambah/diubah:
 
 - Verdaccio infrastructure (config, scripts, .gitignore)
 - MFE generator includes zustand singleton
-- DocsVerdaccioSection (Quick Start, Architecture, Update Workflow, Deploy ke Server, Troubleshooting)
-- Verdaccio cross-reference InfoBox di 8 docs pages
-- DocsSharedUiKitSection — share komponen ke standalone
-- DocsSecuritySection — 403 troubleshooting card
-- DocsMembuatMfeSection — multi-repo add/remove guide
+- Multi-Repo lifecycle scripts review (`create-standalone-mfe` dan `remove-standalone-mfe` robust)
+- Fault-Tolerant Module Federation (`mf-error-handler.ts`) fixing "Cannot read properties of undefined (reading path)"
+- Docs coverage untuk Verdaccio, UI Kit sharing, Security (403), MFE Creation, dan Offline Resilience
 
 ### ⚠️ Belum Di-commit
 
-Semua perubahan masih local, belum di-push.
+Semua file documentation di `/docs` dan `CONTEXT.md` tentang error handler siap untuk di-commit.
 
 ### 📋 Sisa / Follow-up
 

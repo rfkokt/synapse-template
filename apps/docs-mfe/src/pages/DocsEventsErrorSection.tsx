@@ -96,6 +96,53 @@ dispatchMfeEvent(MFE_EVENTS.AUTH.USER_LOGGED_IN, {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-400 text-sm font-bold">
+              10c
+            </span>
+            Offline MFE Resilience (Init Fallback)
+          </CardTitle>
+          <CardDescription>
+            Shell dan MFE lain tidak akan crash meski ada MFE yang mati
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 text-sm text-neutral-600 dark:text-neutral-400">
+          <p>
+            Vite Module Federation melakukan <code>init()</code> ke semua <em>remote</em> (MFE) saat
+            Shell pertama kali dimuat. Sebelumnya, jika satu MFE saja mati (misal karena belum
+            menjalankan <code>pnpm run serve</code> atau beda port), proses init akan gagal dan{' '}
+            <strong>seluruh aplikasi Shell akan blank screen</strong>.
+          </p>
+          <p>
+            Sekarang, hal ini sudah diatasi dengan <strong>Graceful Offline Initialization</strong>{' '}
+            melalui plugin <code>apps/shell/src/mf-error-handler.ts</code>.
+          </p>
+          <CodeBlock
+            language="typescript"
+            codeString={`// Jika Shell gagal mem-fetch mf-manifest.json dari sebuah URL
+// Plugin akan mereturn 'Mock Manifest' yang lengkap
+if (id.includes('mf-manifest.json') || id.includes('remoteEntry.js')) {
+  return {
+    id: id,
+    name: id,
+    metaData: { ... },
+    remotes: [],
+    exposes: [ { path: 'offline_dummy' } ]
+  };
+}`}
+          />
+          <p>
+            <strong>Hasilnya:</strong> Host App (Shell) dan MFE lainnya akan{' '}
+            <strong>tetap berjalan 100% normal</strong>. Tidak peduli berapapun MFE yang didaftarkan
+            di <code>remotes.json</code> mati, Shell tetap memuat. Jika user menavigasi ke halaman
+            MFE yang mati tersebut, mereka hanya akan melihat <em>Fallback Error UI</em> dari{' '}
+            <code>RemoteLoader</code> dengan elegan, tanpa mematikan sisa aplikasi.
+          </p>
+        </CardContent>
+      </Card>
+
       <InfoBox variant="emerald" title="Multi-Repo? Publish via Verdaccio!">
         Perubahan di <code>@synapse/shared-types</code> (events, auth store) perlu di-publish ulang
         ke Verdaccio: <code>pnpm run libs:publish:local</code>. Lihat panduan lengkap di{' '}
