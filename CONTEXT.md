@@ -53,9 +53,17 @@ synapse-template/
 | `pnpm run libs:build`         | Build semua 6 shared libs              |
 | `pnpm run libs:publish:local` | Build + publish ke Verdaccio lokal     |
 | `pnpm run libs:publish`       | Build + publish ke registry production |
-| `pnpm generate:mfe`           | Generate MFE baru                      |
+| `pnpm generate:mfe`           | Generate MFE baru (monorepo)           |
 | `pnpm add:ui <component>`     | Tambah Shadcn component ke ui-kit      |
 | `pnpm remove:ui <component>`  | Hapus Shadcn component dari ui-kit     |
+
+### Standalone Lifecycle Scripts
+
+| Command                                                   | Fungsi                                   |
+| --------------------------------------------------------- | ---------------------------------------- |
+| `pnpm run create:standalone <name> --port=<port>`         | Generate MFE + copy ke folder standalone |
+| `pnpm run create:standalone <name> --port=<port> --force` | Sama, overwrite jika folder sudah ada    |
+| `pnpm run remove:standalone <name>`                       | Hapus semua referensi MFE dari Shell     |
 
 ## Shared Libs — Singleton Rules
 
@@ -89,6 +97,19 @@ MFE standalone butuh `.npmrc`:
 //localhost:4873/:_authToken="anonymous"
 ```
 
+## Generator Auto-Provisioning
+
+Setiap MFE baru yang di-generate otomatis mendapatkan:
+
+| Fitur                           | Detail                                                                          |
+| ------------------------------- | ------------------------------------------------------------------------------- |
+| **Standalone Auth Persistence** | `sessionStorage`-based mock auth di `main.tsx` — tahan refresh                  |
+| **MSW (Mock Service Worker)**   | `initMsw()` + `mockServiceWorker.js` di `public/` — API mock siap pakai         |
+| **Monitoring**                  | `initMonitoring()` + `ErrorBoundary` di App.tsx                                 |
+| **Tailwind v4 @source**         | Scan `@synapse/ui-kit` & `@synapse/shared-components` (monorepo + node_modules) |
+| **Environment (.env)**          | `VITE_ALLOWED_ORIGINS` otomatis diisi port MFE                                  |
+| **Verdaccio Showcase**          | Dashboard page memvalidasi semua 6 shared libs berfungsi                        |
+
 ## Fault-Tolerant Module Federation (Offline Resilience)
 
 Aplikasi memiliki mekanisme **Graceful Offline Initialization** di `apps/shell/src/mf-error-handler.ts`.
@@ -120,6 +141,9 @@ Halaman yang baru ditambah/diubah:
 - Multi-Repo lifecycle scripts review (`create-standalone-mfe` dan `remove-standalone-mfe` robust)
 - Fault-Tolerant Module Federation (`mf-error-handler.ts`) fixing "Cannot read properties of undefined (reading path)"
 - Docs coverage untuk Verdaccio, UI Kit sharing, Security (403), MFE Creation, dan Offline Resilience
+- Generator auto-provisioning: standalone auth persistence, MSW + mockServiceWorker.js, initMonitoring, Tailwind @source, .env, Verdaccio showcase
+- ErrorBoundary test menggunakan render-time throw (bukan onClick) agar benar-benar memicu fallback UI
+- API test menggunakan `API.menu.list()` yang benar-benar di-mock oleh MSW (bukan `API.user.profile()` yang tidak di-mock)
 
 ### ⚠️ Belum Di-commit
 
@@ -129,3 +153,4 @@ Semua file documentation di `/docs` dan `CONTEXT.md` tentang error handler siap 
 
 - End-to-end test multi-repo extraction flow
 - Verifikasi semua docs pages render tanpa error di browser
+- Tambahkan MSW handler untuk `API.user.profile()` jika diperlukan di masa depan

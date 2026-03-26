@@ -224,17 +224,23 @@ export function SearchableSelect({
     return (
       <>
         {grouped.ungrouped.map((option) => (
-          <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
+          <SelectItem key={`u-${option.value}`} value={option.value} disabled={option.disabled}>
             {option.label}
           </SelectItem>
         ))}
         {grouped.grouped.map(([groupName, groupOptions], index) => (
-          <React.Fragment key={groupName}>
-            {(grouped.ungrouped.length > 0 || index > 0) && <SelectSeparator />}
+          <React.Fragment key={`g-${groupName}`}>
+            {(grouped.ungrouped.length > 0 || index > 0) && (
+              <SelectSeparator key={`s-${groupName}`} />
+            )}
             <SelectGroup>
               <SelectLabel>{groupName}</SelectLabel>
               {groupOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
+                <SelectItem
+                  key={`gi-${option.value}`}
+                  value={option.value}
+                  disabled={option.disabled}
+                >
                   {option.label}
                 </SelectItem>
               ))}

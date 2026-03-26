@@ -77,30 +77,70 @@ export function ToastSection() {
             </Button>
           </div>
         </PreviewCard>
-        <PreviewCard title="Usage" className="mb-0">
+        <PreviewCard title="Usage dengan Button" className="mb-0">
           <ExampleTabs
             preview={
-              <Button
-                variant="outline"
-                onClick={() => useNotificationStore.getState().success('Data berhasil disimpan!')}
-              >
-                Trigger Success Toast
-              </Button>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  variant="primary"
+                  onClick={() => useNotificationStore.getState().success('Data berhasil disimpan!')}
+                >
+                  Simpan Data
+                </Button>
+                <Button
+                  variant="danger"
+                  onClick={() =>
+                    useNotificationStore.getState().error({
+                      title: 'Validasi Gagal',
+                      message: 'Mohon periksa kembali form Anda:',
+                      list: ['Nama tidak boleh kosong', 'Format email salah'],
+                      duration: 6000,
+                    })
+                  }
+                >
+                  Submit (Error)
+                </Button>
+              </div>
             }
-            code={`import { useNotificationStore } from '@synapse/shared-types';
+            code={`import { Button } from '@synapse/ui-kit';
+import { useNotificationStore } from '@synapse/shared-types';
 
-useNotificationStore.getState().success('Data berhasil disimpan!');
+// ✅ Simpel — trigger langsung di onClick
+<Button
+  variant="primary"
+  onClick={() => useNotificationStore.getState().success('Data berhasil disimpan!')}
+>
+  Simpan Data
+</Button>
 
-// Advanced Error with Title & List
+// ✅ Dalam handler / async function
+const handleSubmit = async () => {
+  try {
+    await apiClient.post('/api/v1/data', payload);
+    useNotificationStore.getState().success('Data berhasil dikirim!');
+  } catch (err) {
+    useNotificationStore.getState().error('Gagal mengirim data');
+  }
+};
+
+<Button variant="primary" onClick={handleSubmit}>Submit</Button>
+
+// ✅ Advanced Error — dengan title, message, dan list
 useNotificationStore.getState().error({
   title: 'Validasi Gagal',
   message: 'Mohon periksa kembali form Anda:',
   list: [
-    'Nama tidak boleh kosong', 
-    'Format email salah'
+    'Nama tidak boleh kosong',
+    'Format email salah',
   ],
-  duration: 8000
-});`}
+  duration: 8000,
+});
+
+// ✅ Semua variant yang tersedia:
+useNotificationStore.getState().success('...');  // hijau
+useNotificationStore.getState().error('...');    // merah
+useNotificationStore.getState().warning('...');  // kuning
+useNotificationStore.getState().info('...');     // biru`}
           />
         </PreviewCard>
         <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mt-6 md:mt-8">
