@@ -132,15 +132,15 @@ for (const depType of depsToUpdate) {
         // Strip scope if present to easily find folder name in this project
         const libFolderName = depName.replace(`${SCOPE}/`, '');
         const libPkgPath = path.join(MONOREPO_ROOT, 'libs', libFolderName, 'package.json');
-        
+
         // Fallback version
-        let actualVersion = '^0.1.0'; 
-        
+        let actualVersion = '^0.1.0';
+
         if (fs.existsSync(libPkgPath)) {
           const libPkgData = JSON.parse(fs.readFileSync(libPkgPath, 'utf-8'));
           actualVersion = `^${libPkgData.version}`;
         }
-        
+
         pkgData[depType][depName] = actualVersion;
         console.log(`   🔄 ${depName}: workspace:* -> ${actualVersion}`);
       }
