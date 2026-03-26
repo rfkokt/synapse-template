@@ -6,17 +6,19 @@
  * Remove Standalone MFE (Multi-Repo)
  *
  * Usage:
- *   node tools/scripts/remove-standalone-mfe.mjs <nama-mfe>
+ *   pnpm run remove:standalone <nama-mfe> [options]
  *
  * Example:
- *   node tools/scripts/remove-standalone-mfe.mjs reporting-mfe
+ *   pnpm run remove:standalone reporting-mfe
+ *   pnpm run remove:standalone reporting-mfe --standalone-dir=../reporting-mfe
+ *   pnpm run remove:standalone reporting-mfe --yes
  *
  * What it does:
  *   1. Removes MFE from Shell's remotes.json
  *   2. Removes lazy import from Shell's router.tsx
  *   3. Removes Route block from Shell's router.tsx
  *   4. Removes type declaration from Shell's vite-env.d.ts
- *   5. Removes remote from Shell's vite.config.ts
+ *   5. Removes remote from Shell's vite.config.ts (if present)
  *   6. Optionally removes the monorepo copy (apps/<name>) if it still exists
  *   7. Optionally removes the standalone folder
  */
@@ -33,8 +35,8 @@ const MONOREPO_ROOT = path.resolve(__dirname, '../..');
 const args = process.argv.slice(2);
 const mfeName = args.find((a) => !a.startsWith('--'));
 const skipConfirm = args.includes('--yes') || args.includes('-y');
-const deleteStandalone = args.find((a) => a.startsWith('--standalone-dir='));
-const standaloneDir = deleteStandalone ? path.resolve(deleteStandalone.split('=')[1]) : null;
+const deleteStandaloneArg = args.find((a) => a.startsWith('--standalone-dir='));
+const standaloneDir = deleteStandaloneArg ? path.resolve(deleteStandaloneArg.split('=')[1]) : null;
 
 if (!mfeName) {
   console.error(`
@@ -81,6 +83,43 @@ if (!skipConfirm) {
 
 let changes = 0;
 
+/**
+ * Remove lines from content between startMarker and endMarker (inclusive).
+ * If the markers are not exact lines, use line-by-line filtering.
+ */
+function removeLinesContaining(content, marker) {
+  const lines = content.split('\n');
+  const filtered = lines.filter((line) => !line.includes(marker));
+  return filtered.join('\n');
+}
+
+/**
+ * Remove a block of lines: from the line containing startMarker
+ * to the next line containing endMarker (inclusive).
+ */
+function removeBlock(content, startMarker, endMarker) {
+  const lines = content.split('\n');
+  const result = [];
+  let skipping = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    if (!skipping && lines[i].includes(startMarker)) {
+      skipping = true;
+      continue;
+    }
+    if (skipping) {
+      if (lines[i].includes(endMarker)) {
+        skipping = false;
+        continue;
+      }
+      continue;
+    }
+    result.push(lines[i]);
+  }
+
+  return result.join('\n');
+}
+
 // ── 1. Remove from remotes.json ──────────────────
 console.log('\n1️⃣  Removing from remotes.json...');
 const remotesPath = path.join(MONOREPO_ROOT, 'apps/shell/public/remotes.json');
@@ -103,16 +142,43 @@ if (fs.existsSync(routerPath)) {
   let routerContent = fs.readFileSync(routerPath, 'utf-8');
   const originalLength = routerContent.length;
 
-  // Remove lazy import line
-  const importPattern = new RegExp(
-    `const Remote\\w+ = lazy\\(\\(\\) => import\\('${safeName}/App'\\)\\);\\n?`,
-    'g'
-  );
-  routerContent = routerContent.replace(importPattern, '');
+  // Remove lazy import line: const RemoteXxx = lazy(() => import('safename/App'));
+  routerContent = removeLinesContaining(routerContent, `import('${safeName}/App')`);
 
-  // Remove Route block (multiline)
-  const routePattern = new RegExp(`\\s*<Route\\s+path="${mfeName}/\\*"[\\s\\S]*?<\\/Route>`, 'g');
-  routerContent = routerContent.replace(routePattern, '');
+  // Remove Route block: <Route path="mfe-name/*" ... />
+  // The block looks like:
+  //         <Route
+  //           path="mfe-name/*"
+  //           element={
+  //             <RemoteLoader>
+  //               <RemoteXxx />
+  //             </RemoteLoader>
+  //           }
+  //         />
+  // We find the line with path="mfe-name/*" and remove from the <Route before it
+  // to the /> after it.
+  const lines = routerContent.split('\n');
+  const result = [];
+  let i = 0;
+  while (i < lines.length) {
+    // Look ahead: if next few lines contain our path pattern
+    if (
+      lines[i].trim().startsWith('<Route') &&
+      i + 1 < lines.length &&
+      lines[i + 1].includes(`path="${mfeName}/*"`)
+    ) {
+      // Skip until we find the closing />
+      while (i < lines.length) {
+        const line = lines[i];
+        i++;
+        if (line.trim() === '/>') break;
+      }
+      continue;
+    }
+    result.push(lines[i]);
+    i++;
+  }
+  routerContent = result.join('\n');
 
   if (routerContent.length !== originalLength) {
     fs.writeFileSync(routerPath, routerContent);
@@ -130,8 +196,11 @@ if (fs.existsSync(envDtsPath)) {
   let envContent = fs.readFileSync(envDtsPath, 'utf-8');
   const originalLength = envContent.length;
 
-  const declarePattern = new RegExp(`\\ndeclare module '${safeName}/App'[\\s\\S]*?\\}\\n`, 'g');
-  envContent = envContent.replace(declarePattern, '\n');
+  // Remove block: declare module 'safename/App' { ... }
+  envContent = removeBlock(envContent, `declare module '${safeName}/App'`, '}');
+
+  // Clean up double blank lines
+  envContent = envContent.replace(/\n{3,}/g, '\n\n');
 
   if (envContent.length !== originalLength) {
     fs.writeFileSync(envDtsPath, envContent);
@@ -149,13 +218,15 @@ if (fs.existsSync(shellVitePath)) {
   let viteContent = fs.readFileSync(shellVitePath, 'utf-8');
   const originalLength = viteContent.length;
 
-  const remotePattern = new RegExp(`\\s*${safeName}:\\s*\\{[\\s\\S]*?\\},?\\n?`, 'g');
-  viteContent = viteContent.replace(remotePattern, '');
+  // Remove block starting with "safename: {" and ending with "},"
+  if (viteContent.includes(`${safeName}:`)) {
+    viteContent = removeBlock(viteContent, `${safeName}:`, '},');
+    changes++;
+  }
 
   if (viteContent.length !== originalLength) {
     fs.writeFileSync(shellVitePath, viteContent);
     console.log('   ✅ Removed from vite.config.ts');
-    changes++;
   } else {
     console.log('   ⚠️  Not found in vite.config.ts, skipping.');
   }
@@ -169,9 +240,7 @@ if (fs.existsSync(monorepoCopy)) {
   console.log('   ✅ Removed.');
   changes++;
 
-  // Also remove from project.json if Nx workspace
-  const projectJsonPath = path.join(monorepoCopy, 'project.json');
-  // Already deleted above, but clean Nx cache
+  // Clean Nx cache
   try {
     const { execSync } = await import('child_process');
     execSync('pnpm nx reset', { cwd: MONOREPO_ROOT, stdio: 'ignore' });
