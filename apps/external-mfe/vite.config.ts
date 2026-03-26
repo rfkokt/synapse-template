@@ -20,7 +20,6 @@ export default defineConfig({
   resolve: {
     alias: isMonorepo
       ? {
-          '@synapse/shared-types': path.resolve(__dirname, '../../libs/shared-types/src/index.ts'),
           '@synapse/shared-api': path.resolve(__dirname, '../../libs/shared-api/src/index.ts'),
           '@synapse/ui-kit': path.resolve(__dirname, '../../libs/ui-kit/src/index.ts'),
           '@synapse/mock-api': path.resolve(__dirname, '../../libs/mock-api/src/index.ts'),
