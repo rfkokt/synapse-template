@@ -206,6 +206,132 @@ strict-peer-dependencies=false`}
         </CardContent>
       </Card>
 
+      {/* ══ Membatasi Akses (Access Control) ══ */}
+      <Card className="border-red-200 dark:border-red-900/50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-400">
+            <Shield className="h-5 w-5" />
+            Membatasi Akses (Access Control)
+          </CardTitle>
+          <CardDescription>
+            Hanya orang yang diizinkan yang boleh publish dan install shared libs
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-5 text-sm text-neutral-600 dark:text-neutral-400">
+          <InfoBox variant="red" title="Default: Terbuka untuk Semua!">
+            Konfigurasi bawaan template menggunakan <code>$all</code> — artinya siapapun yang bisa
+            mengakses Verdaccio bisa <strong>publish</strong> dan <strong>install</strong> tanpa
+            login. Ini cocok untuk development solo, tapi <strong>HARUS diubah</strong> jika
+            Verdaccio diakses oleh lebih dari satu orang.
+          </InfoBox>
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+            1. Ganti Config ke <code>$authenticated</code>
+          </h4>
+          <p>
+            Edit <code>tools/verdaccio/config.yaml</code> — ganti <code>$all</code> menjadi{' '}
+            <code>$authenticated</code>:
+          </p>
+          <CodeBlock
+            language="yaml"
+            codeString={`# tools/verdaccio/config.yaml
+storage: ./storage
+auth:
+  htpasswd:
+    file: ./htpasswd
+    max_users: 50      # Maks user yang boleh register
+                       # Set -1 untuk block registrasi baru
+
+packages:
+  '@synapse/*':
+    access: $authenticated    # ← Hanya user login
+    publish: $authenticated   # ← Hanya user login
+    unpublish: $authenticated
+  '**':
+    access: $all
+    proxy: npmjs
+
+listen: 0.0.0.0:4873`}
+          />
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+            2. Tambahkan User yang Diizinkan
+          </h4>
+          <CodeBlock
+            language="bash"
+            codeString={`# Buat akun baru di Verdaccio (saat Verdaccio berjalan):
+npm adduser --registry http://localhost:4873
+
+# Ikuti prompt:
+#   Username: rifki
+#   Password: ********
+#   Email: rifki@company.com
+
+# User tersimpan di tools/verdaccio/htpasswd
+# Token otomatis disimpan di ~/.npmrc lokal`}
+          />
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">
+            3. Update .npmrc MFE Standalone
+          </h4>
+          <p>
+            Ganti <code>anonymous</code> dengan token dari <code>npm adduser</code>:
+          </p>
+          <CodeBlock
+            language="bash"
+            codeString={`# .npmrc — MFE standalone (dengan auth)
+@synapse:registry=http://localhost:4873/
+//localhost:4873/:_authToken="<TOKEN_DARI_NPM_ADDUSER>"
+auto-install-peers=true
+strict-peer-dependencies=false
+
+# Lihat token kamu di:
+# cat ~/.npmrc | grep localhost`}
+          />
+
+          <h4 className="font-semibold text-neutral-900 dark:text-neutral-100">4. Kelola User</h4>
+          <div className="overflow-x-auto rounded-xl border border-neutral-200 dark:border-neutral-800">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-neutral-100 dark:bg-neutral-800 text-left">
+                  <th className="px-4 py-2 font-medium">Aksi</th>
+                  <th className="px-4 py-2 font-medium">Cara</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
+                <tr>
+                  <td className="px-4 py-2">Tambah user baru</td>
+                  <td className="px-4 py-2 font-mono text-xs">
+                    npm adduser --registry http://localhost:4873
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2">Block registrasi baru</td>
+                  <td className="px-4 py-2 font-mono text-xs">
+                    Set <code>max_users: -1</code> di config.yaml
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2">Hapus user</td>
+                  <td className="px-4 py-2 font-mono text-xs">
+                    Hapus baris user di <code>tools/verdaccio/htpasswd</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2">Lihat semua user</td>
+                  <td className="px-4 py-2 font-mono text-xs">cat tools/verdaccio/htpasswd</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <InfoBox variant="amber" title="htpasswd Jangan Di-commit!">
+            File <code>tools/verdaccio/htpasswd</code> berisi hash password user. Pastikan file ini
+            ada di <code>.gitignore</code> agar tidak ter-commit ke repository.
+          </InfoBox>
+        </CardContent>
+      </Card>
+
       {/* ══ Workflow: Update Library ══ */}
       <Card>
         <CardHeader>
