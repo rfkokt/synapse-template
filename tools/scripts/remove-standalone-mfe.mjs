@@ -239,14 +239,6 @@ if (fs.existsSync(monorepoCopy)) {
   fs.rmSync(monorepoCopy, { recursive: true, force: true });
   console.log('   ✅ Removed.');
   changes++;
-
-  // Clean Nx cache
-  try {
-    const { execSync } = await import('child_process');
-    execSync('pnpm nx reset', { cwd: MONOREPO_ROOT, stdio: 'ignore' });
-  } catch {
-    // ignore
-  }
 }
 
 // ── 6. Remove standalone folder if specified ─────
@@ -255,6 +247,16 @@ if (standaloneDir && fs.existsSync(standaloneDir)) {
   fs.rmSync(standaloneDir, { recursive: true, force: true });
   console.log('   ✅ Removed.');
   changes++;
+}
+
+// ── Clean Nx Cache ───────────────────────────────
+// We must always clear the Nx daemon cache because we just bypassed it
+// by rewriting files using raw fs. Otherwise, next Nx generation will use stale cache.
+try {
+  const { execSync } = await import('child_process');
+  execSync('pnpm nx reset', { cwd: MONOREPO_ROOT, stdio: 'ignore' });
+} catch {
+  // ignore
 }
 
 // ── Summary ──────────────────────────────────────
