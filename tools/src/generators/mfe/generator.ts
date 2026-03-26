@@ -271,7 +271,7 @@ function Dashboard() {
           </span>
         </div>
         <Link to="detail">
-          <Button variant="default">Test Nested Routing</Button>
+          <Button variant="primary">Test Nested Routing</Button>
         </Link>
       </CardContent>
     </Card>
@@ -321,7 +321,7 @@ export default App;
   }
 
   // 5. Overwrite main.tsx for standalone dev
-  const mainTsxContent = `import { StrictMode, useState, type FormEvent } from 'react';
+  const mainTsxContent = `import { StrictMode, useState, useEffect, type FormEvent } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { useAuthStore } from '@synapse/shared-types';
@@ -338,6 +338,17 @@ function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
   const DEV_USERNAME = 'dev@synapse.local';
   const DEV_PASSWORD = 'password123';
 
+  useEffect(() => {
+    if (sessionStorage.getItem('dev_standalone_auth') === 'true' && !isAuthenticated) {
+      useAuthStore.getState().setAuth({
+        id: 'dev-user',
+        name: 'Developer (MFE Local)',
+        email: DEV_USERNAME,
+        role: 'developer',
+      });
+    }
+  }, [isAuthenticated]);
+
   const handleStandaloneLogin = (e: FormEvent) => {
     e.preventDefault();
     setError('');
@@ -346,6 +357,8 @@ function StandaloneAuthGuard({ children }: { children: React.ReactNode }) {
       setError('Invalid username or password.');
       return;
     }
+
+    sessionStorage.setItem('dev_standalone_auth', 'true');
 
     useAuthStore.getState().setAuth({
       id: 'dev-user',
