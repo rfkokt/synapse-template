@@ -28,8 +28,3 @@ declare module 'docsmfe/App' {
   const App: React.ComponentType;
   export default App;
 }
-
-declare module 'externalmfe/App' {
-  const App: React.ComponentType;
-  export default App;
-}
