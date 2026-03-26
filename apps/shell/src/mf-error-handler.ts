@@ -29,7 +29,15 @@ const offlineHandlingPlugin: () => ModuleFederationRuntimePlugin = () => ({
         },
         remotes: [],
         shared: [],
-        exposes: [], // Mock empty exposes so the runtime doesn't crash
+        // Mock a generic exposes entry so the runtime parser doesn't crash when reading 'path'
+        exposes: [
+          {
+            id: `${id}/offline`,
+            name: './App',
+            path: './offline.ts',
+            file: 'offline.js',
+          },
+        ],
       };
     }
 
