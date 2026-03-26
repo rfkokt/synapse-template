@@ -41,6 +41,7 @@ import { DocsSidebarRbacSection } from './pages/DocsSidebarRbacSection';
 import { DocsStrukturSection } from './pages/DocsStrukturSection';
 import { DocsTailwindThemeSection } from './pages/DocsTailwindThemeSection';
 import { DocsTokenAuthSection } from './pages/DocsTokenAuthSection';
+import { DocsVerdaccioSection } from './pages/DocsVerdaccioSection';
 import { DocsWhyMfSection } from './pages/DocsWhyMfSection';
 
 // --- UI Kit Section imports ---
@@ -185,6 +186,11 @@ export const DOCS_SECTION_MAP: Record<string, SectionData> = {
   'multi-repo': {
     component: DocsMultiRepoSection,
     title: '21. Multi-Repo Separation',
+    category: 'Panduan Lanjutan',
+  },
+  'verdaccio-registry': {
+    component: DocsVerdaccioSection,
+    title: '22. Shared Libs via Verdaccio',
     category: 'Panduan Lanjutan',
   },
 };

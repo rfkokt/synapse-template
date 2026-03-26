@@ -42,7 +42,7 @@ export function DocsMenambahPackageSection() {
             <CodeBlock
               language="bash"
               codeString={`# Tambah package ke MFE spesifik
-pnpm add date-fns --filter business-mfe
+pnpm add date-fns --filter auth-mfe
 pnpm add zod --filter shared-types
 
 # Tambah sebagai devDependency
