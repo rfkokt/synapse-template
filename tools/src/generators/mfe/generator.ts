@@ -121,6 +121,8 @@ export default defineConfig({
         'react-dom': { singleton: true, requiredVersion: '^19.0.0' },
         'react/': { singleton: true },
         'react-dom/': { singleton: true },
+        zustand: { singleton: true },
+        '@synapse/shared-types': { singleton: true },
       },
     }),
   ],
@@ -504,6 +506,7 @@ createRoot(rootElement).render(
       'react-dom': '^19.0.0',
       'react-router-dom': '^7.13.0',
       'react-icons': '^5.5.0',
+      zustand: '^5.0.0',
     },
     devDependencies: {
       '@types/node': '^25.3.0',
