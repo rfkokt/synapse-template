@@ -1,0 +1,78 @@
+{
+  "name": "@synapse/ui-kit",
+  "versions": {
+    "0.1.0": {
+      "name": "@synapse/ui-kit",
+      "version": "0.1.0",
+      "type": "module",
+      "main": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "publishConfig": {
+        "access": "restricted"
+      },
+      "files": [
+        "dist",
+        "src"
+      ],
+      "dependencies": {
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "framer-motion": "^12.0.0",
+        "react-day-picker": "^9.14.0",
+        "react-icons": "^5.5.0",
+        "tailwind-merge": "^3.0.0",
+        "yup": "^1.7.1"
+      },
+      "peerDependencies": {
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
+      },
+      "devDependencies": {
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0"
+      },
+      "scripts": {
+        "build": "tsup src/index.ts --format esm --dts --outDir dist --external react --external react-dom"
+      },
+      "exports": {
+        ".": {
+          "import": "./dist/index.js",
+          "types": "./dist/index.d.ts"
+        },
+        "./*": "./dist/*"
+      },
+      "_id": "@synapse/ui-kit@0.1.0",
+      "_integrity": "sha512-P6+qpD2v0nn3HsrHuy/HZy7TX5L2a/Ss8ipF/XH5+BsVfm9G1W++psZzGaDhUDAyHuk8ATn+23y/4ugqUIF/VA==",
+      "_resolved": "/private/var/folders/8k/6wxvyg_j16x3j5xqjz39_pvc0000gn/T/c876569ddb6bdd86ad0cc039b58e53af/synapse-ui-kit-0.1.0.tgz",
+      "_from": "file:synapse-ui-kit-0.1.0.tgz",
+      "_nodeVersion": "24.11.1",
+      "_npmVersion": "11.6.2",
+      "dist": {
+        "integrity": "sha512-P6+qpD2v0nn3HsrHuy/HZy7TX5L2a/Ss8ipF/XH5+BsVfm9G1W++psZzGaDhUDAyHuk8ATn+23y/4ugqUIF/VA==",
+        "shasum": "0f39369d7c4ab1dda7476c9951ceca23a5f8a982",
+        "tarball": "http://localhost:4873/@synapse/ui-kit/-/@synapse/ui-kit-0.1.0.tgz"
+      },
+      "contributors": []
+    }
+  },
+  "time": {
+    "modified": "2026-03-26T03:44:15.752Z",
+    "created": "2026-03-26T03:44:15.752Z",
+    "0.1.0": "2026-03-26T03:44:15.752Z"
+  },
+  "users": {},
+  "dist-tags": {
+    "latest": "0.1.0"
+  },
+  "_uplinks": {},
+  "_distfiles": {},
+  "_attachments": {
+    "ui-kit-0.1.0.tgz": {
+      "shasum": "0f39369d7c4ab1dda7476c9951ceca23a5f8a982",
+      "version": "0.1.0"
+    }
+  },
+  "_rev": "3-24f6bcf4e0eae117",
+  "_id": "@synapse/ui-kit",
+  "readme": "ERROR: No README data found!"
+}

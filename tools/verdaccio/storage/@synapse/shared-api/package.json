@@ -1,0 +1,73 @@
+{
+  "name": "@synapse/shared-api",
+  "versions": {
+    "0.1.0": {
+      "name": "@synapse/shared-api",
+      "version": "0.1.0",
+      "type": "module",
+      "main": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "publishConfig": {
+        "access": "restricted"
+      },
+      "files": [
+        "dist",
+        "src"
+      ],
+      "dependencies": {
+        "@tanstack/react-query": "^5.68.0",
+        "axios": "^1.8.0"
+      },
+      "peerDependencies": {
+        "react": "^19.0.0",
+        "@synapse/shared-types": "0.1.0"
+      },
+      "devDependencies": {
+        "@types/react": "^19.0.0",
+        "vite": "^7.3.1"
+      },
+      "scripts": {
+        "build": "tsup src/index.ts --format esm --dts --outDir dist --external react --external @synapse/shared-types"
+      },
+      "exports": {
+        ".": {
+          "import": "./dist/index.js",
+          "types": "./dist/index.d.ts"
+        },
+        "./*": "./dist/*"
+      },
+      "_id": "@synapse/shared-api@0.1.0",
+      "_integrity": "sha512-TQ7yFX/2hHMU4zWkm37zf6eDtiQWiHZpIkjmWWH+WJhCpDSo/k96brHpjM0juffYOyMPrso8doTCdK20w82LPA==",
+      "_resolved": "/private/var/folders/8k/6wxvyg_j16x3j5xqjz39_pvc0000gn/T/2bea0ac1d9657b235416a1997ec15192/synapse-shared-api-0.1.0.tgz",
+      "_from": "file:synapse-shared-api-0.1.0.tgz",
+      "_nodeVersion": "24.11.1",
+      "_npmVersion": "11.6.2",
+      "dist": {
+        "integrity": "sha512-TQ7yFX/2hHMU4zWkm37zf6eDtiQWiHZpIkjmWWH+WJhCpDSo/k96brHpjM0juffYOyMPrso8doTCdK20w82LPA==",
+        "shasum": "782a827444f66a7653a9a93b60a723ae4878775b",
+        "tarball": "http://localhost:4873/@synapse/shared-api/-/@synapse/shared-api-0.1.0.tgz"
+      },
+      "contributors": []
+    }
+  },
+  "time": {
+    "modified": "2026-03-26T03:44:16.959Z",
+    "created": "2026-03-26T03:44:16.959Z",
+    "0.1.0": "2026-03-26T03:44:16.959Z"
+  },
+  "users": {},
+  "dist-tags": {
+    "latest": "0.1.0"
+  },
+  "_uplinks": {},
+  "_distfiles": {},
+  "_attachments": {
+    "shared-api-0.1.0.tgz": {
+      "shasum": "782a827444f66a7653a9a93b60a723ae4878775b",
+      "version": "0.1.0"
+    }
+  },
+  "_rev": "3-e82b84cab8616ec4",
+  "_id": "@synapse/shared-api",
+  "readme": "ERROR: No README data found!"
+}

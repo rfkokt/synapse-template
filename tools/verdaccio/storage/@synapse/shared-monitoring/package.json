@@ -1,0 +1,64 @@
+{
+  "name": "@synapse/shared-monitoring",
+  "versions": {
+    "0.0.1": {
+      "name": "@synapse/shared-monitoring",
+      "version": "0.0.1",
+      "type": "module",
+      "main": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "publishConfig": {
+        "access": "restricted"
+      },
+      "files": [
+        "dist",
+        "src"
+      ],
+      "dependencies": {},
+      "scripts": {
+        "build": "tsup src/index.ts --format esm --dts --outDir dist --tsconfig tsconfig.build.json"
+      },
+      "exports": {
+        ".": {
+          "import": "./dist/index.js",
+          "types": "./dist/index.d.ts"
+        },
+        "./*": "./dist/*"
+      },
+      "readmeFilename": "README.md",
+      "_id": "@synapse/shared-monitoring@0.0.1",
+      "description": "This library was generated with [Nx](https://nx.dev).",
+      "_integrity": "sha512-oZpj9ZUxZaL/T+pV+mCMy/EkEy6kwSPTJuPE3pyv1P/SQYqEjn6alYrEz/zrkaTcwRebBencYaIWQIwEeRxnIA==",
+      "_resolved": "/private/var/folders/8k/6wxvyg_j16x3j5xqjz39_pvc0000gn/T/1278353b1dfe27e99f8481cc7a2d4fb7/synapse-shared-monitoring-0.0.1.tgz",
+      "_from": "file:synapse-shared-monitoring-0.0.1.tgz",
+      "_nodeVersion": "24.11.1",
+      "_npmVersion": "11.6.2",
+      "dist": {
+        "integrity": "sha512-oZpj9ZUxZaL/T+pV+mCMy/EkEy6kwSPTJuPE3pyv1P/SQYqEjn6alYrEz/zrkaTcwRebBencYaIWQIwEeRxnIA==",
+        "shasum": "e35c1171f535ebb02d9fb9fabc3e98ae128d55c5",
+        "tarball": "http://localhost:4873/@synapse/shared-monitoring/-/@synapse/shared-monitoring-0.0.1.tgz"
+      },
+      "contributors": []
+    }
+  },
+  "time": {
+    "modified": "2026-03-26T03:44:12.810Z",
+    "created": "2026-03-26T03:44:12.810Z",
+    "0.0.1": "2026-03-26T03:44:12.810Z"
+  },
+  "users": {},
+  "dist-tags": {
+    "latest": "0.0.1"
+  },
+  "_uplinks": {},
+  "_distfiles": {},
+  "_attachments": {
+    "shared-monitoring-0.0.1.tgz": {
+      "shasum": "e35c1171f535ebb02d9fb9fabc3e98ae128d55c5",
+      "version": "0.0.1"
+    }
+  },
+  "_rev": "3-b9bcabae408f7ef1",
+  "_id": "@synapse/shared-monitoring",
+  "readme": "# shared-monitoring\n\nThis library was generated with [Nx](https://nx.dev).\n\n## Building\n\nRun `nx build shared-monitoring` to build the library.\n\n## Running unit tests\n\nRun `nx test shared-monitoring` to execute the unit tests via [Vitest](https://vitest.dev/).\n"
+}

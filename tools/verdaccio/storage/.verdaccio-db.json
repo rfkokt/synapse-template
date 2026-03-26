@@ -1,0 +1,11 @@
+{
+  "list": [
+    "@synapse/mock-api",
+    "@synapse/shared-monitoring",
+    "@synapse/shared-types",
+    "@synapse/ui-kit",
+    "@synapse/shared-api",
+    "@synapse/shared-components"
+  ],
+  "secret": "yC52KDBDPLDLafnAz4gu9UMZurh3YqOJ"
+}

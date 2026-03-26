@@ -1,0 +1,72 @@
+{
+  "name": "@synapse/shared-components",
+  "versions": {
+    "0.1.0": {
+      "name": "@synapse/shared-components",
+      "version": "0.1.0",
+      "type": "module",
+      "main": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "publishConfig": {
+        "access": "restricted"
+      },
+      "files": [
+        "dist",
+        "src"
+      ],
+      "dependencies": {
+        "@synapse/ui-kit": "0.1.0"
+      },
+      "peerDependencies": {
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
+      },
+      "devDependencies": {
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0"
+      },
+      "scripts": {
+        "build": "tsup src/index.ts --format esm --dts --outDir dist --external react --external react-dom --external @synapse/ui-kit"
+      },
+      "exports": {
+        ".": {
+          "import": "./dist/index.js",
+          "types": "./dist/index.d.ts"
+        },
+        "./*": "./dist/*"
+      },
+      "_id": "@synapse/shared-components@0.1.0",
+      "_integrity": "sha512-wPZtjfJfI2COIvGUBsnzlOeZVn1bt5LXA4vMeOS8VWjnHszVsRzuCEpkr/dWYN7SAe+Lek+TQ6wIX74EngreAA==",
+      "_resolved": "/private/var/folders/8k/6wxvyg_j16x3j5xqjz39_pvc0000gn/T/d505bf754cbd1915159ee7764ad45ef1/synapse-shared-components-0.1.0.tgz",
+      "_from": "file:synapse-shared-components-0.1.0.tgz",
+      "_nodeVersion": "24.11.1",
+      "_npmVersion": "11.6.2",
+      "dist": {
+        "integrity": "sha512-wPZtjfJfI2COIvGUBsnzlOeZVn1bt5LXA4vMeOS8VWjnHszVsRzuCEpkr/dWYN7SAe+Lek+TQ6wIX74EngreAA==",
+        "shasum": "b746a23b09274a21307d384df46ddef151539232",
+        "tarball": "http://localhost:4873/@synapse/shared-components/-/@synapse/shared-components-0.1.0.tgz"
+      },
+      "contributors": []
+    }
+  },
+  "time": {
+    "modified": "2026-03-26T03:44:18.023Z",
+    "created": "2026-03-26T03:44:18.023Z",
+    "0.1.0": "2026-03-26T03:44:18.023Z"
+  },
+  "users": {},
+  "dist-tags": {
+    "latest": "0.1.0"
+  },
+  "_uplinks": {},
+  "_distfiles": {},
+  "_attachments": {
+    "shared-components-0.1.0.tgz": {
+      "shasum": "b746a23b09274a21307d384df46ddef151539232",
+      "version": "0.1.0"
+    }
+  },
+  "_rev": "3-752052421edaff95",
+  "_id": "@synapse/shared-components",
+  "readme": "ERROR: No README data found!"
+}

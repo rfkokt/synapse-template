@@ -507,12 +507,12 @@ VITE_SHELL_URL=https://app.synapse.com`}
                 content: (
                   <CodeBlock
                     language="bash"
-                    codeString={`# Install Verdaccio secara global (sekali saja)
-npx verdaccio
-
-# Atau gunakan script bawaan template:
+                    codeString={`# PENTING: Gunakan script ini (bukan npx verdaccio langsung)
+# agar memakai config anonymous publish di tools/verdaccio/config.yaml
 pnpm run verdaccio:start
-# Registry berjalan di http://localhost:4873`}
+
+# Registry berjalan di http://localhost:4873
+# Buka browser di URL tersebut untuk melihat package yang ter-publish`}
                   />
                 ),
               },
