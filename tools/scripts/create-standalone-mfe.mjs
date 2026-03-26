@@ -6,18 +6,22 @@
  * Create Standalone MFE (Multi-Repo)
  *
  * Usage:
- *   node tools/scripts/create-standalone-mfe.mjs <nama-mfe> --port=<port>
+ *   pnpm run create:standalone <nama-mfe> --port=<port> [--target=<path>] [--force]
  *
  * Example:
- *   node tools/scripts/create-standalone-mfe.mjs reporting-mfe --port=4006
+ *   pnpm run create:standalone reporting-mfe --port=4006
+ *   pnpm run create:standalone reporting-mfe --port=4006 --force
  *
  * What it does:
- *   1. Generates MFE inside monorepo (via Nx generator)
- *   2. Copies the generated MFE to ../  (parent of monorepo)
+ *   1. Generates MFE inside monorepo via Nx generator (temporary)
+ *   2. Copies the generated MFE to standalone location (../<name>)
  *   3. Creates .npmrc pointing to Verdaccio
  *   4. Replaces workspace:* → ^0.1.0 in package.json
  *   5. Uses standalone tsconfig if available
- *   6. Registers MFE in Shell's remotes.json (already done by generator)
+ *   6. Removes temporary monorepo copy (apps/<name>)
+ *
+ * Shell references (remotes.json, router.tsx, vite-env.d.ts) are
+ * injected by Nx generator and kept after cleanup.
  */
 
 import { execSync } from 'child_process';
@@ -37,6 +41,7 @@ const targetDirArg = args.find((a) => a.startsWith('--target='));
 const targetParent = targetDirArg
   ? path.resolve(targetDirArg.split('=')[1])
   : path.resolve(MONOREPO_ROOT, '..');
+const forceOverwrite = args.includes('--force');
 
 if (!mfeName || !port) {
   console.error(`
@@ -52,6 +57,7 @@ if (!mfeName || !port) {
 ║                                                      ║
 ║  Options:                                            ║
 ║    --target=<path>  Target parent dir (default: ../) ║
+║    --force          Overwrite existing target folder  ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 `);
@@ -69,8 +75,15 @@ console.log(`
 └──────────────────────────────────────────
 `);
 
-// ── Step 1: Generate in monorepo ─────────────────
-console.log('📦 Step 1/6: Generating MFE in monorepo...');
+// Helper: always clean up monorepo copy
+function cleanupMonorepoCopy() {
+  if (fs.existsSync(sourceDir)) {
+    fs.rmSync(sourceDir, { recursive: true, force: true });
+  }
+}
+
+// ── Step 1: Generate in monorepo (temporary) ─────
+console.log('📦 Step 1/6: Generating MFE in monorepo (temporary)...');
 try {
   execSync(`pnpm nx g @synapse/tools:mfe ${mfeName} --port=${port}`, {
     cwd: MONOREPO_ROOT,
@@ -78,15 +91,22 @@ try {
   });
 } catch {
   console.error('❌ Failed to generate MFE in monorepo.');
+  cleanupMonorepoCopy();
   process.exit(1);
 }
 
 // ── Step 2: Copy to standalone location ──────────
 console.log(`\n📁 Step 2/6: Copying to ${targetDir}...`);
 if (fs.existsSync(targetDir)) {
-  console.error(`❌ Target directory already exists: ${targetDir}`);
-  console.error('   Delete it first or pick a different name.');
-  process.exit(1);
+  if (forceOverwrite) {
+    console.log('   ⚠️  Target exists, removing (--force)...');
+    fs.rmSync(targetDir, { recursive: true, force: true });
+  } else {
+    console.error(`❌ Target directory already exists: ${targetDir}`);
+    console.error('   Use --force to overwrite, or delete it manually.');
+    cleanupMonorepoCopy();
+    process.exit(1);
+  }
 }
 
 // Recursive copy
@@ -128,10 +148,8 @@ if (fs.existsSync(standaloneTsconfig)) {
 // The MFE should only exist outside the monorepo.
 // Shell references (remotes.json, router.tsx, vite-env.d.ts) are preserved.
 console.log(`\n🧹 Step 6/6: Cleaning up monorepo copy (apps/${mfeName})...`);
-if (fs.existsSync(sourceDir)) {
-  fs.rmSync(sourceDir, { recursive: true, force: true });
-  console.log('   ✅ Removed from monorepo. Shell references still intact.');
-}
+cleanupMonorepoCopy();
+console.log('   ✅ Removed from monorepo. Shell references still intact.');
 
 // ── Done! ─────────────────────────────────────────
 console.log(`
