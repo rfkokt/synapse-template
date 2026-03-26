@@ -21,7 +21,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --outDir dist --external react --external zustand"
+    "build": "tsup src/index.ts --format esm --dts --outDir dist --external react,zustand,use-sync-external-store"
   },
   "dependencies": {
     "zustand": "^5.0.0"
