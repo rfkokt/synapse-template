@@ -202,8 +202,8 @@ VITE_SENTRY_DSN=
 @source "../../../libs/shared-components/src";
 
 /* Scan UI Kit for Tailwind classes (Standalone node_modules) */
-@source "../node_modules/${SCOPE}/ui-kit";
-@source "../node_modules/${SCOPE}/shared-components";
+@source "../node_modules/${SCOPE}/ui-kit/src";
+@source "../node_modules/${SCOPE}/shared-components/src";
 
 @import "./theme.css";
 
@@ -648,12 +648,12 @@ void bootstrap();
       lint: 'eslint .',
     },
     dependencies: {
-      '${SCOPE}/mock-api': 'workspace:*',
-      '${SCOPE}/ui-kit': 'workspace:*',
-      '${SCOPE}/shared-components': 'workspace:*',
-      '${SCOPE}/shared-monitoring': 'workspace:*',
-      '${SCOPE}/shared-types': 'workspace:*',
-      '${SCOPE}/shared-api': 'workspace:*',
+      [`${SCOPE}/mock-api`]: 'workspace:*',
+      [`${SCOPE}/ui-kit`]: 'workspace:*',
+      [`${SCOPE}/shared-components`]: 'workspace:*',
+      [`${SCOPE}/shared-monitoring`]: 'workspace:*',
+      [`${SCOPE}/shared-types`]: 'workspace:*',
+      [`${SCOPE}/shared-api`]: 'workspace:*',
       react: '^19.0.0',
       'react-dom': '^19.0.0',
       'react-router-dom': '^7.13.0',
